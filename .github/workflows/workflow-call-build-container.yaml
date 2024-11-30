@@ -100,7 +100,7 @@ jobs:
           provenance: false
       - name: install cosign
         if: inputs.cosign == true
-        uses: sigstore/cosign-installer@v3.5.0
+        uses: sigstore/cosign-installer@v3.7.0
         # with:
         #   cosign-release: 'v2.1.1'
       - name: sign the docker image
