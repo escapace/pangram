@@ -1,12 +1,6 @@
 name: ci
 
 on:
-  push:
-    branches:
-      - trunk
-    paths-ignore:
-      - README.md
-      - LICENSE
   pull_request:
     branches:
       - trunk
@@ -14,6 +8,12 @@ on:
       - README.md
       - LICENSE
 
+  push:
+    branches:
+      - trunk
+    paths-ignore:
+      - README.md
+      - LICENSE
 permissions:
   contents: read
   packages: read
@@ -24,32 +24,32 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
-  context:
-    uses: ./.github/workflows/workflow-call-context.yaml
-  ci:
-    uses: ./.github/workflows/workflow-call-ci.yaml
-    needs:
-      - context
-    with:
-      ref: ${{ needs.context.outputs.ref }}
-      node-version: ${{ needs.context.outputs.node-version }}
-      pnpm-version: ${{ needs.context.outputs.pnpm-version }}
-      version: ${{ needs.context.outputs.version }}
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   build-container:
     needs:
       - context
       - ci
     uses: ./.github/workflows/workflow-call-build-container.yaml
     with:
-      push: false
-      platforms: linux/amd64,linux/arm64
-      file: 'package/packages/container/Dockerfile'
-      context: 'lib/satie-${{ needs.context.outputs.version }}.tgz'
       annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
-      labels: ${{ needs.context.outputs.docker-metadata-labels }}
-      tags: ${{ needs.context.outputs.docker-metadata-tags }}
       build-args: |
         NODE_VERSION=${{ needs.context.outputs.node-version }}
         PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
+      context: 'lib/satie-${{ needs.context.outputs.version }}.tgz'
+      file: 'package/packages/container/Dockerfile'
+      labels: ${{ needs.context.outputs.docker-metadata-labels }}
+      platforms: linux/amd64,linux/arm64
+      push: false
+      tags: ${{ needs.context.outputs.docker-metadata-tags }}
+  ci:
+    needs:
+      - context
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    uses: ./.github/workflows/workflow-call-ci.yaml
+    with:
+      node-version: ${{ needs.context.outputs.node-version }}
+      pnpm-version: ${{ needs.context.outputs.pnpm-version }}
+      ref: ${{ needs.context.outputs.ref }}
+      version: ${{ needs.context.outputs.version }}
+  context:
+    uses: ./.github/workflows/workflow-call-context.yaml

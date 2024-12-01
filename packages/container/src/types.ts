@@ -2,7 +2,7 @@ import type {
   CSSProperties,
   Fallback as IFallback,
   InferFont,
-  InferFontProperties
+  InferFontProperties,
 } from './state/user-schema'
 import type { Targets } from 'lightningcss'
 
@@ -19,12 +19,12 @@ export interface FontFaceAdjustments {
 }
 
 export interface FontFace extends FontFaceAdjustments {
-  fontDisplay?: InferFont['display']
   fontFamily: string
-  fontStretch: [number, number] | number
+  fontStretch: number | [number, number]
   fontStyle: 'italic' | 'normal'
-  fontWeight: [number, number] | number
+  fontWeight: number | [number, number]
   src: string
+  fontDisplay?: InferFont['display']
   unicodeRange?: InferFont['unicodeRange']
 }
 
@@ -42,7 +42,7 @@ export interface FontFace extends FontFaceAdjustments {
 
 export const enum TypeFontState {
   Initial,
-  Written
+  Written,
 }
 
 export interface FontStateInitial {
@@ -84,8 +84,7 @@ export interface AtRule {
 //   fontStyle?: 'normal' | 'italic'
 // }
 
-export interface FontProperties
-  extends Omit<InferFontProperties, 'fontFamily'> {
+export interface FontProperties extends Omit<InferFontProperties, 'fontFamily'> {
   fontFamily:
     | {
         fallbacks: string[]
@@ -98,16 +97,16 @@ export interface Style {
   atRules: AtRule[]
   // fontPropertiesKeys: Array<keyof Required<FontProperties>>
   classname: string
+  id: string
+  locale: string
+  properties: CSSProperties<{}>
   fallbackStyle?: string
   fallbackStyleProperties?: CSSProperties<{}>
   fontProperties?: string
   graph?: Map<string, string[]>
-  id: string
-  locale: string
   noScriptStyle?: string
   noScriptStyleProperties?: CSSProperties<{}>
   parent?: string
-  properties: CSSProperties<{}>
   style?: string
 }
 
@@ -139,9 +138,7 @@ export interface State {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line typescript/no-explicit-any
 export type TupleUnion<U extends string, R extends any[] = []> = {
-  [S in U]: Exclude<U, S> extends never
-    ? [...R, S]
-    : TupleUnion<Exclude<U, S>, [...R, S]>
+  [S in U]: Exclude<U, S> extends never ? [...R, S] : TupleUnion<Exclude<U, S>, [...R, S]>
 }[U]

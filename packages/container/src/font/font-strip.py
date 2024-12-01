@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 
-import os
 import argparse
 import logging
+import os
 
 from fontTools.ttLib import TTFont
+from fontTools.ttLib.tables.DefaultTable import DefaultTable
+
 
 def main(args=None):
     parser = argparse.ArgumentParser(
@@ -32,19 +34,22 @@ def main(args=None):
 
     font = TTFont(options.file, recalcTimestamp=False)
 
-    revision = '1.0'
+    revision = "1.0"
 
-    head = font.get('head')
-    os2 = font.get('OS/2')
-    name = font.get('name')
+    head = font.get("head")
+    os2 = font.get("OS/2")
+    name = font.get("name")
 
     head.fontRevision = float(revision)
     os2.achVendID = " "
 
-    for platform in ((1, 0, 0), (3, 1, 0x409)): # (Mac, Roman, English), (Windows, Unicode BMP, English US)
-      name.setName('', 0, *platform) # copyright
-      name.setName('', 13, *platform) # license
-      name.setName('Version ' + revision, 5, *platform)
+    for platform in (
+        (1, 0, 0),
+        (3, 1, 0x409),
+    ):  # (Mac, Roman, English), (Windows, Unicode BMP, English US)
+        name.setName("", 0, *platform)  # copyright
+        name.setName("", 13, *platform)  # license
+        name.setName("Version " + revision, 5, *platform)
 
     font.save(options.file)
     logger.info("Saved font: '%s'", options.file)
@@ -53,6 +58,7 @@ def main(args=None):
     del font
 
     logger.info("Done!")
+
 
 if __name__ == "__main__":
     main()

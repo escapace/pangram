@@ -5,7 +5,7 @@ import type {
   FontFallback,
   FontProperties,
   FontState,
-  State
+  State,
 } from '../types'
 import { fontOpen } from './font-open'
 
@@ -14,37 +14,37 @@ const fontSource = ({ font, slug }: FontState, publicPath: string): string =>
     .map((format) => ({
       ...font,
       format,
-      url: urljoin(publicPath, `${font.name ?? slug}.${format}`)
+      url: urljoin(publicPath, `${font.name ?? slug}.${format}`),
     }))
     .flatMap(({ format, tech, url }) =>
       (tech ?? []).includes('variations')
         ? [
-            `url("${url}") format("${format}-variations")`
+            `url("${url}") format("${format}-variations")`,
             // `url("${url}") format("${format}") tech("variations")`
           ]
-        : `url("${url}") format("${format}")`
+        : `url("${url}") format("${format}")`,
     )
     .join(', ')
 
 interface FontFaceOptionsFallback {
-  adjustments?: FontFaceAdjustments
   font: FontFallback
   fontProperties: Omit<Required<FontProperties>, 'fontFamily'>
   publicPath: string
   type: 'fallback'
+  adjustments?: FontFaceAdjustments
 }
 
 interface FontFaceOptionsFont {
-  adjustments?: FontFaceAdjustments
   font: FontState
   fontProperties: Omit<Required<FontProperties>, 'fontFamily'>
   publicPath: string
   type: 'font'
+  adjustments?: FontFaceAdjustments
 }
 
 export const fontFace = async (
   options: FontFaceOptionsFallback | FontFaceOptionsFont,
-  state: State
+  state: State,
 ): Promise<FontFace> => {
   if (options.type === 'font') {
     const { font } = options.font
@@ -53,8 +53,7 @@ export const fontFace = async (
     const isVariable = font.tech?.includes('variations') === true
 
     const variationAxes = isVariable
-      ? (await fontOpen(options.font, options.fontProperties, state))
-          .variationAxes
+      ? (await fontOpen(options.font, options.fontProperties, state)).variationAxes
       : undefined
 
     return {
@@ -63,21 +62,15 @@ export const fontFace = async (
       fontStretch:
         variationAxes?.wdth === undefined
           ? fontStretch
-          : [
-              Math.max(variationAxes.wdth.min, 50),
-              Math.min(variationAxes.wdth.max, 200)
-            ],
+          : [Math.max(variationAxes.wdth.min, 50), Math.min(variationAxes.wdth.max, 200)],
       fontStyle,
       fontWeight:
         variationAxes?.wght === undefined
           ? fontWeight
-          : [
-              Math.max(variationAxes.wght.min, 1),
-              Math.min(variationAxes.wght.max, 1000)
-            ],
+          : [Math.max(variationAxes.wght.min, 1), Math.min(variationAxes.wght.max, 1000)],
       src: fontSource(options.font, options.publicPath),
       unicodeRange: font.unicodeRange,
-      ...options.adjustments
+      ...options.adjustments,
     }
   } else {
     const { font } = options.font
@@ -89,7 +82,7 @@ export const fontFace = async (
       fontStyle,
       fontWeight,
       src: font.names.map((name) => `local(${name})`).join(', '),
-      ...options.adjustments
+      ...options.adjustments,
     }
   }
 }

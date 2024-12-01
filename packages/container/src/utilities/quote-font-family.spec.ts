@@ -1,4 +1,4 @@
-import { assert } from 'chai'
+import { assert, describe, it } from 'vitest'
 import { quoteFontFamily } from './quote-font-family'
 
 describe('src/utilities/quote-font-family.spec.ts', () => {

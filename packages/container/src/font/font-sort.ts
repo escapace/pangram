@@ -30,7 +30,7 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
     }
 
     if (parent !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      // eslint-disable-next-line typescript/no-non-null-assertion
       const array = graph.get(key)!
 
       if (!array.includes(parent)) {
@@ -48,7 +48,7 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
           font,
           fontFaces: new Map(),
           slug,
-          type: TypeFontState.Initial
+          type: TypeFontState.Initial,
         })
       }
 
@@ -62,7 +62,7 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
 
   const order = toposort(graph).map((value) => Array.from(value))
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // eslint-disable-next-line typescript/no-non-null-assertion
   const sortedFonts = uniq(order.flat()).map((value) => fonts.get(value)!)
 
   return { fonts: sortedFonts, graph }

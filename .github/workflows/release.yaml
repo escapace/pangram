@@ -11,30 +11,51 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
-  context:
-    uses: ./.github/workflows/workflow-call-context.yaml
-  ci:
+  build-container:
     if: needs.context.outputs.environment == 'production'
-    uses: ./.github/workflows/workflow-call-ci.yaml
-    needs:
-      - context
-    with:
-      ref: ${{ needs.context.outputs.ref }}
-      node-version: ${{ needs.context.outputs.node-version }}
-      pnpm-version: ${{ needs.context.outputs.pnpm-version }}
-      version: ${{ needs.context.outputs.version }}
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  release:
-    if: needs.context.outputs.environment == 'production'
-    runs-on: ubuntu-latest
     needs:
       - context
       - ci
     permissions:
       id-token: write
       packages: write
+    uses: ./.github/workflows/workflow-call-build-container.yaml
+    with:
+      annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
+      build-args: |
+        NODE_VERSION=${{ needs.context.outputs.node-version }}
+        PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
+      context: 'lib/satie-${{ needs.context.outputs.version }}.tgz'
+      cosign: true
+      file: 'package/packages/container/Dockerfile'
+      labels: ${{ needs.context.outputs.docker-metadata-labels }}
+      platforms: linux/amd64,linux/arm64
+      push: true
+      tags: ${{ needs.context.outputs.docker-metadata-tags }}
+  ci:
+    if: needs.context.outputs.environment == 'production'
+    needs:
+      - context
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    uses: ./.github/workflows/workflow-call-ci.yaml
+    with:
+      node-version: ${{ needs.context.outputs.node-version }}
+      pnpm-version: ${{ needs.context.outputs.pnpm-version }}
+      ref: ${{ needs.context.outputs.ref }}
+      version: ${{ needs.context.outputs.version }}
+  context:
+    uses: ./.github/workflows/workflow-call-context.yaml
+  release:
+    if: needs.context.outputs.environment == 'production'
+    needs:
+      - context
+      - ci
+    permissions:
       contents: write
+      id-token: write
+      packages: write
+    runs-on: ubuntu-latest
     steps:
       - name: setup node
         uses: actions/setup-node@v4
@@ -48,7 +69,9 @@ jobs:
         run: |
           npm install -g npm
           npm --version
-      - name: publish to github packages
+      - env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: publish to github packages
         run: |
           cat << EOF > "$HOME/.npmrc"
             //npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
@@ -60,9 +83,9 @@ jobs:
           while read -d '' -r file; do
             npm publish --provenance --access public "${file}"
           done < <(find "." -type f -name '*.tgz' -not -path '**/node_modules/**' -not -name 'escapace-satie-container-*' -not -name 'satie-*' -print0 2>/dev/null)
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: publish to npmjs
+      - env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        name: publish to npmjs
         run: |
           cat << EOF > "$HOME/.npmrc"
             //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
@@ -74,13 +97,13 @@ jobs:
           while read -d '' -r file; do
             npm publish --provenance --access public "${file}"
           done < <(find "." -type f -name '*.tgz' -not -path '**/node_modules/**' -not -name 'escapace-satie-container-*' -not -name 'satie-*' -print0 2>/dev/null 2>/dev/null)
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: checkout
         uses: actions/checkout@v4
         with:
           ref: ${{ steps.ref.outputs.value }}
-      - name: github release
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        name: github release
         run: |
           echo "${{ needs.context.outputs.changelog }}" > changelog.md
 
@@ -92,26 +115,3 @@ jobs:
             gh release create v${{ needs.context.outputs.version }} \
               --notes-file changelog.md
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  build-container:
-    if: needs.context.outputs.environment == 'production'
-    needs:
-      - context
-      - ci
-    uses: ./.github/workflows/workflow-call-build-container.yaml
-    permissions:
-      packages: write
-      id-token: write
-    with:
-      push: true
-      cosign: true
-      platforms: linux/amd64,linux/arm64
-      file: 'package/packages/container/Dockerfile'
-      context: 'lib/satie-${{ needs.context.outputs.version }}.tgz'
-      annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
-      labels: ${{ needs.context.outputs.docker-metadata-labels }}
-      tags: ${{ needs.context.outputs.docker-metadata-tags }}
-      build-args: |
-        NODE_VERSION=${{ needs.context.outputs.node-version }}
-        PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}

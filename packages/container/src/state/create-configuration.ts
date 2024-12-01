@@ -1,14 +1,6 @@
 import { build } from 'esbuild'
 import { findUpMultiple } from 'find-up'
-import {
-  filter,
-  find,
-  isEmpty,
-  isObject,
-  isString,
-  map,
-  pickBy
-} from 'lodash-es'
+import { filter, find, isEmpty, isObject, isString, map, pickBy } from 'lodash-es'
 import { resolvePath } from 'mlly'
 import path, { extname } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -17,15 +9,12 @@ import { SourceTextModule, createContext } from 'node:vm'
 import { flattenConfiguration } from './flatten-configuration'
 import { schemaLocales } from './user-schema'
 
-export const resolve = async (
-  id: string,
-  basedir?: string
-): Promise<string | undefined> => {
+const resolve = async (id: string, basedir?: string): Promise<string | undefined> => {
   try {
     const value = await resolvePath(id, {
       conditions: ['node', 'import', 'require'],
       extensions: ['.mjs', '.cjs', '.js', '.json'],
-      url: basedir === undefined ? undefined : pathToFileURL(basedir)
+      url: basedir === undefined ? undefined : pathToFileURL(basedir),
     })
 
     return typeof value === 'string' ? value : undefined
@@ -36,19 +25,19 @@ export const resolve = async (
 
 export const createConfiguration = async (processDirectory: string) => {
   const candidates = await findUpMultiple(
-    ['satie.config.ts', 'satie.config.mjs', 'satie.config.js'],
+    ['pangram.config.ts', 'pangram.config.mjs', 'pangram.config.js'],
     {
       // absolute: true,
-      cwd: processDirectory
+      cwd: processDirectory,
       // dot: false
-    }
+    },
   )
 
   const configFiles = filter(
     map(['.ts', '.mjs', '.js'], (extension) =>
-      find(candidates, (value) => extname(value) === extension)
+      find(candidates, (value) => extname(value) === extension),
     ),
-    isString
+    isString,
   )
 
   if (configFiles.length === 0) {
@@ -59,15 +48,12 @@ export const createConfiguration = async (processDirectory: string) => {
 
   const alias = pickBy(
     {
-      '@escapace/satie':
-        (await resolve('@escapace/satie')) ??
-        (await resolve('@escapace/satie', path.dirname(configFile))) ??
-        (await resolve(
-          '@escapace/satie',
-          path.dirname(fileURLToPath(import.meta.url))
-        ))
+      pangram:
+        (await resolve('pangram')) ??
+        (await resolve('pangram', path.dirname(configFile))) ??
+        (await resolve('pangram', path.dirname(fileURLToPath(import.meta.url)))),
     },
-    (value): value is string => typeof value === 'string'
+    (value): value is string => typeof value === 'string',
   )
 
   // console.log(JSON.stringify(alias))
@@ -80,29 +66,29 @@ export const createConfiguration = async (processDirectory: string) => {
     bundle: true,
     entryPoints: [configFile],
     format: 'esm',
-    // external: ['@escapace/satie'],
+    // external: ['pangram'],
     loader: {
       '.js': 'js',
       '.mjs': 'js',
       '.ts': 'ts',
-      '.tsx': 'tsx'
+      '.tsx': 'tsx',
       // '.json': 'json'
     },
     minify: false,
     platform: 'node',
     target: [`node${process.version.slice(1)}`],
-    write: false
+    write: false,
   })
 
   const contents = new TextDecoder('utf-8').decode(outputFiles[0].contents)
 
   const context = createContext({
-    console
+    console,
   })
 
   const module = new SourceTextModule(contents, { context })
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+  // eslint-disable-next-line typescript/no-unsafe-return
   await module.link(async (spec) => await import(spec))
   await module.evaluate()
 
@@ -114,18 +100,18 @@ export const createConfiguration = async (processDirectory: string) => {
     schemaLocales.parse(
       find(
         [
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-          (module.namespace as any).default
+          // eslint-disable-next-line typescript/no-unsafe-member-access, typescript/no-explicit-any
+          (module.namespace as any).default,
         ],
-        (value) => isObject(value) && !isEmpty(value)
-      )
+        (value) => isObject(value) && !isEmpty(value),
+      ),
     ),
-    configurationDirectory
+    configurationDirectory,
   )
 
   return {
     configuration,
     configurationDirectory,
-    configurationFile: path.relative(processDirectory, configFile)
+    configurationFile: path.relative(processDirectory, configFile),
   }
 }

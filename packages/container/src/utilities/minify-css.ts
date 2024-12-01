@@ -49,7 +49,7 @@ export const minifyCss = (value: string, targets: Targets) => {
             replaceTimeUnits: false, // controls replacing time units with shorter values; defaults to `true`
             replaceZeroUnits: false, // controls replacing zero values with units; defaults to `true`
             roundingPrecision: false, // rounds pixel values to `N` decimal places; `false` disables rounding; defaults to `false`
-            tidyAtRules: false // controls at-rules (e.g. `@charset`, `@import`) optimizing; defaults to `true`
+            tidyAtRules: false, // controls at-rules (e.g. `@charset`, `@import`) optimizing; defaults to `true`
           },
           2: {
             all: true,
@@ -59,14 +59,14 @@ export const minifyCss = (value: string, targets: Targets) => {
             removeDuplicateFontRules: false, // controls duplicate `@font-face` removing; defaults to true
             // removeDuplicateMediaBlocks: true, // controls duplicate `@media` removing; defaults to true
             // removeDuplicateRules: true, // controls duplicate rules removing; defaults to true
-            removeUnusedAtRules: false // controls unused at rule removing; defaults to false (available since 4.1.0)
-          }
-        }
-      }).minify(value).styles
+            removeUnusedAtRules: false, // controls unused at rule removing; defaults to false (available since 4.1.0)
+          },
+        },
+      }).minify(value).styles,
     ),
     filename: 'style.css',
     minify: true,
-    targets
+    targets,
   })
 
   return code.toString()

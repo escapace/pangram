@@ -24,23 +24,15 @@ export const fontFaceToString = (value: FontFace): string =>
     //   : Array.isArray(value.fontStretch)
     //   ? `font-stretch: ${value.fontStretch[0]}% ${value.fontStretch[1]}%;`
     //   : undefined,
-    value.unicodeRange === undefined
-      ? undefined
-      : `unicode-range: ${value.unicodeRange};`,
-    value.ascentOverride === undefined
-      ? undefined
-      : `ascent-override: ${value.ascentOverride}%;`,
+    value.unicodeRange === undefined ? undefined : `unicode-range: ${value.unicodeRange};`,
+    value.ascentOverride === undefined ? undefined : `ascent-override: ${value.ascentOverride}%;`,
     value.descentOverride === undefined
       ? undefined
       : `descent-override: ${value.descentOverride}%;`,
     value.lineGapOverride === undefined
       ? undefined
       : `line-gap-override: ${value.lineGapOverride}%;`,
-    value.sizeAdjust === undefined
-      ? undefined
-      : `size-adjust: ${value.sizeAdjust}%;`,
-    value.fontDisplay === undefined
-      ? undefined
-      : `font-display: ${value.fontDisplay};`,
-    '}'
+    value.sizeAdjust === undefined ? undefined : `size-adjust: ${value.sizeAdjust}%;`,
+    value.fontDisplay === undefined ? undefined : `font-display: ${value.fontDisplay};`,
+    '}',
   ]).join('\n')

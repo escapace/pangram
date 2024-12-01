@@ -1,6 +1,5 @@
 /* eslint-disable no-useless-escape */
-/* eslint-disable @typescript-eslint/prefer-optional-chain */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable typescript/strict-boolean-expressions */
 // export const quoteFontFamily = (string: string) =>
 //   [
 //     'serif',
@@ -18,8 +17,8 @@
 //     : string
 
 export const quoteFontFamily = (name: string) => {
-  const quotedMatch = name.match(/^["'](?<name>.*)["']$/)
-  if (quotedMatch != null && quotedMatch.groups?.name) {
+  const quotedMatch = /^["'](?<name>.*)["']$/.exec(name)
+  if (quotedMatch?.groups?.name) {
     // Escape double quotes in middle of name
     return `"${quotedMatch.groups.name.split(`"`).join(`\"`)}"`
   }

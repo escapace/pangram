@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-export type DirectedAcyclicGraph = Map<string, Iterable<string>>
+/* eslint-disable typescript/no-non-null-assertion */
 export type DependencyGraph = DirectedAcyclicGraph
+export type DirectedAcyclicGraph = Map<string, Iterable<string>>
 
 export type TaskList = Array<Set<string>>
 

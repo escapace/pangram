@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { expect, it, describe } from 'vitest'
 import { fontUnicodeRange, CharacterSet } from './font-unicode-range'
 
 describe('src/utilities/parse-unicode-range.spec.ts', () => {
@@ -14,7 +14,7 @@ describe('src/utilities/parse-unicode-range.spec.ts', () => {
 
     expect(cs.size).to.eql(1)
     expect(cs.data).to.eql({
-      35: true
+      35: true,
     })
   })
 
@@ -24,7 +24,7 @@ describe('src/utilities/parse-unicode-range.spec.ts', () => {
     expect(cs.size).to.eql(2)
     expect(cs.data).to.eql({
       34: true,
-      35: true
+      35: true,
     })
   })
 
@@ -36,7 +36,7 @@ describe('src/utilities/parse-unicode-range.spec.ts', () => {
       34: true,
       35: true,
       36: true,
-      37: true
+      37: true,
     })
   })
 
@@ -50,7 +50,7 @@ describe('src/utilities/parse-unicode-range.spec.ts', () => {
       37: true,
       38: true,
       39: true,
-      40: true
+      40: true,
     })
   })
 
@@ -73,7 +73,7 @@ describe('src/utilities/parse-unicode-range.spec.ts', () => {
       28: true,
       29: true,
       30: true,
-      31: true
+      31: true,
     })
   })
 })
@@ -92,7 +92,7 @@ describe('src/utilities/character-set.spec.ts', () => {
       expect(cs.data).to.eql({
         97: true,
         98: true,
-        99: true
+        99: true,
       })
     })
 
@@ -101,7 +101,7 @@ describe('src/utilities/character-set.spec.ts', () => {
 
       expect(cs.data).to.eql({
         20_013: true,
-        22_269: true
+        22_269: true,
       })
     })
 
@@ -112,7 +112,7 @@ describe('src/utilities/character-set.spec.ts', () => {
         119_558: true,
         97: true,
         98: true,
-        99: true
+        99: true,
       })
     })
 
@@ -273,19 +273,14 @@ describe('src/utilities/character-set.spec.ts', () => {
 
       expect(cs.compressRange([1, 2, 3, 5, 6, 7])).to.eql([
         [1, 3],
-        [5, 7]
+        [5, 7],
       ])
     })
 
     it('should compress multiple ranges and single code points', () => {
       const cs = new CharacterSet()
 
-      expect(cs.compressRange([1, 2, 3, 5, 7, 8, 9, 11])).to.eql([
-        [1, 3],
-        5,
-        [7, 9],
-        11
-      ])
+      expect(cs.compressRange([1, 2, 3, 5, 7, 8, 9, 11])).to.eql([[1, 3], 5, [7, 9], 11])
     })
   })
 
