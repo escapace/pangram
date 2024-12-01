@@ -1,4 +1,4 @@
-import { assert } from 'chai'
+import { assert, describe, it } from 'vitest'
 import { toposort } from './toposort'
 
 describe('toposort', () => {
@@ -12,10 +12,10 @@ describe('toposort', () => {
         new Map([
           ['a', ['b']],
           ['b', ['c']],
-          ['c', []]
-        ])
+          ['c', []],
+        ]),
       ),
-      [new Set(['a']), new Set(['b']), new Set(['c'])]
+      [new Set(['a']), new Set(['b']), new Set(['c'])],
     )
   })
 
@@ -25,10 +25,10 @@ describe('toposort', () => {
         new Map([
           ['a', ['c']],
           ['b', ['c']],
-          ['c', []]
-        ])
+          ['c', []],
+        ]),
       ),
-      [new Set(['a', 'b']), new Set(['c'])]
+      [new Set(['a', 'b']), new Set(['c'])],
     )
   })
 
@@ -45,15 +45,15 @@ describe('toposort', () => {
           ['g', ['j']],
           ['h', ['j']],
           ['i', []],
-          ['j', []]
-        ])
+          ['j', []],
+        ]),
       ),
       [
         new Set(['a', 'b']),
         new Set(['c', 'd', 'e']),
         new Set(['f', 'g', 'h']),
-        new Set(['i', 'j'])
-      ]
+        new Set(['i', 'j']),
+      ],
     )
   })
 
@@ -61,7 +61,7 @@ describe('toposort', () => {
     const dg = new Map([
       ['a', ['b']],
       ['b', ['a']],
-      ['c', []]
+      ['c', []],
     ])
 
     const sortCyclicGraph = () => {
@@ -77,7 +77,7 @@ describe('toposort', () => {
       ['b', ['c']],
       ['c', ['d', 'e']],
       ['d', ['b']],
-      ['e', []]
+      ['e', []],
     ])
     const sortCyclicGraph = () => {
       toposort(dg)

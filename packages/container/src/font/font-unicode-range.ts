@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/prefer-for-of */
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable typescript/prefer-for-of */
+/* eslint-disable typescript/strict-boolean-expressions */
 
 export class CharacterSet {
   data: Record<number, boolean> = {}
   size = 0
 
-  constructor(input?: Array<[number, number] | number> | number | string) {
+  constructor(input?: number | string | Array<number | [number, number]>) {
     if (typeof input === 'string') {
       for (let index = 0; index < input.length; index += 1) {
         const codePoint = input.charCodeAt(index)
@@ -13,11 +13,7 @@ export class CharacterSet {
         if ((codePoint & 0xf8_00) === 0xd8_00 && index < input.length) {
           const nextCodePoint = input.charCodeAt(index + 1)
           if ((nextCodePoint & 0xfc_00) === 0xdc_00) {
-            this.add(
-              ((codePoint & 0x3_ff) << 10) +
-                (nextCodePoint & 0x3_ff) +
-                0x1_00_00
-            )
+            this.add(((codePoint & 0x3_ff) << 10) + (nextCodePoint & 0x3_ff) + 0x1_00_00)
           } else {
             this.add(codePoint)
           }
@@ -49,7 +45,7 @@ export class CharacterSet {
   }
 
   compressRange(codePoints: number[]) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line typescript/no-explicit-any
     const result: any[] = []
 
     for (let index = 0; index < codePoints.length; index += 1) {
@@ -73,20 +69,17 @@ export class CharacterSet {
       ) {
         // Don't bother collapsing the range if the range only consists of two adjacent code points
         if (current - result[result.length - 1] > 1) {
-          result[result.length - 1] = [result[result.length - 1], current] as [
-            number,
-            number
-          ]
+          result[result.length - 1] = [result[result.length - 1], current] as [number, number]
         } else {
           result.push(current)
         }
       }
     }
 
-    return result as Array<[number, number] | number>
+    return result as Array<number | [number, number]>
   }
 
-  expandRange(range: Array<[number, number] | number>) {
+  expandRange(range: Array<number | [number, number]>) {
     const result: number[] = []
 
     for (let index = 0; index < range.length; index += 1) {
@@ -135,10 +128,7 @@ export class CharacterSet {
     return this.toRange()
       .map(function (value) {
         return Array.isArray(value)
-          ? 'U+' +
-              value[0].toString(16).toUpperCase() +
-              '-' +
-              value[1].toString(16).toUpperCase()
+          ? 'U+' + value[0].toString(16).toUpperCase() + '-' + value[1].toString(16).toUpperCase()
           : 'U+' + value.toString(16).toUpperCase()
       })
       .join(',')
@@ -154,9 +144,7 @@ export const fontUnicodeRange = (input: string): CharacterSet => {
   const result = new CharacterSet()
 
   for (let index = 0; index < ranges.length; index++) {
-    const match = /^(u\+([\d?a-f]{1,6})(?:-([\da-f]{1,6}))?)$/i.exec(
-      ranges[index]
-    )
+    const match = /^(u\+([\d?a-f]{1,6})(?:-([\da-f]{1,6}))?)$/i.exec(ranges[index])
     let start = null
     let end = null
 

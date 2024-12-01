@@ -28,26 +28,20 @@ export function iterateProperties(v: StyleRule<{}>, indent = '', prefix = '') {
             `${indent}${prefix}${key} {\n${iterateProperties(
               value,
               indent + DOUBLE_SPACE,
-              prefix
-            )}\n${indent}}`
+              prefix,
+            )}\n${indent}}`,
           )
         }
       }
     } else if (typeof value === 'string' || typeof value === 'number') {
-      rules.push(
-        `${indent}${key.startsWith('--') ? key : dashify(key)}: ${value};`
-      )
+      rules.push(`${indent}${key.startsWith('--') ? key : dashify(key)}: ${value};`)
     }
   })
 
   return rules.join('\n')
 }
 
-export const style = (
-  selector: string,
-  rule: StyleRule<{}>,
-  targets?: Targets
-) => {
+export const style = (selector: string, rule: StyleRule<{}>, targets?: Targets) => {
   const css = `${selector} {
 ${iterateProperties(rule, '  ')}
 }`
@@ -56,7 +50,7 @@ ${iterateProperties(rule, '  ')}
     code: Buffer.from(css),
     filename: 'style.css',
     minify: false,
-    targets
+    targets,
   })
 
   return code.toString()

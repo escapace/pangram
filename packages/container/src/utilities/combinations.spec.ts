@@ -1,4 +1,4 @@
-import { assert } from 'chai'
+import { assert, describe, it } from 'vitest'
 import { combinations } from './combinations'
 
 describe('src/utilities/combinations.spec.ts', () => {
@@ -18,7 +18,7 @@ describe('src/utilities/combinations.spec.ts', () => {
       ['a', 'b', 'd'],
       ['a', 'c', 'd'],
       ['b', 'c', 'd'],
-      ['a', 'b', 'c', 'd']
+      ['a', 'b', 'c', 'd'],
     ])
   })
 })

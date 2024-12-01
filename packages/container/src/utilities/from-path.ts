@@ -1,13 +1,14 @@
 export const fromPath = (
   array: Array<number | string>,
   quote: '"' | "'" = "'",
-  forceQuote = false
+  forceQuote = false,
 ) => {
   const regexp = new RegExp('(\\\\|' + quote + ')', 'g') // regex => /(\\|')/g
 
   return array
     .map(function (value, key) {
       let property = value.toString()
+      // eslint-disable-next-line regexp/no-obscure-range
       if (!forceQuote && /^[A-z]\w*$/.exec(property) != null) {
         // str with only A-z0-9_ chars will display `foo.bar`
         return key !== 0 ? '.' + property : property

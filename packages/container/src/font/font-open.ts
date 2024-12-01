@@ -14,7 +14,7 @@ const schemaFontKitVariationAxis = z.object({
   default: z.number().int(),
   max: z.number().int(),
   min: z.number().int(),
-  name: z.string().nonempty()
+  name: z.string().min(1),
 })
 
 const schemaFontKitVariationAxes = z.record(schemaFontKitVariationAxis)
@@ -22,16 +22,14 @@ const schemaFontKitVariationAxes = z.record(schemaFontKitVariationAxis)
 // type FontKitVariationAxis = z.infer<typeof schemaFontKitVariationAxis>
 export type FontKitVariationAxes = z.infer<typeof schemaFontKitVariationAxes>
 
-export const isWithin = (x: number, min: number, max: number) =>
-  x >= min && x <= max
+const isWithin = (x: number, min: number, max: number) => x >= min && x <= max
 
-export const clamp = (number_: number, min: number, max: number) =>
-  Math.min(Math.max(number_, min), max)
+const clamp = (number_: number, min: number, max: number) => Math.min(Math.max(number_, min), max)
 
 export const fontOpen = async (
   fontState: Omit<FontState, 'type'>,
   fontProperties: Omit<Required<FontProperties>, 'fontFamily'>,
-  state: State
+  state: State,
 ): Promise<{
   font: FontKitFont
   variation?: Record<string, number>
@@ -39,10 +37,7 @@ export const fontOpen = async (
 }> => {
   const isVariableFont = fontState.font.tech?.includes('variations') === true
 
-  const source = path.resolve(
-    state.configurationDirectory,
-    fontState.font.source
-  )
+  const source = path.resolve(state.configurationDirectory, fontState.font.source)
 
   const font = (await fontKitOpen(source)) as FontKitFont
 
@@ -62,24 +57,19 @@ export const fontOpen = async (
               (fontProperties.fontVariationSettings === 'normal'
                 ? undefined
                 : fontProperties.fontVariationSettings) ?? {},
-              (value, inputKey) =>
-                inputKey.toLowerCase() === key && typeof value === 'number'
+              (value, inputKey) => inputKey.toLowerCase() === key && typeof value === 'number',
             ),
             key === 'wght' ? fontProperties.fontWeight : undefined,
             key === 'wdth' ? fontProperties.fontStretch : undefined,
-            key === 'ital' && fontProperties.fontStyle === 'italic'
-              ? value.max
-              : undefined
-          ])
+            key === 'ital' && fontProperties.fontStyle === 'italic' ? value.max : undefined,
+          ]),
         )
 
         if (inputValues.length > 1) {
           console.warn(
-            `${
-              fontState.font.source
-            }: inconsistent font variation settings (${inputValues.join(
-              ', '
-            )}) for '${key}'.`
+            `${fontState.font.source}: inconsistent font variation settings (${inputValues.join(
+              ', ',
+            )}) for '${key}'.`,
           )
         }
 
@@ -88,15 +78,13 @@ export const fontOpen = async (
             inputValues[0] ??
             value.default,
           value.min,
-          value.max
+          value.max,
         )
-      })
+      }),
     }
 
     // TODO: https://github.com/foliojs/fontkit/issues/330
-    const variableFont = isEmpty(variation)
-      ? font
-      : font.getVariation(variation)
+    const variableFont = isEmpty(variation) ? font : font.getVariation(variation)
 
     return { font: variableFont, variation, variationAxes }
   }

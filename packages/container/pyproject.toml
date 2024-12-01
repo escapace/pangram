@@ -1,0 +1,23 @@
+[project]
+name = "container"
+version = "0.0.0"
+dependencies = [
+  "zopfli==0.2.3",
+  "unicodedata2==15.1.0",
+  "Brotli==1.1.0",
+  "fonttools==4.50.0",
+  "lxml==5.2.0",
+  "uharfbuzz==0.39.1",
+]
+requires-python = "== 3.13.0"
+
+[tool]
+
+[tool.uv]
+managed = true
+
+[tool.uv.workspace]
+members = []
+
+[tool.setuptools]
+py-modules = []
