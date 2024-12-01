@@ -9,7 +9,7 @@ const fontDisplayCompact = (value: InferFont['display']) => {
     'auto',
     'swap',
     'fallback',
-    'optional'
+    'optional',
   ]
 
   return priority.indexOf(value ?? 'auto')
@@ -25,31 +25,23 @@ const fontDisplayCompact = (value: InferFont['display']) => {
 
 export const fontFaceCompact = (
   fontFaces: { [k: string]: FontFace },
-  isFallback: boolean
+  isFallback: boolean,
 ): Array<[string, FontFace]> =>
   Object.entries(
     mapValues(fontFaces, (current, id): FontFace => {
       const relevant = filter(omit(fontFaces, [id]), (candidate): boolean => {
-        const relevantKeys: Array<keyof FontFace> = [
-          'fontDisplay',
-          'fontStretch',
-          'fontWeight'
-        ]
+        const relevantKeys: Array<keyof FontFace> = ['fontDisplay', 'fontStretch', 'fontWeight']
 
-        return isEqual(
-          omit(current, relevantKeys),
-          omit(candidate, relevantKeys)
-        )
+        return isEqual(omit(current, relevantKeys), omit(candidate, relevantKeys))
       })
 
       const fontFace: FontFace = {
         ...current,
         fontDisplay: isFallback
           ? undefined
-          : [
-              current.fontDisplay,
-              ...relevant.map((value) => value.fontDisplay)
-            ].sort(fontDisplayCompact)[0],
+          : [current.fontDisplay, ...relevant.map((value) => value.fontDisplay)].sort(
+              fontDisplayCompact,
+            )[0],
         fontStretch: 100,
         fontStyle: 'normal',
         // fontWeight: isFallback
@@ -65,11 +57,11 @@ export const fontFaceCompact = (
         //       ...relevant.map((value) => value.fontStretch)
         fontWeight: 400,
         //     ]),
-        unicodeRange: isFallback ? undefined : current.unicodeRange
+        unicodeRange: isFallback ? undefined : current.unicodeRange,
       }
 
       const hash = createHash(fontFace)
 
       return { ...fontFace, fontFamily: `${current.fontFamily}-${hash}` }
-    })
+    }),
   )

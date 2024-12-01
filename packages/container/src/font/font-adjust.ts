@@ -1,28 +1,22 @@
-/* eslint-disable @typescript-eslint/strict-boolean-expressions */
+/* eslint-disable typescript/strict-boolean-expressions */
 import type { FontFaceAdjustments } from '../types'
 import type { FontMetrics } from './font-metrics'
 import { BigNumber } from 'bignumber.js'
 
-export const round = (value: number, precision = 4) =>
-  Number.isFinite(precision)
-    ? parseFloat(new BigNumber(value).toPrecision(precision))
-    : value
+const round = (value: number, precision = 4) =>
+  Number.isFinite(precision) ? parseFloat(new BigNumber(value).toPrecision(precision)) : value
 
 export type RequiredFontMetrics = Required<
-  Pick<
-    FontMetrics,
-    'ascent' | 'descent' | 'lineGap' | 'unitsPerEm' | 'xWidthAvg'
-  >
+  Pick<FontMetrics, 'ascent' | 'descent' | 'lineGap' | 'unitsPerEm' | 'xWidthAvg'>
 >
 
 export const fontAdjust = (
   metrics: RequiredFontMetrics,
-  fallbackMetrics: RequiredFontMetrics
+  fallbackMetrics: RequiredFontMetrics,
 ): FontFaceAdjustments => {
   // Calculate size adjust
   const preferredFontXAvgRatio = metrics.xWidthAvg / metrics.unitsPerEm
-  const fallbackFontXAvgRatio =
-    fallbackMetrics.xWidthAvg / fallbackMetrics.unitsPerEm
+  const fallbackFontXAvgRatio = fallbackMetrics.xWidthAvg / fallbackMetrics.unitsPerEm
 
   const sizeAdjust =
     preferredFontXAvgRatio && fallbackFontXAvgRatio
@@ -41,8 +35,7 @@ export const fontAdjust = (
     ascentOverride: ascentOverride ? round(ascentOverride * 100) : undefined,
     descentOverride: descentOverride ? round(descentOverride * 100) : undefined,
     lineGapOverride: lineGapOverride ? round(lineGapOverride * 100) : undefined,
-    sizeAdjust:
-      sizeAdjust && sizeAdjust !== 1 ? round(sizeAdjust * 100) : undefined
+    sizeAdjust: sizeAdjust && sizeAdjust !== 1 ? round(sizeAdjust * 100) : undefined,
   }
 
   return adjustments

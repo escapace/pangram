@@ -4,14 +4,12 @@ import type { WebFont } from '../state/user-schema'
 import type { State } from '../types'
 
 const buildToString = (value: { outputFiles: OutputFile[] }): string =>
-  new TextDecoder('utf-8')
-    .decode(value.outputFiles[0].contents)
-    .replace(/\n$/, '')
+  new TextDecoder('utf-8').decode(value.outputFiles[0].contents).replace(/\n$/, '')
 
 export const fontLoaderScript = async (
   state: State,
   locales: Array<readonly [string, string | string[]]>,
-  fonts: WebFont[]
+  fonts: WebFont[],
 ): Promise<string> =>
   buildToString(
     await build({
@@ -19,13 +17,13 @@ export const fontLoaderScript = async (
       bundle: true,
       define: {
         __DATA_FONTS__: JSON.stringify(fonts),
-        __DATA_LOCALES__: JSON.stringify(locales)
+        __DATA_LOCALES__: JSON.stringify(locales),
       },
       entryPoints: [state.runtimeFontLoaderPath],
       format: 'iife',
       minify: true,
       platform: 'browser',
       target: state.targets.esbuild,
-      write: false
-    })
+      write: false,
+    }),
   )

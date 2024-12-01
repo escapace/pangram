@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable typescript/no-non-null-assertion */
 
 import FontFaceObserver from 'fontfaceobserver'
 import type { WebFont, WebFontState } from '../state/user-schema'
@@ -22,9 +21,7 @@ declare global {
 }
 
 const LOCALE_INDEX = new Map(__DATA_LOCALES__)
-const FONTS = new Map(
-  __DATA_FONTS__.map((value) => [value.slug, value] as const)
-)
+const FONTS = new Map(__DATA_FONTS__.map((value) => [value.slug, value] as const))
 const SUBSCRIBERS = new Set<Callback>()
 
 const fontStretchMapping = new Map([
@@ -36,16 +33,14 @@ const fontStretchMapping = new Map([
   [50, 'ultra-condensed'],
   [62.5, 'extra-condensed'],
   [75, 'condensed'],
-  [87.5, 'semi-condensed']
+  [87.5, 'semi-condensed'],
 ])
 
 const fontStretchMappingKeys = Array.from(fontStretchMapping.keys())
 
 const closest = (array: number[], value: number): number =>
   array.reduce(function (previous, current) {
-    return Math.abs(current - value) < Math.abs(previous - value)
-      ? current
-      : previous
+    return Math.abs(current - value) < Math.abs(previous - value) ? current : previous
   })
 
 const getDataFontsLoaded = () =>
@@ -62,7 +57,7 @@ const updateDataFontsLoaded = (value: string) => {
       [...dataFontsLoaded, value]
         .filter((value, index, self) => self.indexOf(value) === index)
         .sort()
-        .join(' ')
+        .join(' '),
     )
   }
 }
@@ -107,10 +102,9 @@ const createPromise = async (slug: string): Promise<WebFontState> => {
                     closest(
                       fontStretchMappingKeys,
                       Array.isArray(fontFace.fontStretch)
-                        ? (fontFace.fontStretch[0] + fontFace.fontStretch[1]) /
-                            2
-                        : fontFace.fontStretch
-                    )
+                        ? (fontFace.fontStretch[0] + fontFace.fontStretch[1]) / 2
+                        : fontFace.fontStretch,
+                    ),
                   )
 
             const style = fontFace.fontStyle ?? undefined
@@ -118,13 +112,13 @@ const createPromise = async (slug: string): Promise<WebFontState> => {
             await new FontFaceObserver(fontFace.fontFamily, {
               stretch,
               style,
-              weight
+              weight,
             }).load(
               typeof font.testString === 'string' ? font.testString : null,
               // TODO: custom timeout
-              10_000
+              10_000,
             )
-          })
+          }),
         )
 
         updateDataFontsLoaded(slug)
@@ -135,8 +129,7 @@ const createPromise = async (slug: string): Promise<WebFontState> => {
     }
   })()
 
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return await font.state!
+  return await font.state
 }
 
 const iterateFonts = async (): Promise<Font[]> =>
@@ -146,13 +139,11 @@ const iterateFonts = async (): Promise<Font[]> =>
         if (font.state !== undefined) {
           const state = await font.state
 
-          return state === 'font-loaded' || state === 'font-already-loaded'
-            ? font
-            : undefined
+          return state === 'font-loaded' || state === 'font-already-loaded' ? font : undefined
         }
 
         return
-      })
+      }),
     )
   ).filter((value): value is Font => value !== undefined)
 
@@ -162,7 +153,7 @@ const normalize = async (fonts: Font[]): Promise<WebFont[]> =>
       const state = await value.state
 
       return { ...value, state }
-    })
+    }),
   )
 
 const updateSubscribers = async () => {
@@ -212,8 +203,7 @@ export const webFontLoader = async (locale: string): Promise<WebFont[]> => {
 
   const value = LOCALE_INDEX.get(locale)!
 
-  const slugs =
-    typeof value === 'string' ? (LOCALE_INDEX.get(value)! as string[]) : value
+  const slugs = typeof value === 'string' ? (LOCALE_INDEX.get(value)! as string[]) : value
 
   await Promise.all(slugs.map(async (slug) => await next(slug)))
 

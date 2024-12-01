@@ -1,4 +1,4 @@
-# satie
+# pangram
 
 A command-line tool that automates web font loading and localization best practices.
 

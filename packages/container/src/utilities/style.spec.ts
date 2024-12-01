@@ -1,4 +1,4 @@
-import { assert } from 'chai'
+import { describe, it, assert } from 'vitest'
 import { style } from './style'
 
 describe('src/utilities/style.spec.ts', () => {
@@ -6,25 +6,25 @@ describe('src/utilities/style.spec.ts', () => {
     const string = style('.test', {
       '@media': {
         '(prefers-reduced-motion)': {
-          transitionProperty: 'color'
+          transitionProperty: 'color',
         },
         'screen and (min-width: 768px)': {
           '@supports': {
             '(display: grid)': {
-              display: 'grid'
-            }
+              display: 'grid',
+            },
           },
-          padding: 10
-        }
+          'padding': 10,
+        },
       },
       '@supports': {
         '(display: grid)': {
-          display: 'grid'
-        }
+          display: 'grid',
+        },
       },
-      display: ['flex', 'inline-flexx'],
-      margin: 0,
-      paddingTop: '3px'
+      'display': ['flex', 'inline-flexx'],
+      'margin': 0,
+      'paddingTop': '3px',
     })
 
     assert.isString(string)
