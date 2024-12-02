@@ -7,16 +7,14 @@ on:
     paths-ignore:
       - README.md
       - LICENSE
-
   push:
     branches:
       - trunk
     paths-ignore:
       - README.md
       - LICENSE
-permissions:
-  contents: read
-  packages: read
+    tags:
+      - 'v*'
 
 env:
   # 7 GiB by default on GitHub, setting to 6 GiB
@@ -24,32 +22,56 @@ env:
   NODE_OPTIONS: --max-old-space-size=6144
 
 jobs:
-  build-container:
-    needs:
-      - context
-      - ci
-    uses: ./.github/workflows/workflow-call-build-container.yaml
+  context:
+    uses: escapace/workflows/.github/workflows/context.yaml@trunk
     with:
-      annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
-      build-args: |
-        NODE_VERSION=${{ needs.context.outputs.node-version }}
-        PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
-      context: 'lib/satie-${{ needs.context.outputs.version }}.tgz'
-      file: 'package/packages/container/Dockerfile'
-      labels: ${{ needs.context.outputs.docker-metadata-labels }}
-      platforms: linux/amd64,linux/arm64
-      push: false
-      tags: ${{ needs.context.outputs.docker-metadata-tags }}
+      docker-metadata-annotations-levels: index
+      enable-docker-metadata: true
+
   ci:
     needs:
       - context
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-    uses: ./.github/workflows/workflow-call-ci.yaml
+    uses: escapace/workflows/.github/workflows/ci-typescript.yaml@trunk
     with:
+      enable-artifact-upload: true
+      enable-codecov: true
       node-version: ${{ needs.context.outputs.node-version }}
       pnpm-version: ${{ needs.context.outputs.pnpm-version }}
       ref: ${{ needs.context.outputs.ref }}
       version: ${{ needs.context.outputs.version }}
-  context:
-    uses: ./.github/workflows/workflow-call-context.yaml
+
+  release-container:
+    needs:
+      - context
+      - ci
+    permissions:
+      id-token: write
+      packages: write
+    uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
+    with:
+      annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
+      artifact-name: package
+      build-args: |
+        NODE_VERSION=${{ needs.context.outputs.node-version }}
+        PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
+      context: 'lib/context.tgz'
+      enable-cosign: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
+      enable-push: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
+      file: package/packages/container/Dockerfile
+      labels: ${{ needs.context.outputs.docker-metadata-labels }}
+      platforms: linux/amd64,linux/arm64
+      tags: ${{ needs.context.outputs.docker-metadata-tags }}
+
+  release-github:
+    if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
+    needs:
+      - context
+      - ci
+      - release-container
+    uses: escapace/workflows/.github/workflows/release-github.yaml@trunk
+    with:
+      changelog: ${{ needs.context.outputs.changelog }}
+      prerelease: ${{ fromJSON(needs.context.outputs.prerelease) }}
+      version: ${{ needs.context.outputs.version }}
