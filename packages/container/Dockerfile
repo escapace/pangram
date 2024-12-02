@@ -81,8 +81,8 @@ ENV PYTHONUNBUFFERED=1
 
 FROM package AS build
 
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000 \
-  pnpm install --shamefully-hoist --frozen-lockfile --ignore-scripts
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev \
+  pnpm install --frozen-lockfile --ignore-scripts
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000 \
   uv sync --frozen
 
@@ -92,6 +92,7 @@ RUN pnpm run build
 
 FROM build AS test
 
+ENV CONTAINER_TEST=true
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
 
 RUN pnpm run test
@@ -101,8 +102,8 @@ RUN pnpm run test
 FROM package AS production
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000 \
-  pnpm install --shamefully-hoist --frozen-lockfile --ignore-scripts --prod
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod \
+  pnpm install --frozen-lockfile --ignore-scripts --prod && pnpm store prune
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000 \
   uv sync --frozen
 
