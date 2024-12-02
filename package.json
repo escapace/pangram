@@ -10,12 +10,12 @@
   "devDependencies": {
     "@commitlint/cli": "19.6.0",
     "@commitlint/config-conventional": "19.6.0",
-    "@escapace/pnpm-pack": "0.5.2",
+    "@escapace/pnpm-pack": "0.5.3",
     "@ls-lint/ls-lint": "2.2.3",
     "eslint": "9.16.0",
     "eslint-config-escapace": "5.3.1",
-    "knip": "5.38.3",
-    "lefthook": "1.8.4",
+    "knip": "5.39.0",
+    "lefthook": "1.8.5",
     "prettier": "3.4.1",
     "prettier-config-escapace": "1.2.1",
     "syncpack": "13.0.0"

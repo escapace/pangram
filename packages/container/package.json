@@ -1,5 +1,5 @@
 {
-  "name": "pangram",
+  "name": "@pangram/container",
   "description": "",
   "version": "0.0.0",
   "author": {
@@ -64,11 +64,13 @@
   },
   "files": [
     "Dockerfile",
-    "lib/esm",
-    "lib/types",
-    "requirements.txt",
-    "src/font/font-loader.ts",
-    "src/font/font-strip.py"
+    "pyproject.toml",
+    "scripts",
+    "src",
+    "test",
+    "tsconfig*",
+    "uv.lock",
+    "vitest*"
   ],
   "homepage": "https://github.com/escapace/pangram/tree/trunk/packages/container#readme",
   "license": "MPL-2.0",

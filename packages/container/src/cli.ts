@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import arg from 'arg'
+
 import chalk from 'chalk'
 import { isError } from 'lodash-es'
 import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from './constants'
