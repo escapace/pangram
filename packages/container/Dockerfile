@@ -76,20 +76,17 @@ RUN file -b /bin/uv
 # ---
 
 FROM base AS package
-
 USER node
 WORKDIR /home/node/package/packages/container
-COPY ./package /home/node/package
+COPY --chown=node:node ./package /home/node/package
 
-ENV PYTHONUNBUFFERED=1
-ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
-ENV CC=gcc CXX=g++
+ENV PYTHONUNBUFFERED=1 PATH="/home/node/package/packages/container/.venv/bin:$PATH" CC=gcc CXX=g++
 
 # ---
 
 FROM package AS build
-
 ARG TARGETPLATFORM
+USER node
 
 RUN echo "package-import-method=copy" >> /home/node/package/.npmrc && \
     echo "node-linker=hoisted" >> /home/node/package/.npmrc
@@ -104,16 +101,18 @@ RUN pnpm run build
 # ---
 
 FROM build AS test
-
-ENV CONTAINER_TEST=true
+ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1 CONTAINER_TEST=true
+USER node
 
 RUN pnpm run test
 
 # ---
 
 FROM package AS production
-
 ARG TARGETPLATFORM
+ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1
+USER node
+WORKDIR /workdir
 
 RUN echo "package-import-method=copy" >> /home/node/package/.npmrc && \
     echo "node-linker=hoisted" >> /home/node/package/.npmrc
@@ -137,7 +136,6 @@ RUN dnf remove -y clang libxml2-devel libxslt-devel file && \
 
 USER node
 
-WORKDIR /workdir
 ENTRYPOINT ["node", "--enable-source-maps", "--no-warnings", "--experimental-vm-modules", "/home/node/package/packages/container/lib/node/cli.js"]
 CMD []
 
@@ -146,7 +144,9 @@ CMD []
 FROM quay.io/centos/centos:stream9
 COPY --from=production / /
 
+ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1
+USER node
 WORKDIR /workdir
-ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
+
 ENTRYPOINT ["node", "--enable-source-maps", "--no-warnings", "--experimental-vm-modules", "/home/node/package/packages/container/lib/node/cli.js"]
 CMD []
