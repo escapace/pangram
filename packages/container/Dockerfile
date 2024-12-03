@@ -88,8 +88,8 @@ FROM package AS build
 ARG TARGETPLATFORM
 USER node
 
-RUN echo "package-import-method=copy" >> /home/node/package/.npmrc && \
-    echo "node-linker=hoisted" >> /home/node/package/.npmrc
+RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
+# echo "node-linker=hoisted" >> /home/node/package/.npmrc
 
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts
@@ -113,8 +113,8 @@ ARG TARGETPLATFORM
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1
 USER node
 
-RUN echo "package-import-method=copy" >> /home/node/package/.npmrc && \
-    echo "node-linker=hoisted" >> /home/node/package/.npmrc
+RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
+# echo "node-linker=hoisted" >> /home/node/package/.npmrc
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod-$TARGETPLATFORM \
