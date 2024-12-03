@@ -112,7 +112,6 @@ FROM package AS production
 ARG TARGETPLATFORM
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1
 USER node
-WORKDIR /workdir
 
 RUN echo "package-import-method=copy" >> /home/node/package/.npmrc && \
     echo "node-linker=hoisted" >> /home/node/package/.npmrc
@@ -135,6 +134,7 @@ RUN dnf remove -y clang libxml2-devel libxslt-devel file && \
   rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx
 
 USER node
+WORKDIR /workdir
 
 ENTRYPOINT ["node", "--enable-source-maps", "--no-warnings", "--experimental-vm-modules", "/home/node/package/packages/container/lib/node/cli.js"]
 CMD []
