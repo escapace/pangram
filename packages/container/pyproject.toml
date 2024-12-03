@@ -1,13 +1,14 @@
 [project]
 name = "container"
 version = "0.0.0"
+# https://github.com/fonttools/fonttools/blob/4.55.0/requirements.txt
 dependencies = [
-  "zopfli==0.2.3",
+  "zopfli==0.2.3.post1",
   "unicodedata2==15.1.0",
   "Brotli==1.1.0",
-  "fonttools==4.50.0",
-  "lxml==5.2.0",
-  "uharfbuzz==0.39.1",
+  "fonttools==4.55.0",
+  "lxml==5.3.0",
+  "uharfbuzz==0.42.0",
 ]
 requires-python = "== 3.13.0"
 

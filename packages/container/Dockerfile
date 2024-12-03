@@ -2,9 +2,12 @@ FROM quay.io/centos/centos:stream9 AS base
 ARG GOSU_VERSION=1.17
 ARG NODE_VERSION=22.11.0
 
-RUN dnf clean all; \
-  dnf update -y; \
-  dnf install -y --allowerasing ca-certificates curl gnupg dirmngr xz tar
+RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM dnf config-manager -y --set-enabled crb && \
+  dnf install -y epel-release epel-next-release
+
+RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM dnf clean all && \
+  dnf update -y && \
+  dnf install -y --allowerasing ca-certificates curl gnupg dirmngr xz tar file
 
 # https://github.com/nodejs/docker-node/blob/main/18/alpine3.16/Dockerfile
 RUN set -eux; \
@@ -64,7 +67,9 @@ RUN set -eux; \
 ARG PNPM_VERSION=9.14.4
 RUN npm install -g pnpm@${PNPM_VERSION}
 COPY --from=ghcr.io/astral-sh/uv:0.5.5 /uv /uvx /bin/
-RUN dnf --assumeyes install clang libxml2 libxml2-devel libxslt libxslt-devel
+RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM \
+  dnf --assumeyes install clang libxml2 libxml2-devel libxslt libxslt-devel epel-release epel-next-release
+RUN file -b /bin/uv
 
 # ---
 
@@ -74,17 +79,18 @@ USER node
 WORKDIR /home/node/package/packages/container
 COPY ./package /home/node/package
 
-ENV UV_LINK_MODE=copy
 ENV PYTHONUNBUFFERED=1
+ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
+ENV CC=gcc CXX=g++
 
 # ---
 
 FROM package AS build
 
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev \
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts
-RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000 \
-  uv sync --frozen
+RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
+  uv sync --link-mode copy --frozen
 
 RUN pnpm run build
 
@@ -93,7 +99,6 @@ RUN pnpm run build
 FROM build AS test
 
 ENV CONTAINER_TEST=true
-ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
 
 RUN pnpm run test
 
@@ -102,10 +107,10 @@ RUN pnpm run test
 FROM package AS production
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod \
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts --prod && pnpm store prune
-RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000 \
-  uv sync --frozen
+RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
+  uv sync --no-dev --link-mode copy --frozen
 
 RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
   find src -type f ! -path "src/font/font-loader.ts" ! -path "src/font/font-strip.py" && \
@@ -113,7 +118,7 @@ RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
 
 USER root
 
-RUN dnf remove -y clang libxml2-devel libxslt-devel && \
+RUN dnf remove -y clang libxml2-devel libxslt-devel file && \
   dnf --assumeyes autoremove && \
   dnf clean all && \
   rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx
@@ -121,7 +126,6 @@ RUN dnf remove -y clang libxml2-devel libxslt-devel && \
 USER node
 
 WORKDIR /workdir
-ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
 ENTRYPOINT ["node", "--enable-source-maps", "--no-warnings", "--experimental-vm-modules", "/home/node/package/packages/container/lib/node/cli.js"]
 CMD []
 
@@ -132,6 +136,5 @@ COPY --from=production / /
 
 WORKDIR /workdir
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH"
-
 ENTRYPOINT ["node", "--enable-source-maps", "--no-warnings", "--experimental-vm-modules", "/home/node/package/packages/container/lib/node/cli.js"]
 CMD []

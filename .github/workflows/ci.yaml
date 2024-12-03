@@ -64,12 +64,27 @@ jobs:
       platforms: linux/amd64,linux/arm64
       tags: ${{ needs.context.outputs.docker-metadata-tags }}
 
+  release-typescript:
+    if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
+    needs:
+      - context
+      - ci
+      - release-container
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    uses: escapace/workflows/.github/workflows/release-typescript.yaml@trunk
+    with:
+      enable-github-packages-npm-registry: false
+      enable-npm-registry: true
+      node-version: ${{ needs.context.outputs.node-version }}
+
   release-github:
     if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
     needs:
       - context
       - ci
       - release-container
+      - release-typescript
     uses: escapace/workflows/.github/workflows/release-github.yaml@trunk
     with:
       changelog: ${{ needs.context.outputs.changelog }}
