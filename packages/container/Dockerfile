@@ -1,6 +1,7 @@
 FROM quay.io/centos/centos:stream9 AS base
 ARG GOSU_VERSION=1.17
 ARG NODE_VERSION=22.11.0
+ARG TARGETPLATFORM
 
 RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM dnf config-manager -y --set-enabled crb && \
   dnf install -y epel-release epel-next-release
@@ -65,6 +66,7 @@ RUN set -eux; \
 #   && dnf install --nodocs --assumeyes gcc gcc-c++ freetype-devel glib2-devel cairo-devel python3-devel
 
 ARG PNPM_VERSION=9.14.4
+
 RUN npm install -g pnpm@${PNPM_VERSION}
 COPY --from=ghcr.io/astral-sh/uv:0.5.5 /uv /uvx /bin/
 RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM \
@@ -87,6 +89,8 @@ ENV CC=gcc CXX=g++
 
 FROM package AS build
 
+ARG TARGETPLATFORM
+
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
@@ -105,6 +109,8 @@ RUN pnpm run test
 # ---
 
 FROM package AS production
+
+ARG TARGETPLATFORM
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod-$TARGETPLATFORM \
