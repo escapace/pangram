@@ -91,7 +91,7 @@ USER node
 RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
 # echo "node-linker=hoisted" >> /home/node/package/.npmrc
 
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev-$TARGETPLATFORM \
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
   uv sync --link-mode copy --frozen
@@ -117,8 +117,8 @@ RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
 # echo "node-linker=hoisted" >> /home/node/package/.npmrc
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod-$TARGETPLATFORM \
-  pnpm install --frozen-lockfile --ignore-scripts --prod && pnpm store prune
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETPLATFORM \
+  pnpm install --frozen-lockfile --ignore-scripts --prod
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
   uv sync --no-dev --link-mode copy --frozen
 
