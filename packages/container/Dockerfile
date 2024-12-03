@@ -91,6 +91,8 @@ FROM package AS build
 
 ARG TARGETPLATFORM
 
+RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
+
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-dev-$TARGETPLATFORM \
   pnpm install --frozen-lockfile --ignore-scripts
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
@@ -111,6 +113,8 @@ RUN pnpm run test
 FROM package AS production
 
 ARG TARGETPLATFORM
+
+RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-prod-$TARGETPLATFORM \
