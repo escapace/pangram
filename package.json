@@ -36,7 +36,7 @@
     "format": "syncpack format --source package.json && eslint --ignore-pattern packages --no-warn-ignored --fix && prettier -uw !packages . && pnpm run workspaces:format",
     "lint": "ls-lint --config .ls-lint.yaml && knip --no-config-hints && eslint --ignore-pattern packages && pnpm run workspaces:lint",
     "ls-lint": "ls-lint --config .ls-lint.yaml && pnpm run workspaces:ls-lint",
-    "pack": "pnpm-pack workspace --no-build --pack-destination lib/context.tgz",
+    "pack": "pnpm-pack workspace",
     "prepare": "lefthook install",
     "syncpack": "syncpack fix-mismatches && syncpack set-semver-ranges && syncpack format",
     "test": "pnpm run workspaces:test",

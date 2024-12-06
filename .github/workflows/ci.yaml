@@ -51,18 +51,16 @@ jobs:
       packages: write
     uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
     with:
-      annotations: ${{ needs.context.outputs.docker-metadata-annotations }}
-      artifact-name: package
       build-args: |
         NODE_VERSION=${{ needs.context.outputs.node-version }}
         PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
-      context: 'lib/context.tgz'
       enable-cosign: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
       enable-push: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
-      file: package/packages/container/Dockerfile
-      labels: ${{ needs.context.outputs.docker-metadata-labels }}
+      latest: ${{ fromJSON(needs.context.outputs.latest) }}
       platforms: linux/amd64,linux/arm64
-      tags: ${{ needs.context.outputs.docker-metadata-tags }}
+      prerelease: ${{ fromJSON(needs.context.outputs.prerelease) }}
+      ref: ${{ fromJSON(needs.context.outputs.ref) }}
+      version: ${{ needs.context.outputs.version }}
 
   release-typescript:
     if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
