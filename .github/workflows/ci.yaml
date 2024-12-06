@@ -25,7 +25,6 @@ jobs:
   context:
     uses: escapace/workflows/.github/workflows/context.yaml@trunk
     with:
-      docker-metadata-annotations-levels: index
       enable-docker-metadata: true
 
   ci:
