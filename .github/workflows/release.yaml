@@ -14,7 +14,7 @@ jobs:
   context:
     uses: escapace/workflows/.github/workflows/context.yaml@trunk
 
-  ci:
+  ci-typescript:
     if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
     needs:
       - context
@@ -32,8 +32,9 @@ jobs:
   release-container:
     needs:
       - context
-      - ci
+      - ci-typescript
     permissions:
+      attestations: write
       id-token: write
       packages: write
     uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
@@ -52,7 +53,7 @@ jobs:
     if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
     needs:
       - context
-      - ci
+      - ci-typescript
       - release-container
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -66,7 +67,7 @@ jobs:
     if: needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging'
     needs:
       - context
-      - ci
+      - ci-typescript
       - release-container
       - release-typescript
     uses: escapace/workflows/.github/workflows/release-github.yaml@trunk
