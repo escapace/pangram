@@ -45,9 +45,6 @@ jobs:
     needs:
       - context
       - ci
-    permissions:
-      id-token: write
-      packages: write
     uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
     with:
       build-args: |
