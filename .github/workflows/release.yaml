@@ -46,7 +46,6 @@ jobs:
       latest: ${{ fromJSON(needs.context.outputs.latest) }}
       platforms: linux/amd64,linux/arm64
       prerelease: ${{ fromJSON(needs.context.outputs.prerelease) }}
-      ref: ${{ needs.context.outputs.ref }}
       version: ${{ needs.context.outputs.version }}
 
   release-typescript:
