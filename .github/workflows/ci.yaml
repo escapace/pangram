@@ -27,7 +27,7 @@ jobs:
   context:
     uses: escapace/workflows/.github/workflows/context.yaml@trunk
 
-  ci:
+  ci-typescript:
     needs:
       - context
     secrets:
@@ -41,16 +41,15 @@ jobs:
       ref: ${{ needs.context.outputs.ref }}
       version: ${{ needs.context.outputs.version }}
 
-  release-container:
+  ci-container:
     needs:
       - context
       - ci
-    uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
+    uses: escapace/workflows/.github/workflows/ci-container.yaml@trunk
     with:
       build-args: |
         NODE_VERSION=${{ needs.context.outputs.node-version }}
         PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
-      enable-cosign: false
       enable-push: false
       latest: ${{ fromJSON(needs.context.outputs.latest) }}
       platforms: linux/amd64,linux/arm64
