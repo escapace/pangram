@@ -44,7 +44,7 @@ jobs:
   ci-container:
     needs:
       - context
-      - ci
+      - ci-typescript
     uses: escapace/workflows/.github/workflows/release-container.yaml@trunk
     with:
       build-args: |
