@@ -1,14 +1,15 @@
 FROM quay.io/centos/centos:stream9 AS base
 ARG GOSU_VERSION=1.17
 ARG NODE_VERSION=22.11.0
-ARG TARGETPLATFORM
+ARG TARGETARCH
 
-RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM dnf config-manager -y --set-enabled crb && \
-  dnf install -y epel-release epel-next-release
+SHELL ["/usr/bin/bash", "-c"]
 
-RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM dnf clean all && \
+RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETARCH,sharing=locked dnf config-manager -y --set-enabled crb && \
+  dnf install -y epel-release epel-next-release && \
   dnf update -y && \
-  dnf install -y --allowerasing ca-certificates curl gnupg dirmngr xz tar file
+  dnf install -y --allowerasing ca-certificates curl gnupg dirmngr xz tar file && \
+  rm -rf /tmp/*
 
 # https://github.com/nodejs/docker-node/blob/main/18/alpine3.16/Dockerfile
 RUN set -eux; \
@@ -59,17 +60,11 @@ RUN set -eux; \
   node --version; \
   npm --version
 
-# RUN set -eux \
-#   && dnf install -y --nodocs dnf-plugins-core \
-#   && dnf config-manager -y --add-repo https://releases.escapace.com/stable/linux/centos/escapace.repo \
-#   && dnf upgrade -y --nodocs \
-#   && dnf install --nodocs --assumeyes gcc gcc-c++ freetype-devel glib2-devel cairo-devel python3-devel
-
 ARG PNPM_VERSION=9.14.4
 
 RUN npm install -g pnpm@${PNPM_VERSION}
 COPY --from=ghcr.io/astral-sh/uv:0.5.5 /uv /uvx /bin/
-RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETPLATFORM \
+RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETARCH,sharing=locked \
   dnf --assumeyes install clang libxml2 libxml2-devel libxslt libxslt-devel epel-release epel-next-release
 RUN file -b /bin/uv
 
@@ -78,6 +73,10 @@ RUN file -b /bin/uv
 FROM base AS package
 USER node
 WORKDIR /home/node/package/packages/container
+COPY --chown=node:node ./package/pnpm-lock.yaml /home/node/package/pnpm-lock.yaml
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
+  pnpm fetch --dir /home/node/package
+
 COPY --chown=node:node ./package /home/node/package
 
 ENV PYTHONUNBUFFERED=1 PATH="/home/node/package/packages/container/.venv/bin:$PATH" CC=gcc CXX=g++
@@ -85,15 +84,14 @@ ENV PYTHONUNBUFFERED=1 PATH="/home/node/package/packages/container/.venv/bin:$PA
 # ---
 
 FROM package AS build
-ARG TARGETPLATFORM
+ARG TARGETARCH
 USER node
 
-RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
-# echo "node-linker=hoisted" >> /home/node/package/.npmrc
+# RUN echo "node-linker=hoisted" >> /home/node/.npmrc
 
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETPLATFORM \
-  pnpm install --frozen-lockfile --ignore-scripts
-RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
+  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --offline
+RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --link-mode copy --frozen
 
 RUN pnpm run build
@@ -109,17 +107,16 @@ RUN pnpm run test
 # ---
 
 FROM package AS production
-ARG TARGETPLATFORM
+ARG TARGETARCH
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1
 USER node
 
-RUN echo "package-import-method=copy" >> /home/node/package/.npmrc
-# echo "node-linker=hoisted" >> /home/node/package/.npmrc
+# RUN echo "node-linker=hoisted" >> /home/node/.npmrc
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETPLATFORM \
-  pnpm install --frozen-lockfile --ignore-scripts --prod
-RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETPLATFORM \
+RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
+  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --offline --prod
+RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --no-dev --link-mode copy --frozen
 
 RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
@@ -128,10 +125,13 @@ RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
 
 USER root
 
-RUN dnf remove -y clang libxml2-devel libxslt-devel file && \
+RUN dnf remove -y clang libxml2-devel libxslt-devel file epel-* && \
   dnf --assumeyes autoremove && \
   dnf clean all && \
-  rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx
+  npm uninstall -g corepack && \
+  npm uninstall -g pnpm && \
+  npm uninstall -g npm && \
+  rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx /tmp/*
 
 USER node
 WORKDIR /workdir
