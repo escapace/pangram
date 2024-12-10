@@ -1,0 +1,16 @@
+name: scorecard
+
+on:
+  branch_protection_rule:
+  push:
+    branches:
+      - trunk
+    paths-ignore:
+      - README.md
+      - LICENSE
+  schedule:
+    - cron: '30 1 * * 6'
+
+jobs:
+  context:
+    uses: escapace/workflows/.github/workflows/scorecard.yaml@trunk
