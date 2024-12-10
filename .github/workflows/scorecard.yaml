@@ -1,5 +1,7 @@
 name: scorecard
 
+permissions: {}
+
 on:
   branch_protection_rule:
   push:

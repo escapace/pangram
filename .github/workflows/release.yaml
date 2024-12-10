@@ -10,6 +10,10 @@ env:
   # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
   NODE_OPTIONS: --max-old-space-size=6144
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   context:
     uses: escapace/workflows/.github/workflows/context.yaml@trunk
@@ -55,6 +59,9 @@ jobs:
       - context
       - ci-typescript
       - release-container
+    permissions:
+      id-token: write
+      packages: write
     secrets:
       NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
     uses: escapace/workflows/.github/workflows/release-typescript.yaml@trunk
@@ -70,6 +77,8 @@ jobs:
       - ci-typescript
       - release-container
       - release-typescript
+    permissions:
+      contents: write
     uses: escapace/workflows/.github/workflows/release-github.yaml@trunk
     with:
       changelog: ${{ needs.context.outputs.changelog }}
