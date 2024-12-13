@@ -78,13 +78,13 @@
   "repository": "escapace/pangram",
   "scripts": {
     "build": "tsx scripts/build.ts",
-    "container:build": "pnpm run pack && docker build -t pangram:latest -f package/packages/container/Dockerfile --target production --build-arg NODE_VERSION=22.11.0 --build-arg PNPM_VERSION=9.14.4 - < lib/context.tgz",
-    "container:test": "pnpm run pack && docker build -t pangram:test -f package/packages/container/Dockerfile --target test --build-arg NODE_VERSION=22.11.0 --build-arg PNPM_VERSION=9.14.4 - < lib/context.tgz",
+    "container:build": "pnpm run pack && docker build -t container-pangram:latest -f package/packages/container/Dockerfile --target production --build-arg NODE_VERSION=22.11.0 --build-arg PNPM_VERSION=9.14.4 - < lib/context.tgz",
+    "container:test": "pnpm run pack && docker build -t container-pangram:test -f package/packages/container/Dockerfile --target test --build-arg NODE_VERSION=22.11.0 --build-arg PNPM_VERSION=9.14.4 - < lib/context.tgz",
     "format": "syncpack format --source package.json && eslint --no-warn-ignored --fix && prettier -uw .",
     "lint": "ls-lint --config .ls-lint.yaml && eslint",
     "ls-lint": "ls-lint --config .ls-lint.yaml",
     "pack": "pnpm-pack workspace --no-build --pack-destination lib/context.tgz",
-    "test": "NODE_OPTIONS='--experimental-vm-modules --enable-source-maps' vitest --no-watch --coverage",
+    "test": "vitest --no-watch --coverage",
     "typecheck": "tsc --noEmit"
   },
   "sideEffects": false,

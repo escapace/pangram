@@ -48,7 +48,8 @@
   },
   "repository": "escapace/pangram",
   "scripts": {
-    "build": "tsx scripts/codegen.ts && tsx scripts/build.ts",
+    "build": "pnpm run codegen && tsx scripts/build.ts",
+    "codegen": "tsx scripts/codegen.ts",
     "format": "syncpack format --source package.json && eslint --no-warn-ignored --fix && prettier -uw .",
     "lint": "ls-lint --config .ls-lint.yaml && eslint",
     "ls-lint": "ls-lint --config .ls-lint.yaml",
