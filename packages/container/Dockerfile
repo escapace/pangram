@@ -1,4 +1,4 @@
-FROM quay.io/centos/centos:stream9 AS base
+FROM quay.io/centos/centos:stream10 AS base
 ARG GOSU_VERSION=1.17
 ARG NODE_VERSION=22.11.0
 ARG TARGETARCH
@@ -6,7 +6,7 @@ ARG TARGETARCH
 SHELL ["/usr/bin/bash", "-c"]
 
 RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETARCH,sharing=locked dnf config-manager -y --set-enabled crb && \
-  dnf install -y epel-release epel-next-release && \
+  dnf install -y epel-release && \
   dnf update -y && \
   dnf install -y --allowerasing ca-certificates curl gnupg dirmngr xz tar file && \
   rm -rf /tmp/*
@@ -65,7 +65,7 @@ ARG PNPM_VERSION=9.14.4
 RUN npm install -g pnpm@${PNPM_VERSION}
 COPY --from=ghcr.io/astral-sh/uv:0.5.5 /uv /uvx /bin/
 RUN --mount=type=cache,target=/var/cache/dnf,id=dnf-$TARGETARCH,sharing=locked \
-  dnf --assumeyes install clang libxml2 libxml2-devel libxslt libxslt-devel epel-release epel-next-release
+  dnf --assumeyes install clang libxml2 libxml2-devel libxslt libxslt-devel
 RUN file -b /bin/uv
 
 # ---
@@ -74,8 +74,8 @@ FROM base AS package
 USER node
 WORKDIR /home/node/package/packages/container
 COPY --chown=node:node ./package/pnpm-lock.yaml /home/node/package/pnpm-lock.yaml
-RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
-  pnpm fetch --dir /home/node/package
+# RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
+#   pnpm fetch --dir /home/node/package
 
 COPY --chown=node:node ./package /home/node/package
 
@@ -90,7 +90,7 @@ USER node
 # RUN echo "node-linker=hoisted" >> /home/node/.npmrc
 
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
-  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --offline
+  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --link-mode copy --frozen
 
@@ -115,7 +115,7 @@ USER node
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
-  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --offline --prod
+  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --prod
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --no-dev --link-mode copy --frozen
 
@@ -125,13 +125,13 @@ RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
 
 USER root
 
-RUN dnf remove -y clang libxml2-devel libxslt-devel file epel-* && \
-  dnf --assumeyes autoremove && \
-  dnf clean all && \
-  npm uninstall -g corepack && \
-  npm uninstall -g pnpm && \
-  npm uninstall -g npm && \
-  rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx /tmp/*
+# RUN dnf remove -y clang libxml2-devel libxslt-devel file epel-* && \
+#   dnf --assumeyes autoremove && \
+#   dnf clean all && \
+#   npm uninstall -g corepack && \
+#   npm uninstall -g pnpm && \
+#   npm uninstall -g npm && \
+#   rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx /tmp/*
 
 USER node
 WORKDIR /workdir
