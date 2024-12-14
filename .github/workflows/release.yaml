@@ -46,7 +46,8 @@ jobs:
       build-args: |
         NODE_VERSION=${{ needs.context.outputs.node-version }}
         PNPM_VERSION=${{ needs.context.outputs.pnpm-version }}
-      enable-cosign: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
+      enable-build-provenance-attestation: ${{ !github.event.repository.private && (needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging') }}
+      enable-cosign: ${{ github.event.repository.private && (needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging') }}
       enable-push: ${{ needs.context.outputs.environment == 'production' || needs.context.outputs.environment == 'staging' }}
       latest: ${{ fromJSON(needs.context.outputs.latest) }}
       platforms: linux/amd64,linux/arm64
