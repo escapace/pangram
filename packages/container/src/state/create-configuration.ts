@@ -1,8 +1,11 @@
 import { cosmiconfig, type defaultLoaders } from 'cosmiconfig'
 import { build } from 'esbuild'
+import { remove } from 'fs-extra'
 import { find, isEmpty, isObject, pickBy } from 'lodash-es'
 import { resolvePath } from 'mlly'
 import assert from 'node:assert'
+import { mkdtemp } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Configuration } from '../types'
@@ -38,34 +41,49 @@ const cosmicconfigLoader = async (
 
   const configurationDirectory = path.dirname(configFile)
 
-  const { outputFiles } = await build({
-    absWorkingDir: configurationDirectory,
-    alias,
-    bundle: true,
-    entryPoints: [configFile],
-    format: 'esm',
-    // external: ['pangram'],
-    loader: {
-      '.js': 'js',
-      '.mjs': 'js',
-      '.ts': 'ts',
-      '.tsx': 'tsx',
-      // '.json': 'json'
-    },
-    minify: false,
-    platform: 'node',
-    target: [`node${process.version.slice(1)}`],
-    write: false,
-  })
+  const temporaryDirectory = await mkdtemp(path.join(tmpdir(), 'pangram'))
 
-  const contents = new TextDecoder('utf-8').decode(outputFiles[0].contents)
-  const base64Content = Buffer.from(contents).toString('base64')
-  const base64URI = `data:text/javascript;base64,${base64Content}`
+  try {
+    await build({
+      absWorkingDir: configurationDirectory,
+      alias,
+      bundle: true,
+      entryPoints: {
+        index: configFile,
+      },
+      // external: [],
+      format: 'esm',
+      loader: {
+        '.js': 'js',
+        '.json': 'copy',
+        '.mjs': 'js',
+        '.ts': 'ts',
+        '.tsx': 'tsx',
+      },
+      minify: false,
+      outdir: temporaryDirectory,
+      platform: 'node',
+      target: [`node${process.version.slice(1)}`],
+      treeShaking: true,
+      write: true,
+    })
 
-  // eslint-disable-next-line typescript/no-unsafe-assignment
-  const module_ = await import(base64URI)
-  // eslint-disable-next-line typescript/no-unsafe-member-access
-  return module_?.default ?? module_
+    // const contents = new TextDecoder('utf-8').decode(outputFiles[0].contents)
+    // const base64Content = Buffer.from(contents).toString('base64')
+    // const base64URI = `data:text/javascript;base64,${base64Content}`
+
+    // eslint-disable-next-line typescript/no-unsafe-assignment
+    const module_ = await import(path.join(temporaryDirectory, 'index.js'))
+
+    await remove(temporaryDirectory)
+
+    // eslint-disable-next-line typescript/no-unsafe-member-access
+    return module_?.default ?? module_
+  } catch (error) {
+    await remove(temporaryDirectory)
+
+    throw error
+  }
 }
 
 export const createConfiguration = async (

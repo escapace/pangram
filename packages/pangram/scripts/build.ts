@@ -47,7 +47,7 @@ process.chdir(dirname)
 // }
 
 await exec(
-  'pnpm exec esbuild --bundle src/index.ts --splitting --format=esm --platform=neutral --outdir=lib/neutral --tsconfig=tsconfig-build.json',
+  'pnpm exec esbuild --bundle src/index.ts --loader:.json=copy --splitting --format=esm --platform=neutral --outdir=lib/neutral --tsconfig=tsconfig-build.json',
 )
 
 await exec(
