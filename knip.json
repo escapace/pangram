@@ -16,6 +16,7 @@
   "ignore": ["**/*.d.+([a-zA-Z0-9]).ts", "**/*.d.ts", "lib/**", "packages/container/test/**"],
   "ignoreBinaries": ["ncu", "python3", "pyftsubset"],
   "ignoreDependencies": [
+    "@pangram/*",
     "@commitlint/cli",
     "@microsoft/api-extractor",
     "cldr-misc-full",
