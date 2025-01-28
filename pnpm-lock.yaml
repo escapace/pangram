@@ -190,6 +190,9 @@ importers:
       '@ls-lint/ls-lint':
         specifier: 2.2.3
         version: 2.2.3
+      '@pangram/unicode-tools':
+        specifier: workspace:*
+        version: link:../unicode-tools
       '@types/node':
         specifier: 22.10.10
         version: 22.10.10
