@@ -1,0 +1,74 @@
+{
+  "name": "@pangram/unicode-tools",
+  "description": "",
+  "version": "0.0.0",
+  "author": {
+    "name": "escapace",
+    "email": "opensource@escapace.com"
+  },
+  "bugs": "https://github.com/escapace/pangram/issues",
+  "dependencies": {
+    "bcp-47-match": "^2.0.3",
+    "bcp-47-normalize": "^2.3.0",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "@ls-lint/ls-lint": "2.2.3",
+    "@types/lodash-es": "4.17.12",
+    "@types/node": "22.10.10",
+    "@vitest/coverage-v8": "3.0.4",
+    "cldr-misc-full": "46.1.0",
+    "eslint": "9.19.0",
+    "eslint-config-escapace": "5.4.1",
+    "esroll": "0.3.1",
+    "hast-util-from-html": "2.0.3",
+    "hast-util-select": "6.0.3",
+    "hast-util-to-string": "3.0.1",
+    "mlly": "1.7.4",
+    "p-memoize": "7.1.1",
+    "prettier": "3.4.2",
+    "prettier-config-escapace": "1.2.1",
+    "syncpack": "13.0.0",
+    "trim-lines": "3.0.1",
+    "tsx": "4.19.2",
+    "typescript": "5.7.3",
+    "udhr": "5.2.0",
+    "vitest": "3.0.4",
+    "zod": "3.24.1"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.4"
+  },
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "import": "./lib/node/index.js"
+    }
+  },
+  "files": [
+    "lib/node",
+    "lib/types"
+  ],
+  "homepage": "https://github.com/escapace/pangram/tree/trunk/packages/unicode-tools#readme",
+  "license": "MPL-2.0",
+  "module": "./lib/node/index.js",
+  "private": false,
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "repository": "escapace/pangram",
+  "scripts": {
+    "build": "pnpm run codegen && tsx scripts/build.ts",
+    "codegen": "tsx scripts/codegen.ts",
+    "format": "syncpack format --source package.json && eslint --no-warn-ignored --fix && prettier -uw .",
+    "lint": "ls-lint --config .ls-lint.yaml && eslint",
+    "ls-lint": "ls-lint --config .ls-lint.yaml",
+    "test": "vitest --no-watch --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "types": "./lib/types/index.d.ts"
+}

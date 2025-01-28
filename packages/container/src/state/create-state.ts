@@ -4,12 +4,15 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from '../constants'
-import type { Options, State } from '../types'
+import type { State, Options } from '../types'
 import { createConfiguration } from './create-configuration'
 
 export const createState = async (options: Options): Promise<State> => {
+  const __filename = fileURLToPath(import.meta.url)
+  const __dirname = path.dirname(__filename)
+
   const runtimePackageJSON = await findUp('package.json', {
-    cwd: path.dirname(fileURLToPath(import.meta.url)),
+    cwd: __dirname,
   })
 
   if (runtimePackageJSON === undefined) {
@@ -19,6 +22,7 @@ export const createState = async (options: Options): Promise<State> => {
   const runtimeDirectory = path.dirname(runtimePackageJSON)
   const runtimeFontLoaderPath = path.join(runtimeDirectory, 'src/font/font-loader.ts')
   const runtimeFontStripPath = path.join(runtimeDirectory, 'src/font/font-strip.py')
+  const runtimeFontInspectPath = path.join(runtimeDirectory, 'src/font/font-inspect.py')
 
   if (!existsSync(runtimeFontStripPath) || !existsSync(runtimeFontLoaderPath)) {
     throw new Error('Damaged installation')
@@ -27,9 +31,9 @@ export const createState = async (options: Options): Promise<State> => {
   const processDirectory = options.cwd ?? process.cwd()
   const { configuration, configurationDirectory, configurationFile } =
     await createConfiguration(processDirectory)
-  const outputDirectory = path.resolve(processDirectory, options.outputDir ?? DEFAULT_OUTPUT_DIR)
-  const publicPath = options.publicPath ?? DEFAULT_PUBLIC_PATH
-  const jsonFile = path.resolve(processDirectory, options.jsonFile ?? DEFAULT_JSON_FILE)
+  const outputDirectory = path.resolve(processDirectory, options.output ?? DEFAULT_OUTPUT_DIR)
+  const publicPath = options.base ?? DEFAULT_PUBLIC_PATH
+  const jsonFile = path.resolve(processDirectory, options.manifest ?? DEFAULT_JSON_FILE)
 
   const targets = browserslistToTargets({
     // browsers: u
@@ -46,6 +50,7 @@ export const createState = async (options: Options): Promise<State> => {
     processDirectory,
     publicPath,
     runtimeDirectory,
+    runtimeFontInspectPath,
     runtimeFontLoaderPath,
     runtimeFontStripPath,
     targets,

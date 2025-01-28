@@ -22,7 +22,7 @@ describe('src/utilities/style.spec.ts', () => {
           display: 'grid',
         },
       },
-      'display': ['flex', 'inline-flexx'],
+      'display': ['flex', 'inline-flex'],
       'margin': 0,
       'paddingTop': '3px',
     })

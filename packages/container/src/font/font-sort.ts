@@ -1,18 +1,19 @@
 import { uniq, uniqBy } from 'lodash-es'
 import type { InferFont } from '../state/user-schema'
+import { type FontStateInitial, TypeFontState } from '../types'
 import { toposort } from '../utilities/toposort'
 import { fontSlug } from './font-slug'
-import { type FontStateInitial, TypeFontState } from '../types'
 
-export interface FontsSorted {
-  fonts: FontStateInitial[]
-  graph: Map<string, string[]>
-}
-
-const hasFontOverlap = (fonts: InferFont[], cwd: string) =>
+const hasFontOverlap = (fonts: InferFont[], cwd: string): boolean =>
   uniqBy(fonts, (value) => fontSlug(value, cwd)).length !== fonts.length
 
-export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
+export const fontSort = (
+  initial: InferFont[],
+  cwd: string,
+): {
+  fonts: FontStateInitial[]
+  graph: Map<string, string[]>
+} => {
   // if (initial.length === 0) {
   //   throw new Error('At least one font is necessary.')
   // }
@@ -22,7 +23,7 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
   }
 
   const graph = new Map<string, string[]>()
-  const fonts = new Map<string, FontStateInitial>()
+  const fontStates = new Map<string, FontStateInitial>()
 
   const add = (key: string, parent?: string) => {
     if (!graph.has(key)) {
@@ -43,8 +44,8 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
     values.forEach((font) => {
       const slug = fontSlug(font, cwd)
 
-      if (!fonts.has(slug)) {
-        fonts.set(slug, {
+      if (!fontStates.has(slug)) {
+        fontStates.set(slug, {
           font,
           fontFaces: new Map(),
           slug,
@@ -63,7 +64,7 @@ export const fontSort = (initial: InferFont[], cwd: string): FontsSorted => {
   const order = toposort(graph).map((value) => Array.from(value))
 
   // eslint-disable-next-line typescript/no-non-null-assertion
-  const sortedFonts = uniq(order.flat()).map((value) => fonts.get(value)!)
+  const fonts = uniq(order.flat()).map((value) => fontStates.get(value)!)
 
-  return { fonts: sortedFonts, graph }
+  return { fonts, graph }
 }

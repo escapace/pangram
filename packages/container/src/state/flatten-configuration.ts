@@ -25,13 +25,14 @@ import { createHash } from '../utilities/create-hash'
 import { toposortReverse } from '../utilities/toposort'
 import {
   type CSSProperties,
-  type Fallback,
+  type FontInformation,
   type InferFont,
   type InferFontProperties,
   type InferLocales,
   type StyleRule,
   schemaFontProperties,
 } from './user-schema'
+import { reduceGraph } from '../utilities/reduce-graph'
 
 // "wght" font-weight
 // "wdth" font-stretch
@@ -112,25 +113,12 @@ const flattenStyleRule = (
   ].filter((value) => !isAsdEmpty(value))
 }
 
-export const reduceGraph = (
-  a: Map<string, string[]>,
-  b: Map<string, string[]>,
-): Map<string, string[]> => {
-  const graph = new Map<string, string[]>()
-
-  uniq([...a.keys(), ...b.keys()]).forEach((key) => {
-    graph.set(key, uniq([...(a.get(key) ?? []), ...(b.get(key) ?? [])]))
-  })
-
-  return graph
-}
-
 export const flattenConfiguration = (locales: InferLocales, cwd: string): Configuration => {
   const fonts = new Map<string, FontState>()
   const fallbacks = new Map<string, FontFallback>()
   const fontProperties = new Map<string, Required<FontProperties>>()
 
-  const reduceFontFamily = (fontFamily?: { fallbacks: Fallback[]; fonts: InferFont[] }) => {
+  const reduceFontFamily = (fontFamily?: { fallbacks: FontInformation[]; fonts: InferFont[] }) => {
     if (fontFamily === undefined) {
       return
     }
@@ -260,7 +248,7 @@ export const flattenConfiguration = (locales: InferLocales, cwd: string): Config
   const [localeFromAlias, localeToAlias] = map(locales, (value, key) => {
     if (typeof value === 'string') {
       if (!has(allLocales, value)) {
-        return
+        throw new Error(`Locale alias ${key} points to a missing locale ${value}.`)
       }
 
       if (value === key) {

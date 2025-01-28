@@ -14,10 +14,12 @@
     "src/types.ts"
   ],
   "ignore": ["**/*.d.+([a-zA-Z0-9]).ts", "**/*.d.ts", "lib/**", "packages/container/test/**"],
-  "ignoreBinaries": ["ncu"],
+  "ignoreBinaries": ["ncu", "python3", "pyftsubset"],
   "ignoreDependencies": [
     "@commitlint/cli",
     "@microsoft/api-extractor",
+    "cldr-misc-full",
+    "esbuild",
     "eslint-config-escapace",
     "pangram",
     "prettier",

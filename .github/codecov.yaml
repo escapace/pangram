@@ -23,3 +23,6 @@ flags:
   pangram:
     paths:
       - packages/pangram/
+  unicode-tools:
+    paths:
+      - packages/unicode-tools/

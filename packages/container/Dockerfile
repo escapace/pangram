@@ -90,7 +90,7 @@ USER node
 # RUN echo "node-linker=hoisted" >> /home/node/.npmrc
 
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
-  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy
+  pnpm install --frozen-lockfile --package-import-method copy
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --link-mode copy --frozen
 
@@ -115,7 +115,7 @@ USER node
 
 COPY --from=build /home/node/package/packages/container/lib /home/node/package/packages/container/lib
 RUN --mount=type=cache,target=/home/node/.local/share/pnpm/store,uid=1000,gid=1000,id=pnpm-$TARGETARCH,sharing=locked \
-  pnpm install --frozen-lockfile --ignore-scripts --package-import-method copy --prod
+  pnpm install --frozen-lockfile --package-import-method copy --prod
 RUN --mount=type=cache,target=/home/node/.cache/uv,uid=1000,gid=1000,id=uv-$TARGETARCH,sharing=locked \
   uv sync --no-dev --link-mode copy --frozen
 
@@ -125,13 +125,13 @@ RUN rm -rf Dockerfile scripts test tsconfig* vitest* && \
 
 USER root
 
-# RUN dnf remove -y clang libxml2-devel libxslt-devel file epel-* && \
-#   dnf --assumeyes autoremove && \
-#   dnf clean all && \
-#   npm uninstall -g corepack && \
-#   npm uninstall -g pnpm && \
-#   npm uninstall -g npm && \
-#   rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx /tmp/*
+RUN dnf remove -y clang libxml2-devel libxslt-devel file epel-* && \
+  dnf --assumeyes autoremove && \
+  dnf clean all && \
+  npm uninstall -g corepack && \
+  npm uninstall -g pnpm && \
+  npm uninstall -g npm && \
+  rm -rf /var/cache/yum/ /var/cache/dnf/ /tmp/* /bin/uv /bin/uvx /tmp/*
 
 USER node
 WORKDIR /workdir

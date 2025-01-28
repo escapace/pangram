@@ -1,21 +1,21 @@
+import type { Targets } from 'lightningcss'
 import type {
   CSSProperties,
-  Fallback as IFallback,
+  FontInformation,
   InferFont,
   InferFontProperties,
 } from './state/user-schema'
-import type { Targets } from 'lightningcss'
 
 export interface FontFallback {
-  font: IFallback
+  font: FontInformation
   fontFaces: Map<string, FontFace>
 }
 
 export interface FontFaceAdjustments {
-  ascentOverride?: number
-  descentOverride?: number
-  lineGapOverride?: number
-  sizeAdjust?: number
+  ascentOverride?: string
+  descentOverride?: string
+  lineGapOverride?: string
+  sizeAdjust?: string
 }
 
 export interface FontFace extends FontFaceAdjustments {
@@ -25,6 +25,7 @@ export interface FontFace extends FontFaceAdjustments {
   fontWeight: number | [number, number]
   src: string
   fontDisplay?: InferFont['display']
+  // fontNamedInstance?: string
   unicodeRange?: InferFont['unicodeRange']
 }
 
@@ -54,17 +55,17 @@ export interface FontStateInitial {
 
 export interface FontStateWritten extends Omit<FontStateInitial, 'type'> {
   files: string[]
+  testString: string
   type: TypeFontState.Written
 }
 
 export type FontState = FontStateInitial | FontStateWritten
 
 export interface Options {
-  cli?: boolean
+  base?: string
   cwd?: string
-  jsonFile?: string
-  outputDir?: string
-  publicPath?: string
+  manifest?: string
+  output?: string
 }
 
 export interface AtRule {
@@ -129,6 +130,7 @@ export interface State {
   processDirectory: string
   publicPath: string
   runtimeDirectory: string
+  runtimeFontInspectPath: string
   runtimeFontLoaderPath: string
   runtimeFontStripPath: string
   targets: {

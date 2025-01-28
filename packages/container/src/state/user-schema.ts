@@ -1,7 +1,80 @@
+import { bcp47Normalize } from '@pangram/unicode-tools'
 import type { Properties } from 'csstype'
-import { difference, sortBy, uniq } from 'lodash-es'
+import { sortBy, uniq } from 'lodash-es'
+import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
 import { fontUnicodeRange } from '../font/font-unicode-range'
+
+const schemaFontInformationShared = z.object({
+  ascent: z.number(),
+  capHeight: z.number(),
+  codePoints: z.array(
+    z.object({
+      advanceWidth: z.number(),
+      codePoint: z.number(),
+      height: z.number(),
+      leftSideBearing: z.number(),
+      width: z.number(),
+      xMax: z.number(),
+      xMin: z.number(),
+      yMax: z.number(),
+      yMin: z.number(),
+    }),
+  ),
+  descent: z.number(),
+  features: z.array(
+    z.object({
+      name: z.string(),
+      type: z.enum(['substitution', 'positioning']),
+    }),
+  ),
+  id: z.string(),
+  lineGap: z.number(),
+  unitsPerEm: z.number(),
+  xHeight: z.number(),
+  xWidthAvg: z.number(),
+
+  familyName: z.string().optional().nullable(),
+  fullName: z.string().optional().nullable(),
+  postScriptName: z.string().optional().nullable(),
+  subfamilyName: z.string().optional().nullable(),
+  typographicFamilyName: z.string().optional().nullable(),
+  typographicSubfamilyName: z.string().optional().nullable(),
+  wwsFamilyName: z.string().optional().nullable(),
+  wwsSubFamilyName: z.string().optional().nullable(),
+})
+
+const schemaFontInspectVariationAxis = z.object({
+  default: z.number(),
+  max: z.number(),
+  min: z.number(),
+  name: z.string().min(1),
+})
+
+const schemaFontInformationVariation = z
+  .object({
+    namedInstance: z.string().optional().nullable(),
+    variable: z.literal(false),
+  })
+  .extend(schemaFontInformationShared.shape)
+
+export const schemaFontInformationStatic = z
+  .object({
+    variable: z.literal(true),
+    variationAxes: z.array(schemaFontInspectVariationAxis),
+    variations: z.array(schemaFontInformationVariation),
+  })
+  .extend(schemaFontInformationShared.shape)
+
+export type FontInformationStatic = z.infer<typeof schemaFontInformationStatic>
+export type FontInformationVariation = z.infer<typeof schemaFontInformationVariation>
+
+export const schemaFontInformation = z.discriminatedUnion('variable', [
+  schemaFontInformationStatic,
+  schemaFontInformationVariation,
+])
+
+export type FontInformation = z.infer<typeof schemaFontInformation>
 
 // "wght" font-weight
 // "wdth" font-stretch
@@ -24,35 +97,6 @@ export type InputLocale = Record<string, InputRule>
 
 export type InferLocales = Record<string, string | InferLocale>
 export type InputLocales = Record<string, string | InputLocale>
-
-export type Fallback = z.infer<typeof schemaFallback>
-
-export const schemaFallback = z.object({
-  ascent: z.number(),
-  // subfamilyName: z.string().nonempty(),
-  capHeight: z.number(),
-  descent: z.number(),
-  id: z.string().min(1),
-  // familyName: z.string().nonempty(),
-  // postscriptName: z.string().nonempty(),
-  // fullName: z.string().nonempty(),
-  italic: z.boolean(),
-  lineGap: z.number(),
-  names: z.array(z.string().min(1)).nonempty(),
-  unitsPerEm: z.number(),
-  weight: z
-    .literal(100)
-    .or(z.literal(200))
-    .or(z.literal(300))
-    .or(z.literal(400))
-    .or(z.literal(500))
-    .or(z.literal(600))
-    .or(z.literal(700))
-    .or(z.literal(800))
-    .or(z.literal(900)),
-  xHeight: z.number(),
-  xWidthAvg: z.number(),
-})
 
 export const schemaFontPlaceholder = z.object({
   display: z.optional(
@@ -84,7 +128,6 @@ export const schemaFontPlaceholder = z.object({
   resourceHint: z.optional(z.literal('preload').or(z.literal('prefetch'))),
   source: z.string(),
   tech: z.optional(z.array(z.enum(['variations']))),
-  testString: z.optional(z.string().min(1)),
   unicodeRange: z.optional(
     z
       .string()
@@ -99,18 +142,18 @@ const schemaFont: z.ZodType<InferFont, z.ZodTypeDef, InputFont> = schemaFontPlac
   })
   .strict()
 
-const isFallback = (value: Record<string, unknown>): value is Fallback =>
-  difference(schemaFallback.keyof().options, Object.keys(value)).length === 0
+const isFontInformation = (value: Record<string, unknown>): value is FontInformation =>
+  schemaFontInformation.safeParse(value).success
 
-const schemaFontFamily = z.array(schemaFont.or(schemaFallback)).transform(
+const schemaFontFamily = z.array(schemaFont.or(schemaFontInformation)).transform(
   (
     values,
   ): {
-    fallbacks: Fallback[]
+    fallbacks: FontInformation[]
     fonts: InferFont[]
   } => {
-    const fallbacks = values.filter(isFallback)
-    const fonts = values.filter((value): value is InferFont => !isFallback(value))
+    const fallbacks = values.filter(isFontInformation)
+    const fonts = values.filter((value): value is InferFont => !isFontInformation(value))
 
     return {
       fallbacks,
@@ -119,7 +162,8 @@ const schemaFontFamily = z.array(schemaFont.or(schemaFallback)).transform(
   },
 )
 
-export const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number().int()))
+// TODO: support css variables
+export const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number()))
 export const schemaFontWeight = z.number().min(1).max(1000).default(400)
 export const schemaFontStretch = z.number().min(50).max(200).default(100)
 export const schemaFontStyle = z.enum(['normal', 'italic']).default('normal')
@@ -192,7 +236,66 @@ const schemaRule: z.ZodType<
 })
 
 export const schemaLocale = z.object({}).catchall(schemaRule)
-export const schemaLocales = z.object({}).catchall(z.string().or(schemaLocale))
+// export const schemaLocale = z.record(z.string(), schemaRule)
+
+export const schemaLocales = z
+  .record(z.string(), z.string().or(schemaLocale))
+  .transform((value, context): { [key: string]: string | z.infer<typeof schemaLocale> } => {
+    try {
+      const entries = Object.entries(value).map(([key, value]) => {
+        const keyNormalized = bcp47Normalize(key, {
+          forgiving: false,
+          warning(value) {
+            throw new Error(value)
+          },
+        })
+
+        if (keyNormalized === undefined) {
+          throw new Error(`bcp47 tag ${key} unknown.`)
+        }
+
+        if (key !== keyNormalized) {
+          console.warn(`bcp47 tag ${key} normalized to ${keyNormalized}.`)
+        }
+
+        if (typeof value === 'string') {
+          const valueNormalized = bcp47Normalize(value, {
+            forgiving: false,
+            warning(value) {
+              throw new Error(value)
+            },
+          })
+
+          if (valueNormalized === undefined) {
+            throw new Error(`bcp47 tag ${value} unknown.`)
+          }
+
+          if (value !== valueNormalized) {
+            console.warn(`bcp47 tag ${value} normalized to ${valueNormalized}.`)
+          }
+
+          return [keyNormalized, valueNormalized] as const
+        }
+
+        return [keyNormalized, value] as const
+      })
+
+      const keys = entries.map(([key]) => key)
+
+      if (new Set(keys).size !== keys.length) {
+        throw new Error('Duplicate bcp47 locale tags.')
+      }
+
+      return Object.fromEntries(entries)
+    } catch (error) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: isNativeError(error) ? error.message : 'Unable to parse locale tags.',
+      })
+
+      return z.NEVER
+    }
+  })
 
 export interface ResourceHint {
   as: 'font'

@@ -1,6 +1,1153 @@
 import type { Properties } from 'csstype'
 import type { z } from 'zod'
-export type Fallback = z.infer<typeof schemaFallback>
+declare const schemaFontInformationVariation: z.ZodObject<
+  z.objectUtil.extendShape<
+    {
+      namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      variable: z.ZodLiteral<false>
+    },
+    {
+      ascent: z.ZodNumber
+      capHeight: z.ZodNumber
+      codePoints: z.ZodArray<
+        z.ZodObject<
+          {
+            advanceWidth: z.ZodNumber
+            codePoint: z.ZodNumber
+            height: z.ZodNumber
+            leftSideBearing: z.ZodNumber
+            width: z.ZodNumber
+            xMax: z.ZodNumber
+            xMin: z.ZodNumber
+            yMax: z.ZodNumber
+            yMin: z.ZodNumber
+          },
+          'strip',
+          z.ZodTypeAny,
+          {
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          },
+          {
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          }
+        >
+      >
+      descent: z.ZodNumber
+      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      features: z.ZodArray<
+        z.ZodObject<
+          {
+            name: z.ZodString
+            type: z.ZodEnum<['substitution', 'positioning']>
+          },
+          'strip',
+          z.ZodTypeAny,
+          {
+            name: string
+            type: 'positioning' | 'substitution'
+          },
+          {
+            name: string
+            type: 'positioning' | 'substitution'
+          }
+        >
+      >
+      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      id: z.ZodString
+      lineGap: z.ZodNumber
+      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      unitsPerEm: z.ZodNumber
+      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      xHeight: z.ZodNumber
+      xWidthAvg: z.ZodNumber
+    }
+  >,
+  'strip',
+  z.ZodTypeAny,
+  {
+    ascent: number
+    capHeight: number
+    codePoints: Array<{
+      advanceWidth: number
+      codePoint: number
+      height: number
+      leftSideBearing: number
+      width: number
+      xMax: number
+      xMin: number
+      yMax: number
+      yMin: number
+    }>
+    descent: number
+    features: Array<{
+      name: string
+      type: 'positioning' | 'substitution'
+    }>
+    id: string
+    lineGap: number
+    unitsPerEm: number
+    variable: false
+    xHeight: number
+    xWidthAvg: number
+    familyName?: string | null | undefined
+    fullName?: string | null | undefined
+    namedInstance?: string | null | undefined
+    postScriptName?: string | null | undefined
+    subfamilyName?: string | null | undefined
+    typographicFamilyName?: string | null | undefined
+    typographicSubfamilyName?: string | null | undefined
+    wwsFamilyName?: string | null | undefined
+    wwsSubFamilyName?: string | null | undefined
+  },
+  {
+    ascent: number
+    capHeight: number
+    codePoints: Array<{
+      advanceWidth: number
+      codePoint: number
+      height: number
+      leftSideBearing: number
+      width: number
+      xMax: number
+      xMin: number
+      yMax: number
+      yMin: number
+    }>
+    descent: number
+    features: Array<{
+      name: string
+      type: 'positioning' | 'substitution'
+    }>
+    id: string
+    lineGap: number
+    unitsPerEm: number
+    variable: false
+    xHeight: number
+    xWidthAvg: number
+    familyName?: string | null | undefined
+    fullName?: string | null | undefined
+    namedInstance?: string | null | undefined
+    postScriptName?: string | null | undefined
+    subfamilyName?: string | null | undefined
+    typographicFamilyName?: string | null | undefined
+    typographicSubfamilyName?: string | null | undefined
+    wwsFamilyName?: string | null | undefined
+    wwsSubFamilyName?: string | null | undefined
+  }
+>
+export declare const schemaFontInformationStatic: z.ZodObject<
+  z.objectUtil.extendShape<
+    {
+      variable: z.ZodLiteral<true>
+      variationAxes: z.ZodArray<
+        z.ZodObject<
+          {
+            default: z.ZodNumber
+            max: z.ZodNumber
+            min: z.ZodNumber
+            name: z.ZodString
+          },
+          'strip',
+          z.ZodTypeAny,
+          {
+            default: number
+            max: number
+            min: number
+            name: string
+          },
+          {
+            default: number
+            max: number
+            min: number
+            name: string
+          }
+        >
+      >
+      variations: z.ZodArray<
+        z.ZodObject<
+          z.objectUtil.extendShape<
+            {
+              namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              variable: z.ZodLiteral<false>
+            },
+            {
+              ascent: z.ZodNumber
+              capHeight: z.ZodNumber
+              codePoints: z.ZodArray<
+                z.ZodObject<
+                  {
+                    advanceWidth: z.ZodNumber
+                    codePoint: z.ZodNumber
+                    height: z.ZodNumber
+                    leftSideBearing: z.ZodNumber
+                    width: z.ZodNumber
+                    xMax: z.ZodNumber
+                    xMin: z.ZodNumber
+                    yMax: z.ZodNumber
+                    yMin: z.ZodNumber
+                  },
+                  'strip',
+                  z.ZodTypeAny,
+                  {
+                    advanceWidth: number
+                    codePoint: number
+                    height: number
+                    leftSideBearing: number
+                    width: number
+                    xMax: number
+                    xMin: number
+                    yMax: number
+                    yMin: number
+                  },
+                  {
+                    advanceWidth: number
+                    codePoint: number
+                    height: number
+                    leftSideBearing: number
+                    width: number
+                    xMax: number
+                    xMin: number
+                    yMax: number
+                    yMin: number
+                  }
+                >
+              >
+              descent: z.ZodNumber
+              familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              features: z.ZodArray<
+                z.ZodObject<
+                  {
+                    name: z.ZodString
+                    type: z.ZodEnum<['substitution', 'positioning']>
+                  },
+                  'strip',
+                  z.ZodTypeAny,
+                  {
+                    name: string
+                    type: 'positioning' | 'substitution'
+                  },
+                  {
+                    name: string
+                    type: 'positioning' | 'substitution'
+                  }
+                >
+              >
+              fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              id: z.ZodString
+              lineGap: z.ZodNumber
+              postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              unitsPerEm: z.ZodNumber
+              wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              xHeight: z.ZodNumber
+              xWidthAvg: z.ZodNumber
+            }
+          >,
+          'strip',
+          z.ZodTypeAny,
+          {
+            ascent: number
+            capHeight: number
+            codePoints: Array<{
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            }>
+            descent: number
+            features: Array<{
+              name: string
+              type: 'positioning' | 'substitution'
+            }>
+            id: string
+            lineGap: number
+            unitsPerEm: number
+            variable: false
+            xHeight: number
+            xWidthAvg: number
+            familyName?: string | null | undefined
+            fullName?: string | null | undefined
+            namedInstance?: string | null | undefined
+            postScriptName?: string | null | undefined
+            subfamilyName?: string | null | undefined
+            typographicFamilyName?: string | null | undefined
+            typographicSubfamilyName?: string | null | undefined
+            wwsFamilyName?: string | null | undefined
+            wwsSubFamilyName?: string | null | undefined
+          },
+          {
+            ascent: number
+            capHeight: number
+            codePoints: Array<{
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            }>
+            descent: number
+            features: Array<{
+              name: string
+              type: 'positioning' | 'substitution'
+            }>
+            id: string
+            lineGap: number
+            unitsPerEm: number
+            variable: false
+            xHeight: number
+            xWidthAvg: number
+            familyName?: string | null | undefined
+            fullName?: string | null | undefined
+            namedInstance?: string | null | undefined
+            postScriptName?: string | null | undefined
+            subfamilyName?: string | null | undefined
+            typographicFamilyName?: string | null | undefined
+            typographicSubfamilyName?: string | null | undefined
+            wwsFamilyName?: string | null | undefined
+            wwsSubFamilyName?: string | null | undefined
+          }
+        >
+      >
+    },
+    {
+      ascent: z.ZodNumber
+      capHeight: z.ZodNumber
+      codePoints: z.ZodArray<
+        z.ZodObject<
+          {
+            advanceWidth: z.ZodNumber
+            codePoint: z.ZodNumber
+            height: z.ZodNumber
+            leftSideBearing: z.ZodNumber
+            width: z.ZodNumber
+            xMax: z.ZodNumber
+            xMin: z.ZodNumber
+            yMax: z.ZodNumber
+            yMin: z.ZodNumber
+          },
+          'strip',
+          z.ZodTypeAny,
+          {
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          },
+          {
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          }
+        >
+      >
+      descent: z.ZodNumber
+      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      features: z.ZodArray<
+        z.ZodObject<
+          {
+            name: z.ZodString
+            type: z.ZodEnum<['substitution', 'positioning']>
+          },
+          'strip',
+          z.ZodTypeAny,
+          {
+            name: string
+            type: 'positioning' | 'substitution'
+          },
+          {
+            name: string
+            type: 'positioning' | 'substitution'
+          }
+        >
+      >
+      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      id: z.ZodString
+      lineGap: z.ZodNumber
+      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      unitsPerEm: z.ZodNumber
+      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      xHeight: z.ZodNumber
+      xWidthAvg: z.ZodNumber
+    }
+  >,
+  'strip',
+  z.ZodTypeAny,
+  {
+    ascent: number
+    capHeight: number
+    codePoints: Array<{
+      advanceWidth: number
+      codePoint: number
+      height: number
+      leftSideBearing: number
+      width: number
+      xMax: number
+      xMin: number
+      yMax: number
+      yMin: number
+    }>
+    descent: number
+    features: Array<{
+      name: string
+      type: 'positioning' | 'substitution'
+    }>
+    id: string
+    lineGap: number
+    unitsPerEm: number
+    variable: true
+    variationAxes: Array<{
+      default: number
+      max: number
+      min: number
+      name: string
+    }>
+    variations: Array<{
+      ascent: number
+      capHeight: number
+      codePoints: Array<{
+        advanceWidth: number
+        codePoint: number
+        height: number
+        leftSideBearing: number
+        width: number
+        xMax: number
+        xMin: number
+        yMax: number
+        yMin: number
+      }>
+      descent: number
+      features: Array<{
+        name: string
+        type: 'positioning' | 'substitution'
+      }>
+      id: string
+      lineGap: number
+      unitsPerEm: number
+      variable: false
+      xHeight: number
+      xWidthAvg: number
+      familyName?: string | null | undefined
+      fullName?: string | null | undefined
+      namedInstance?: string | null | undefined
+      postScriptName?: string | null | undefined
+      subfamilyName?: string | null | undefined
+      typographicFamilyName?: string | null | undefined
+      typographicSubfamilyName?: string | null | undefined
+      wwsFamilyName?: string | null | undefined
+      wwsSubFamilyName?: string | null | undefined
+    }>
+    xHeight: number
+    xWidthAvg: number
+    familyName?: string | null | undefined
+    fullName?: string | null | undefined
+    postScriptName?: string | null | undefined
+    subfamilyName?: string | null | undefined
+    typographicFamilyName?: string | null | undefined
+    typographicSubfamilyName?: string | null | undefined
+    wwsFamilyName?: string | null | undefined
+    wwsSubFamilyName?: string | null | undefined
+  },
+  {
+    ascent: number
+    capHeight: number
+    codePoints: Array<{
+      advanceWidth: number
+      codePoint: number
+      height: number
+      leftSideBearing: number
+      width: number
+      xMax: number
+      xMin: number
+      yMax: number
+      yMin: number
+    }>
+    descent: number
+    features: Array<{
+      name: string
+      type: 'positioning' | 'substitution'
+    }>
+    id: string
+    lineGap: number
+    unitsPerEm: number
+    variable: true
+    variationAxes: Array<{
+      default: number
+      max: number
+      min: number
+      name: string
+    }>
+    variations: Array<{
+      ascent: number
+      capHeight: number
+      codePoints: Array<{
+        advanceWidth: number
+        codePoint: number
+        height: number
+        leftSideBearing: number
+        width: number
+        xMax: number
+        xMin: number
+        yMax: number
+        yMin: number
+      }>
+      descent: number
+      features: Array<{
+        name: string
+        type: 'positioning' | 'substitution'
+      }>
+      id: string
+      lineGap: number
+      unitsPerEm: number
+      variable: false
+      xHeight: number
+      xWidthAvg: number
+      familyName?: string | null | undefined
+      fullName?: string | null | undefined
+      namedInstance?: string | null | undefined
+      postScriptName?: string | null | undefined
+      subfamilyName?: string | null | undefined
+      typographicFamilyName?: string | null | undefined
+      typographicSubfamilyName?: string | null | undefined
+      wwsFamilyName?: string | null | undefined
+      wwsSubFamilyName?: string | null | undefined
+    }>
+    xHeight: number
+    xWidthAvg: number
+    familyName?: string | null | undefined
+    fullName?: string | null | undefined
+    postScriptName?: string | null | undefined
+    subfamilyName?: string | null | undefined
+    typographicFamilyName?: string | null | undefined
+    typographicSubfamilyName?: string | null | undefined
+    wwsFamilyName?: string | null | undefined
+    wwsSubFamilyName?: string | null | undefined
+  }
+>
+export type FontInformationStatic = z.infer<typeof schemaFontInformationStatic>
+export type FontInformationVariation = z.infer<typeof schemaFontInformationVariation>
+export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
+  'variable',
+  [
+    z.ZodObject<
+      z.objectUtil.extendShape<
+        {
+          variable: z.ZodLiteral<true>
+          variationAxes: z.ZodArray<
+            z.ZodObject<
+              {
+                default: z.ZodNumber
+                max: z.ZodNumber
+                min: z.ZodNumber
+                name: z.ZodString
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                default: number
+                max: number
+                min: number
+                name: string
+              },
+              {
+                default: number
+                max: number
+                min: number
+                name: string
+              }
+            >
+          >
+          variations: z.ZodArray<
+            z.ZodObject<
+              z.objectUtil.extendShape<
+                {
+                  namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  variable: z.ZodLiteral<false>
+                },
+                {
+                  ascent: z.ZodNumber
+                  capHeight: z.ZodNumber
+                  codePoints: z.ZodArray<
+                    z.ZodObject<
+                      {
+                        advanceWidth: z.ZodNumber
+                        codePoint: z.ZodNumber
+                        height: z.ZodNumber
+                        leftSideBearing: z.ZodNumber
+                        width: z.ZodNumber
+                        xMax: z.ZodNumber
+                        xMin: z.ZodNumber
+                        yMax: z.ZodNumber
+                        yMin: z.ZodNumber
+                      },
+                      'strip',
+                      z.ZodTypeAny,
+                      {
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      },
+                      {
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      }
+                    >
+                  >
+                  descent: z.ZodNumber
+                  familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  features: z.ZodArray<
+                    z.ZodObject<
+                      {
+                        name: z.ZodString
+                        type: z.ZodEnum<['substitution', 'positioning']>
+                      },
+                      'strip',
+                      z.ZodTypeAny,
+                      {
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      },
+                      {
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      }
+                    >
+                  >
+                  fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  id: z.ZodString
+                  lineGap: z.ZodNumber
+                  postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  unitsPerEm: z.ZodNumber
+                  wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  xHeight: z.ZodNumber
+                  xWidthAvg: z.ZodNumber
+                }
+              >,
+              'strip',
+              z.ZodTypeAny,
+              {
+                ascent: number
+                capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
+                descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
+                id: string
+                lineGap: number
+                unitsPerEm: number
+                variable: false
+                xHeight: number
+                xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                namedInstance?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
+              },
+              {
+                ascent: number
+                capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
+                descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
+                id: string
+                lineGap: number
+                unitsPerEm: number
+                variable: false
+                xHeight: number
+                xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                namedInstance?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
+              }
+            >
+          >
+        },
+        {
+          ascent: z.ZodNumber
+          capHeight: z.ZodNumber
+          codePoints: z.ZodArray<
+            z.ZodObject<
+              {
+                advanceWidth: z.ZodNumber
+                codePoint: z.ZodNumber
+                height: z.ZodNumber
+                leftSideBearing: z.ZodNumber
+                width: z.ZodNumber
+                xMax: z.ZodNumber
+                xMin: z.ZodNumber
+                yMax: z.ZodNumber
+                yMin: z.ZodNumber
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              },
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }
+            >
+          >
+          descent: z.ZodNumber
+          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          features: z.ZodArray<
+            z.ZodObject<
+              {
+                name: z.ZodString
+                type: z.ZodEnum<['substitution', 'positioning']>
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              },
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              }
+            >
+          >
+          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          id: z.ZodString
+          lineGap: z.ZodNumber
+          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          unitsPerEm: z.ZodNumber
+          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          xHeight: z.ZodNumber
+          xWidthAvg: z.ZodNumber
+        }
+      >,
+      'strip',
+      z.ZodTypeAny,
+      {
+        ascent: number
+        capHeight: number
+        codePoints: Array<{
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }>
+        descent: number
+        features: Array<{
+          name: string
+          type: 'positioning' | 'substitution'
+        }>
+        id: string
+        lineGap: number
+        unitsPerEm: number
+        variable: true
+        variationAxes: Array<{
+          default: number
+          max: number
+          min: number
+          name: string
+        }>
+        variations: Array<{
+          ascent: number
+          capHeight: number
+          codePoints: Array<{
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          }>
+          descent: number
+          features: Array<{
+            name: string
+            type: 'positioning' | 'substitution'
+          }>
+          id: string
+          lineGap: number
+          unitsPerEm: number
+          variable: false
+          xHeight: number
+          xWidthAvg: number
+          familyName?: string | null | undefined
+          fullName?: string | null | undefined
+          namedInstance?: string | null | undefined
+          postScriptName?: string | null | undefined
+          subfamilyName?: string | null | undefined
+          typographicFamilyName?: string | null | undefined
+          typographicSubfamilyName?: string | null | undefined
+          wwsFamilyName?: string | null | undefined
+          wwsSubFamilyName?: string | null | undefined
+        }>
+        xHeight: number
+        xWidthAvg: number
+        familyName?: string | null | undefined
+        fullName?: string | null | undefined
+        postScriptName?: string | null | undefined
+        subfamilyName?: string | null | undefined
+        typographicFamilyName?: string | null | undefined
+        typographicSubfamilyName?: string | null | undefined
+        wwsFamilyName?: string | null | undefined
+        wwsSubFamilyName?: string | null | undefined
+      },
+      {
+        ascent: number
+        capHeight: number
+        codePoints: Array<{
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }>
+        descent: number
+        features: Array<{
+          name: string
+          type: 'positioning' | 'substitution'
+        }>
+        id: string
+        lineGap: number
+        unitsPerEm: number
+        variable: true
+        variationAxes: Array<{
+          default: number
+          max: number
+          min: number
+          name: string
+        }>
+        variations: Array<{
+          ascent: number
+          capHeight: number
+          codePoints: Array<{
+            advanceWidth: number
+            codePoint: number
+            height: number
+            leftSideBearing: number
+            width: number
+            xMax: number
+            xMin: number
+            yMax: number
+            yMin: number
+          }>
+          descent: number
+          features: Array<{
+            name: string
+            type: 'positioning' | 'substitution'
+          }>
+          id: string
+          lineGap: number
+          unitsPerEm: number
+          variable: false
+          xHeight: number
+          xWidthAvg: number
+          familyName?: string | null | undefined
+          fullName?: string | null | undefined
+          namedInstance?: string | null | undefined
+          postScriptName?: string | null | undefined
+          subfamilyName?: string | null | undefined
+          typographicFamilyName?: string | null | undefined
+          typographicSubfamilyName?: string | null | undefined
+          wwsFamilyName?: string | null | undefined
+          wwsSubFamilyName?: string | null | undefined
+        }>
+        xHeight: number
+        xWidthAvg: number
+        familyName?: string | null | undefined
+        fullName?: string | null | undefined
+        postScriptName?: string | null | undefined
+        subfamilyName?: string | null | undefined
+        typographicFamilyName?: string | null | undefined
+        typographicSubfamilyName?: string | null | undefined
+        wwsFamilyName?: string | null | undefined
+        wwsSubFamilyName?: string | null | undefined
+      }
+    >,
+    z.ZodObject<
+      z.objectUtil.extendShape<
+        {
+          namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          variable: z.ZodLiteral<false>
+        },
+        {
+          ascent: z.ZodNumber
+          capHeight: z.ZodNumber
+          codePoints: z.ZodArray<
+            z.ZodObject<
+              {
+                advanceWidth: z.ZodNumber
+                codePoint: z.ZodNumber
+                height: z.ZodNumber
+                leftSideBearing: z.ZodNumber
+                width: z.ZodNumber
+                xMax: z.ZodNumber
+                xMin: z.ZodNumber
+                yMax: z.ZodNumber
+                yMin: z.ZodNumber
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              },
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }
+            >
+          >
+          descent: z.ZodNumber
+          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          features: z.ZodArray<
+            z.ZodObject<
+              {
+                name: z.ZodString
+                type: z.ZodEnum<['substitution', 'positioning']>
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              },
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              }
+            >
+          >
+          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          id: z.ZodString
+          lineGap: z.ZodNumber
+          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          unitsPerEm: z.ZodNumber
+          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          xHeight: z.ZodNumber
+          xWidthAvg: z.ZodNumber
+        }
+      >,
+      'strip',
+      z.ZodTypeAny,
+      {
+        ascent: number
+        capHeight: number
+        codePoints: Array<{
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }>
+        descent: number
+        features: Array<{
+          name: string
+          type: 'positioning' | 'substitution'
+        }>
+        id: string
+        lineGap: number
+        unitsPerEm: number
+        variable: false
+        xHeight: number
+        xWidthAvg: number
+        familyName?: string | null | undefined
+        fullName?: string | null | undefined
+        namedInstance?: string | null | undefined
+        postScriptName?: string | null | undefined
+        subfamilyName?: string | null | undefined
+        typographicFamilyName?: string | null | undefined
+        typographicSubfamilyName?: string | null | undefined
+        wwsFamilyName?: string | null | undefined
+        wwsSubFamilyName?: string | null | undefined
+      },
+      {
+        ascent: number
+        capHeight: number
+        codePoints: Array<{
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }>
+        descent: number
+        features: Array<{
+          name: string
+          type: 'positioning' | 'substitution'
+        }>
+        id: string
+        lineGap: number
+        unitsPerEm: number
+        variable: false
+        xHeight: number
+        xWidthAvg: number
+        familyName?: string | null | undefined
+        fullName?: string | null | undefined
+        namedInstance?: string | null | undefined
+        postScriptName?: string | null | undefined
+        subfamilyName?: string | null | undefined
+        typographicFamilyName?: string | null | undefined
+        typographicSubfamilyName?: string | null | undefined
+        wwsFamilyName?: string | null | undefined
+        wwsSubFamilyName?: string | null | undefined
+      }
+    >,
+  ]
+>
+export type FontInformation = z.infer<typeof schemaFontInformation>
 export type InferFont = {
   prefer?: InferFont[]
 } & z.infer<typeof schemaFontPlaceholder>
@@ -13,84 +1160,6 @@ export type InputFont = {
 export type InputLocale = Record<string, InputRule>
 export type InputLocales = Record<string, string | InputLocale>
 export type InputRule = z.input<typeof schemaRule>
-export declare const schemaFallback: z.ZodObject<
-  {
-    ascent: z.ZodNumber
-    capHeight: z.ZodNumber
-    descent: z.ZodNumber
-    id: z.ZodString
-    italic: z.ZodBoolean
-    lineGap: z.ZodNumber
-    names: z.ZodArray<z.ZodString, 'atleastone'>
-    unitsPerEm: z.ZodNumber
-    weight: z.ZodUnion<
-      [
-        z.ZodUnion<
-          [
-            z.ZodUnion<
-              [
-                z.ZodUnion<
-                  [
-                    z.ZodUnion<
-                      [
-                        z.ZodUnion<
-                          [
-                            z.ZodUnion<
-                              [
-                                z.ZodUnion<[z.ZodLiteral<100>, z.ZodLiteral<200>]>,
-                                z.ZodLiteral<300>,
-                              ]
-                            >,
-                            z.ZodLiteral<400>,
-                          ]
-                        >,
-                        z.ZodLiteral<500>,
-                      ]
-                    >,
-                    z.ZodLiteral<600>,
-                  ]
-                >,
-                z.ZodLiteral<700>,
-              ]
-            >,
-            z.ZodLiteral<800>,
-          ]
-        >,
-        z.ZodLiteral<900>,
-      ]
-    >
-    xHeight: z.ZodNumber
-    xWidthAvg: z.ZodNumber
-  },
-  'strip',
-  z.ZodTypeAny,
-  {
-    ascent: number
-    capHeight: number
-    descent: number
-    id: string
-    italic: boolean
-    lineGap: number
-    names: [string, ...string[]]
-    unitsPerEm: number
-    weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-    xHeight: number
-    xWidthAvg: number
-  },
-  {
-    ascent: number
-    capHeight: number
-    descent: number
-    id: string
-    italic: boolean
-    lineGap: number
-    names: [string, ...string[]]
-    unitsPerEm: number
-    weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-    xHeight: number
-    xWidthAvg: number
-  }
->
 export declare const schemaFontPlaceholder: z.ZodObject<
   {
     display: z.ZodOptional<
@@ -117,7 +1186,6 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     resourceHint: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
     source: z.ZodString
     tech: z.ZodOptional<z.ZodArray<z.ZodEnum<['variations']>>>
-    testString: z.ZodOptional<z.ZodString>
     unicodeRange: z.ZodOptional<z.ZodEffects<z.ZodString, string, string>>
   },
   'strip',
@@ -129,7 +1197,6 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     name?: string | undefined
     resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
-    testString?: string | undefined
     unicodeRange?: string | undefined
   },
   {
@@ -139,7 +1206,6 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     name?: string | undefined
     resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
-    testString?: string | undefined
     unicodeRange?: string | undefined
   }
 >
@@ -157,89 +1223,586 @@ export declare const schemaFontProperties: z.ZodObject<
           z.ZodUnion<
             [
               z.ZodType<InferFont, z.ZodTypeDef, InputFont>,
-              z.ZodObject<
-                {
-                  ascent: z.ZodNumber
-                  capHeight: z.ZodNumber
-                  descent: z.ZodNumber
-                  id: z.ZodString
-                  italic: z.ZodBoolean
-                  lineGap: z.ZodNumber
-                  names: z.ZodArray<z.ZodString, 'atleastone'>
-                  unitsPerEm: z.ZodNumber
-                  weight: z.ZodUnion<
-                    [
-                      z.ZodUnion<
-                        [
-                          z.ZodUnion<
-                            [
-                              z.ZodUnion<
-                                [
-                                  z.ZodUnion<
-                                    [
-                                      z.ZodUnion<
-                                        [
-                                          z.ZodUnion<
-                                            [
-                                              z.ZodUnion<[z.ZodLiteral<100>, z.ZodLiteral<200>]>,
-                                              z.ZodLiteral<300>,
-                                            ]
-                                          >,
-                                          z.ZodLiteral<400>,
-                                        ]
-                                      >,
-                                      z.ZodLiteral<500>,
-                                    ]
-                                  >,
-                                  z.ZodLiteral<600>,
-                                ]
-                              >,
-                              z.ZodLiteral<700>,
-                            ]
-                          >,
-                          z.ZodLiteral<800>,
-                        ]
-                      >,
-                      z.ZodLiteral<900>,
-                    ]
-                  >
-                  xHeight: z.ZodNumber
-                  xWidthAvg: z.ZodNumber
-                },
-                'strip',
-                z.ZodTypeAny,
-                {
-                  ascent: number
-                  capHeight: number
-                  descent: number
-                  id: string
-                  italic: boolean
-                  lineGap: number
-                  names: [string, ...string[]]
-                  unitsPerEm: number
-                  weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-                  xHeight: number
-                  xWidthAvg: number
-                },
-                {
-                  ascent: number
-                  capHeight: number
-                  descent: number
-                  id: string
-                  italic: boolean
-                  lineGap: number
-                  names: [string, ...string[]]
-                  unitsPerEm: number
-                  weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-                  xHeight: number
-                  xWidthAvg: number
-                }
+              z.ZodDiscriminatedUnion<
+                'variable',
+                [
+                  z.ZodObject<
+                    z.objectUtil.extendShape<
+                      {
+                        variable: z.ZodLiteral<true>
+                        variationAxes: z.ZodArray<
+                          z.ZodObject<
+                            {
+                              default: z.ZodNumber
+                              max: z.ZodNumber
+                              min: z.ZodNumber
+                              name: z.ZodString
+                            },
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              default: number
+                              max: number
+                              min: number
+                              name: string
+                            },
+                            {
+                              default: number
+                              max: number
+                              min: number
+                              name: string
+                            }
+                          >
+                        >
+                        variations: z.ZodArray<
+                          z.ZodObject<
+                            z.objectUtil.extendShape<
+                              {
+                                namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                variable: z.ZodLiteral<false>
+                              },
+                              {
+                                ascent: z.ZodNumber
+                                capHeight: z.ZodNumber
+                                codePoints: z.ZodArray<
+                                  z.ZodObject<
+                                    {
+                                      advanceWidth: z.ZodNumber
+                                      codePoint: z.ZodNumber
+                                      height: z.ZodNumber
+                                      leftSideBearing: z.ZodNumber
+                                      width: z.ZodNumber
+                                      xMax: z.ZodNumber
+                                      xMin: z.ZodNumber
+                                      yMax: z.ZodNumber
+                                      yMin: z.ZodNumber
+                                    },
+                                    'strip',
+                                    z.ZodTypeAny,
+                                    {
+                                      advanceWidth: number
+                                      codePoint: number
+                                      height: number
+                                      leftSideBearing: number
+                                      width: number
+                                      xMax: number
+                                      xMin: number
+                                      yMax: number
+                                      yMin: number
+                                    },
+                                    {
+                                      advanceWidth: number
+                                      codePoint: number
+                                      height: number
+                                      leftSideBearing: number
+                                      width: number
+                                      xMax: number
+                                      xMin: number
+                                      yMax: number
+                                      yMin: number
+                                    }
+                                  >
+                                >
+                                descent: z.ZodNumber
+                                familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                features: z.ZodArray<
+                                  z.ZodObject<
+                                    {
+                                      name: z.ZodString
+                                      type: z.ZodEnum<['substitution', 'positioning']>
+                                    },
+                                    'strip',
+                                    z.ZodTypeAny,
+                                    {
+                                      name: string
+                                      type: 'positioning' | 'substitution'
+                                    },
+                                    {
+                                      name: string
+                                      type: 'positioning' | 'substitution'
+                                    }
+                                  >
+                                >
+                                fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                id: z.ZodString
+                                lineGap: z.ZodNumber
+                                postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                unitsPerEm: z.ZodNumber
+                                wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                xHeight: z.ZodNumber
+                                xWidthAvg: z.ZodNumber
+                              }
+                            >,
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              ascent: number
+                              capHeight: number
+                              codePoints: Array<{
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              }>
+                              descent: number
+                              features: Array<{
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              }>
+                              id: string
+                              lineGap: number
+                              unitsPerEm: number
+                              variable: false
+                              xHeight: number
+                              xWidthAvg: number
+                              familyName?: string | null | undefined
+                              fullName?: string | null | undefined
+                              namedInstance?: string | null | undefined
+                              postScriptName?: string | null | undefined
+                              subfamilyName?: string | null | undefined
+                              typographicFamilyName?: string | null | undefined
+                              typographicSubfamilyName?: string | null | undefined
+                              wwsFamilyName?: string | null | undefined
+                              wwsSubFamilyName?: string | null | undefined
+                            },
+                            {
+                              ascent: number
+                              capHeight: number
+                              codePoints: Array<{
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              }>
+                              descent: number
+                              features: Array<{
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              }>
+                              id: string
+                              lineGap: number
+                              unitsPerEm: number
+                              variable: false
+                              xHeight: number
+                              xWidthAvg: number
+                              familyName?: string | null | undefined
+                              fullName?: string | null | undefined
+                              namedInstance?: string | null | undefined
+                              postScriptName?: string | null | undefined
+                              subfamilyName?: string | null | undefined
+                              typographicFamilyName?: string | null | undefined
+                              typographicSubfamilyName?: string | null | undefined
+                              wwsFamilyName?: string | null | undefined
+                              wwsSubFamilyName?: string | null | undefined
+                            }
+                          >
+                        >
+                      },
+                      {
+                        ascent: z.ZodNumber
+                        capHeight: z.ZodNumber
+                        codePoints: z.ZodArray<
+                          z.ZodObject<
+                            {
+                              advanceWidth: z.ZodNumber
+                              codePoint: z.ZodNumber
+                              height: z.ZodNumber
+                              leftSideBearing: z.ZodNumber
+                              width: z.ZodNumber
+                              xMax: z.ZodNumber
+                              xMin: z.ZodNumber
+                              yMax: z.ZodNumber
+                              yMin: z.ZodNumber
+                            },
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              advanceWidth: number
+                              codePoint: number
+                              height: number
+                              leftSideBearing: number
+                              width: number
+                              xMax: number
+                              xMin: number
+                              yMax: number
+                              yMin: number
+                            },
+                            {
+                              advanceWidth: number
+                              codePoint: number
+                              height: number
+                              leftSideBearing: number
+                              width: number
+                              xMax: number
+                              xMin: number
+                              yMax: number
+                              yMin: number
+                            }
+                          >
+                        >
+                        descent: z.ZodNumber
+                        familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        features: z.ZodArray<
+                          z.ZodObject<
+                            {
+                              name: z.ZodString
+                              type: z.ZodEnum<['substitution', 'positioning']>
+                            },
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              name: string
+                              type: 'positioning' | 'substitution'
+                            },
+                            {
+                              name: string
+                              type: 'positioning' | 'substitution'
+                            }
+                          >
+                        >
+                        fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        id: z.ZodString
+                        lineGap: z.ZodNumber
+                        postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        unitsPerEm: z.ZodNumber
+                        wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        xHeight: z.ZodNumber
+                        xWidthAvg: z.ZodNumber
+                      }
+                    >,
+                    'strip',
+                    z.ZodTypeAny,
+                    {
+                      ascent: number
+                      capHeight: number
+                      codePoints: Array<{
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      }>
+                      descent: number
+                      features: Array<{
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      }>
+                      id: string
+                      lineGap: number
+                      unitsPerEm: number
+                      variable: true
+                      variationAxes: Array<{
+                        default: number
+                        max: number
+                        min: number
+                        name: string
+                      }>
+                      variations: Array<{
+                        ascent: number
+                        capHeight: number
+                        codePoints: Array<{
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }>
+                        descent: number
+                        features: Array<{
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }>
+                        id: string
+                        lineGap: number
+                        unitsPerEm: number
+                        variable: false
+                        xHeight: number
+                        xWidthAvg: number
+                        familyName?: string | null | undefined
+                        fullName?: string | null | undefined
+                        namedInstance?: string | null | undefined
+                        postScriptName?: string | null | undefined
+                        subfamilyName?: string | null | undefined
+                        typographicFamilyName?: string | null | undefined
+                        typographicSubfamilyName?: string | null | undefined
+                        wwsFamilyName?: string | null | undefined
+                        wwsSubFamilyName?: string | null | undefined
+                      }>
+                      xHeight: number
+                      xWidthAvg: number
+                      familyName?: string | null | undefined
+                      fullName?: string | null | undefined
+                      postScriptName?: string | null | undefined
+                      subfamilyName?: string | null | undefined
+                      typographicFamilyName?: string | null | undefined
+                      typographicSubfamilyName?: string | null | undefined
+                      wwsFamilyName?: string | null | undefined
+                      wwsSubFamilyName?: string | null | undefined
+                    },
+                    {
+                      ascent: number
+                      capHeight: number
+                      codePoints: Array<{
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      }>
+                      descent: number
+                      features: Array<{
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      }>
+                      id: string
+                      lineGap: number
+                      unitsPerEm: number
+                      variable: true
+                      variationAxes: Array<{
+                        default: number
+                        max: number
+                        min: number
+                        name: string
+                      }>
+                      variations: Array<{
+                        ascent: number
+                        capHeight: number
+                        codePoints: Array<{
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }>
+                        descent: number
+                        features: Array<{
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }>
+                        id: string
+                        lineGap: number
+                        unitsPerEm: number
+                        variable: false
+                        xHeight: number
+                        xWidthAvg: number
+                        familyName?: string | null | undefined
+                        fullName?: string | null | undefined
+                        namedInstance?: string | null | undefined
+                        postScriptName?: string | null | undefined
+                        subfamilyName?: string | null | undefined
+                        typographicFamilyName?: string | null | undefined
+                        typographicSubfamilyName?: string | null | undefined
+                        wwsFamilyName?: string | null | undefined
+                        wwsSubFamilyName?: string | null | undefined
+                      }>
+                      xHeight: number
+                      xWidthAvg: number
+                      familyName?: string | null | undefined
+                      fullName?: string | null | undefined
+                      postScriptName?: string | null | undefined
+                      subfamilyName?: string | null | undefined
+                      typographicFamilyName?: string | null | undefined
+                      typographicSubfamilyName?: string | null | undefined
+                      wwsFamilyName?: string | null | undefined
+                      wwsSubFamilyName?: string | null | undefined
+                    }
+                  >,
+                  z.ZodObject<
+                    z.objectUtil.extendShape<
+                      {
+                        namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        variable: z.ZodLiteral<false>
+                      },
+                      {
+                        ascent: z.ZodNumber
+                        capHeight: z.ZodNumber
+                        codePoints: z.ZodArray<
+                          z.ZodObject<
+                            {
+                              advanceWidth: z.ZodNumber
+                              codePoint: z.ZodNumber
+                              height: z.ZodNumber
+                              leftSideBearing: z.ZodNumber
+                              width: z.ZodNumber
+                              xMax: z.ZodNumber
+                              xMin: z.ZodNumber
+                              yMax: z.ZodNumber
+                              yMin: z.ZodNumber
+                            },
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              advanceWidth: number
+                              codePoint: number
+                              height: number
+                              leftSideBearing: number
+                              width: number
+                              xMax: number
+                              xMin: number
+                              yMax: number
+                              yMin: number
+                            },
+                            {
+                              advanceWidth: number
+                              codePoint: number
+                              height: number
+                              leftSideBearing: number
+                              width: number
+                              xMax: number
+                              xMin: number
+                              yMax: number
+                              yMin: number
+                            }
+                          >
+                        >
+                        descent: z.ZodNumber
+                        familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        features: z.ZodArray<
+                          z.ZodObject<
+                            {
+                              name: z.ZodString
+                              type: z.ZodEnum<['substitution', 'positioning']>
+                            },
+                            'strip',
+                            z.ZodTypeAny,
+                            {
+                              name: string
+                              type: 'positioning' | 'substitution'
+                            },
+                            {
+                              name: string
+                              type: 'positioning' | 'substitution'
+                            }
+                          >
+                        >
+                        fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        id: z.ZodString
+                        lineGap: z.ZodNumber
+                        postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        typographicFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        typographicSubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        unitsPerEm: z.ZodNumber
+                        wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        xHeight: z.ZodNumber
+                        xWidthAvg: z.ZodNumber
+                      }
+                    >,
+                    'strip',
+                    z.ZodTypeAny,
+                    {
+                      ascent: number
+                      capHeight: number
+                      codePoints: Array<{
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      }>
+                      descent: number
+                      features: Array<{
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      }>
+                      id: string
+                      lineGap: number
+                      unitsPerEm: number
+                      variable: false
+                      xHeight: number
+                      xWidthAvg: number
+                      familyName?: string | null | undefined
+                      fullName?: string | null | undefined
+                      namedInstance?: string | null | undefined
+                      postScriptName?: string | null | undefined
+                      subfamilyName?: string | null | undefined
+                      typographicFamilyName?: string | null | undefined
+                      typographicSubfamilyName?: string | null | undefined
+                      wwsFamilyName?: string | null | undefined
+                      wwsSubFamilyName?: string | null | undefined
+                    },
+                    {
+                      ascent: number
+                      capHeight: number
+                      codePoints: Array<{
+                        advanceWidth: number
+                        codePoint: number
+                        height: number
+                        leftSideBearing: number
+                        width: number
+                        xMax: number
+                        xMin: number
+                        yMax: number
+                        yMin: number
+                      }>
+                      descent: number
+                      features: Array<{
+                        name: string
+                        type: 'positioning' | 'substitution'
+                      }>
+                      id: string
+                      lineGap: number
+                      unitsPerEm: number
+                      variable: false
+                      xHeight: number
+                      xWidthAvg: number
+                      familyName?: string | null | undefined
+                      fullName?: string | null | undefined
+                      namedInstance?: string | null | undefined
+                      postScriptName?: string | null | undefined
+                      subfamilyName?: string | null | undefined
+                      typographicFamilyName?: string | null | undefined
+                      typographicSubfamilyName?: string | null | undefined
+                      wwsFamilyName?: string | null | undefined
+                      wwsSubFamilyName?: string | null | undefined
+                    }
+                  >,
+                ]
               >,
             ]
           >
         >,
         {
-          fallbacks: Fallback[]
+          fallbacks: FontInformation[]
           fonts: InferFont[]
         },
         Array<
@@ -247,15 +1810,112 @@ export declare const schemaFontProperties: z.ZodObject<
           | {
               ascent: number
               capHeight: number
+              codePoints: Array<{
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }>
               descent: number
+              features: Array<{
+                name: string
+                type: 'positioning' | 'substitution'
+              }>
               id: string
-              italic: boolean
               lineGap: number
-              names: [string, ...string[]]
               unitsPerEm: number
-              weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+              variable: false
               xHeight: number
               xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              namedInstance?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              typographicFamilyName?: string | null | undefined
+              typographicSubfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
+            }
+          | {
+              ascent: number
+              capHeight: number
+              codePoints: Array<{
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }>
+              descent: number
+              features: Array<{
+                name: string
+                type: 'positioning' | 'substitution'
+              }>
+              id: string
+              lineGap: number
+              unitsPerEm: number
+              variable: true
+              variationAxes: Array<{
+                default: number
+                max: number
+                min: number
+                name: string
+              }>
+              variations: Array<{
+                ascent: number
+                capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
+                descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
+                id: string
+                lineGap: number
+                unitsPerEm: number
+                variable: false
+                xHeight: number
+                xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                namedInstance?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
+              }>
+              xHeight: number
+              xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              typographicFamilyName?: string | null | undefined
+              typographicSubfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
             }
         >
       >
@@ -272,7 +1932,7 @@ export declare const schemaFontProperties: z.ZodObject<
   {
     fontFamily?:
       | {
-          fallbacks: Fallback[]
+          fallbacks: FontInformation[]
           fonts: InferFont[]
         }
       | undefined
@@ -288,15 +1948,112 @@ export declare const schemaFontProperties: z.ZodObject<
           | {
               ascent: number
               capHeight: number
+              codePoints: Array<{
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }>
               descent: number
+              features: Array<{
+                name: string
+                type: 'positioning' | 'substitution'
+              }>
               id: string
-              italic: boolean
               lineGap: number
-              names: [string, ...string[]]
               unitsPerEm: number
-              weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+              variable: false
               xHeight: number
               xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              namedInstance?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              typographicFamilyName?: string | null | undefined
+              typographicSubfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
+            }
+          | {
+              ascent: number
+              capHeight: number
+              codePoints: Array<{
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }>
+              descent: number
+              features: Array<{
+                name: string
+                type: 'positioning' | 'substitution'
+              }>
+              id: string
+              lineGap: number
+              unitsPerEm: number
+              variable: true
+              variationAxes: Array<{
+                default: number
+                max: number
+                min: number
+                name: string
+              }>
+              variations: Array<{
+                ascent: number
+                capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
+                descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
+                id: string
+                lineGap: number
+                unitsPerEm: number
+                variable: false
+                xHeight: number
+                xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                namedInstance?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
+              }>
+              xHeight: number
+              xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              typographicFamilyName?: string | null | undefined
+              typographicSubfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
             }
         >
       | undefined
@@ -335,7 +2092,7 @@ export declare const schemaLocale: z.ZodObject<
     StyleRule<{
       fontFamily?:
         | {
-            fallbacks: Fallback[]
+            fallbacks: FontInformation[]
             fonts: InferFont[]
           }
         | undefined
@@ -352,15 +2109,112 @@ export declare const schemaLocale: z.ZodObject<
             | {
                 ascent: number
                 capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
                 descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
                 id: string
-                italic: boolean
                 lineGap: number
-                names: [string, ...string[]]
                 unitsPerEm: number
-                weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+                variable: false
                 xHeight: number
                 xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                namedInstance?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
+              }
+            | {
+                ascent: number
+                capHeight: number
+                codePoints: Array<{
+                  advanceWidth: number
+                  codePoint: number
+                  height: number
+                  leftSideBearing: number
+                  width: number
+                  xMax: number
+                  xMin: number
+                  yMax: number
+                  yMin: number
+                }>
+                descent: number
+                features: Array<{
+                  name: string
+                  type: 'positioning' | 'substitution'
+                }>
+                id: string
+                lineGap: number
+                unitsPerEm: number
+                variable: true
+                variationAxes: Array<{
+                  default: number
+                  max: number
+                  min: number
+                  name: string
+                }>
+                variations: Array<{
+                  ascent: number
+                  capHeight: number
+                  codePoints: Array<{
+                    advanceWidth: number
+                    codePoint: number
+                    height: number
+                    leftSideBearing: number
+                    width: number
+                    xMax: number
+                    xMin: number
+                    yMax: number
+                    yMin: number
+                  }>
+                  descent: number
+                  features: Array<{
+                    name: string
+                    type: 'positioning' | 'substitution'
+                  }>
+                  id: string
+                  lineGap: number
+                  unitsPerEm: number
+                  variable: false
+                  xHeight: number
+                  xWidthAvg: number
+                  familyName?: string | null | undefined
+                  fullName?: string | null | undefined
+                  namedInstance?: string | null | undefined
+                  postScriptName?: string | null | undefined
+                  subfamilyName?: string | null | undefined
+                  typographicFamilyName?: string | null | undefined
+                  typographicSubfamilyName?: string | null | undefined
+                  wwsFamilyName?: string | null | undefined
+                  wwsSubFamilyName?: string | null | undefined
+                }>
+                xHeight: number
+                xWidthAvg: number
+                familyName?: string | null | undefined
+                fullName?: string | null | undefined
+                postScriptName?: string | null | undefined
+                subfamilyName?: string | null | undefined
+                typographicFamilyName?: string | null | undefined
+                typographicSubfamilyName?: string | null | undefined
+                wwsFamilyName?: string | null | undefined
+                wwsSubFamilyName?: string | null | undefined
               }
           >
         | undefined
@@ -373,61 +2227,9 @@ export declare const schemaLocale: z.ZodObject<
   {},
   {}
 >
-export declare const schemaLocales: z.ZodObject<
-  {},
-  'strip',
-  z.ZodUnion<
-    [
-      z.ZodString,
-      z.ZodObject<
-        {},
-        'strip',
-        z.ZodType<
-          StyleRule<{
-            fontFamily?:
-              | {
-                  fallbacks: Fallback[]
-                  fonts: InferFont[]
-                }
-              | undefined
-            fontStretch?: number | undefined
-            fontStyle?: 'italic' | 'normal' | undefined
-            fontVariationSettings?: 'normal' | Record<string, number> | undefined
-            fontWeight?: number | undefined
-          }>,
-          z.ZodTypeDef,
-          StyleRule<{
-            fontFamily?:
-              | Array<
-                  | InputFont
-                  | {
-                      ascent: number
-                      capHeight: number
-                      descent: number
-                      id: string
-                      italic: boolean
-                      lineGap: number
-                      names: [string, ...string[]]
-                      unitsPerEm: number
-                      weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
-                      xHeight: number
-                      xWidthAvg: number
-                    }
-                >
-              | undefined
-            fontStretch?: number | undefined
-            fontStyle?: 'italic' | 'normal' | undefined
-            fontVariationSettings?: 'normal' | Record<string, number> | undefined
-            fontWeight?: number | undefined
-          }>
-        >,
-        {},
-        {}
-      >,
-    ]
-  >,
-  z.objectOutputType<
-    {},
+export declare const schemaLocales: z.ZodEffects<
+  z.ZodRecord<
+    z.ZodString,
     z.ZodUnion<
       [
         z.ZodString,
@@ -438,7 +2240,7 @@ export declare const schemaLocales: z.ZodObject<
             StyleRule<{
               fontFamily?:
                 | {
-                    fallbacks: Fallback[]
+                    fallbacks: FontInformation[]
                     fonts: InferFont[]
                   }
                 | undefined
@@ -455,69 +2257,112 @@ export declare const schemaLocales: z.ZodObject<
                     | {
                         ascent: number
                         capHeight: number
+                        codePoints: Array<{
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }>
                         descent: number
+                        features: Array<{
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }>
                         id: string
-                        italic: boolean
                         lineGap: number
-                        names: [string, ...string[]]
                         unitsPerEm: number
-                        weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+                        variable: false
                         xHeight: number
                         xWidthAvg: number
+                        familyName?: string | null | undefined
+                        fullName?: string | null | undefined
+                        namedInstance?: string | null | undefined
+                        postScriptName?: string | null | undefined
+                        subfamilyName?: string | null | undefined
+                        typographicFamilyName?: string | null | undefined
+                        typographicSubfamilyName?: string | null | undefined
+                        wwsFamilyName?: string | null | undefined
+                        wwsSubFamilyName?: string | null | undefined
                       }
-                  >
-                | undefined
-              fontStretch?: number | undefined
-              fontStyle?: 'italic' | 'normal' | undefined
-              fontVariationSettings?: 'normal' | Record<string, number> | undefined
-              fontWeight?: number | undefined
-            }>
-          >,
-          {},
-          {}
-        >,
-      ]
-    >,
-    'strip'
-  >,
-  z.objectInputType<
-    {},
-    z.ZodUnion<
-      [
-        z.ZodString,
-        z.ZodObject<
-          {},
-          'strip',
-          z.ZodType<
-            StyleRule<{
-              fontFamily?:
-                | {
-                    fallbacks: Fallback[]
-                    fonts: InferFont[]
-                  }
-                | undefined
-              fontStretch?: number | undefined
-              fontStyle?: 'italic' | 'normal' | undefined
-              fontVariationSettings?: 'normal' | Record<string, number> | undefined
-              fontWeight?: number | undefined
-            }>,
-            z.ZodTypeDef,
-            StyleRule<{
-              fontFamily?:
-                | Array<
-                    | InputFont
                     | {
                         ascent: number
                         capHeight: number
+                        codePoints: Array<{
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }>
                         descent: number
+                        features: Array<{
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }>
                         id: string
-                        italic: boolean
                         lineGap: number
-                        names: [string, ...string[]]
                         unitsPerEm: number
-                        weight: 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900
+                        variable: true
+                        variationAxes: Array<{
+                          default: number
+                          max: number
+                          min: number
+                          name: string
+                        }>
+                        variations: Array<{
+                          ascent: number
+                          capHeight: number
+                          codePoints: Array<{
+                            advanceWidth: number
+                            codePoint: number
+                            height: number
+                            leftSideBearing: number
+                            width: number
+                            xMax: number
+                            xMin: number
+                            yMax: number
+                            yMin: number
+                          }>
+                          descent: number
+                          features: Array<{
+                            name: string
+                            type: 'positioning' | 'substitution'
+                          }>
+                          id: string
+                          lineGap: number
+                          unitsPerEm: number
+                          variable: false
+                          xHeight: number
+                          xWidthAvg: number
+                          familyName?: string | null | undefined
+                          fullName?: string | null | undefined
+                          namedInstance?: string | null | undefined
+                          postScriptName?: string | null | undefined
+                          subfamilyName?: string | null | undefined
+                          typographicFamilyName?: string | null | undefined
+                          typographicSubfamilyName?: string | null | undefined
+                          wwsFamilyName?: string | null | undefined
+                          wwsSubFamilyName?: string | null | undefined
+                        }>
                         xHeight: number
                         xWidthAvg: number
+                        familyName?: string | null | undefined
+                        fullName?: string | null | undefined
+                        postScriptName?: string | null | undefined
+                        subfamilyName?: string | null | undefined
+                        typographicFamilyName?: string | null | undefined
+                        typographicSubfamilyName?: string | null | undefined
+                        wwsFamilyName?: string | null | undefined
+                        wwsSubFamilyName?: string | null | undefined
                       }
                   >
                 | undefined
@@ -531,9 +2376,12 @@ export declare const schemaLocales: z.ZodObject<
           {}
         >,
       ]
-    >,
-    'strip'
-  >
+    >
+  >,
+  {
+    [key: string]: string | {}
+  },
+  Record<string, string | {}>
 >
 export interface ResourceHint {
   as: 'font'

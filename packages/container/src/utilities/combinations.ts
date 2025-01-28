@@ -1,6 +1,6 @@
 import { flatMap, values } from 'lodash-es'
 
-const combination = <T>(collection: ArrayLike<T>, n: number) => {
+const combination = <T>(collection: ArrayLike<T>, n: number): T[][] => {
   const array = values(collection)
 
   if (array.length < n) {
@@ -31,5 +31,5 @@ const combination = <T>(collection: ArrayLike<T>, n: number) => {
   return recur(array, n)
 }
 
-export const combinations = <T>(value: T[]) =>
+export const combinations = <T>(value: T[]): T[][] =>
   flatMap(value, (_, index, a) => combination(a, index + 1))

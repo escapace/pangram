@@ -5,9 +5,8 @@ import type {
   FontFallback,
   FontProperties,
   FontState,
-  State,
 } from '../types'
-import { fontOpen } from './font-open'
+import { fontNames } from './font-names'
 
 const fontSource = ({ font, slug }: FontState, publicPath: string): string =>
   font.format
@@ -42,32 +41,17 @@ interface FontFaceOptionsFont {
   adjustments?: FontFaceAdjustments
 }
 
-export const fontFace = async (
-  options: FontFaceOptionsFallback | FontFaceOptionsFont,
-  state: State,
-): Promise<FontFace> => {
+export const fontFace = (options: FontFaceOptionsFallback | FontFaceOptionsFont): FontFace => {
   if (options.type === 'font') {
     const { font } = options.font
     const { fontStretch, fontStyle, fontWeight } = options.fontProperties
 
-    const isVariable = font.tech?.includes('variations') === true
-
-    const variationAxes = isVariable
-      ? (await fontOpen(options.font, options.fontProperties, state)).variationAxes
-      : undefined
-
     return {
       fontDisplay: font.display,
       fontFamily: font.name ?? options.font.slug,
-      fontStretch:
-        variationAxes?.wdth === undefined
-          ? fontStretch
-          : [Math.max(variationAxes.wdth.min, 50), Math.min(variationAxes.wdth.max, 200)],
+      fontStretch,
       fontStyle,
-      fontWeight:
-        variationAxes?.wght === undefined
-          ? fontWeight
-          : [Math.max(variationAxes.wght.min, 1), Math.min(variationAxes.wght.max, 1000)],
+      fontWeight,
       src: fontSource(options.font, options.publicPath),
       unicodeRange: font.unicodeRange,
       ...options.adjustments,
@@ -76,12 +60,15 @@ export const fontFace = async (
     const { font } = options.font
     const { fontStretch, fontStyle, fontWeight } = options.fontProperties
 
+    const names = fontNames(font)
+
     return {
       fontFamily: font.id,
+      // fontNamedInstance: font.namedInstance,
       fontStretch,
       fontStyle,
       fontWeight,
-      src: font.names.map((name) => `local(${name})`).join(', '),
+      src: names.map((name) => `local(${name})`).join(', '),
       ...options.adjustments,
     }
   }

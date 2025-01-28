@@ -1,10 +1,19 @@
+import { codePointFrequencies } from '@pangram/unicode-tools'
 import { execa } from 'execa'
 import { mkdirp, pathExists } from 'fs-extra'
-import { compact, includes, map } from 'lodash-es'
+import { compact, includes, map, orderBy, uniq } from 'lodash-es'
+import assert from 'node:assert'
 import path from 'node:path'
-import { type State, TypeFontState } from '../types'
+import type { State } from '../types'
+import { fontInspectCommand } from './font-inspect'
 
-export const fontWrite = async (slug: string, state: State): Promise<void> => {
+export const fontWrite = async (
+  slug: string,
+  state: State,
+): Promise<{
+  files: string[]
+  testString: string
+}> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
   const fontState = state.configuration.fonts.get(slug)!
   const font = fontState.font
@@ -35,7 +44,7 @@ export const fontWrite = async (slug: string, state: State): Promise<void> => {
           font.unicodeRange !== undefined ? `--unicodes=${font.unicodeRange}` : undefined,
           '--harfbuzz-repacker',
           `--flavor=${format}`,
-          // TODO: make layout features configurable
+          // TODO: make layout features configurable https://www.w3.org/TR/css-fonts-4/#default-features
           `--layout-features='*'`,
           `--name-IDs=''`,
           `--recalc-average-width`,
@@ -55,9 +64,38 @@ export const fontWrite = async (slug: string, state: State): Promise<void> => {
     }),
   )
 
-  state.configuration.fonts.set(slug, {
-    ...fontState,
-    files,
-    type: TypeFontState.Written,
-  })
+  const file = fontState.font.format.includes('woff2')
+    ? files.find((value) => value.endsWith('.woff2'))
+    : files.find((value) => value.endsWith('.woff'))
+
+  assert(typeof file === 'string')
+
+  const { codePoints: _codePoints } = await fontInspectCommand(state.runtimeFontInspectPath, file)
+  const codePoints = _codePoints
+    .map((value) => value.codePoint)
+    .filter((value) => !/\p{White_Space}/u.test(String.fromCodePoint(value)))
+
+  assert(codePoints.length !== 0)
+
+  const locales = uniq(
+    [
+      ...state.configuration.localeToAlias.keys(),
+      ...state.configuration.localeToAlias.values(),
+    ].flat(),
+  )
+
+  const testStringCodePoints = orderBy(
+    codePointFrequencies(codePoints, locales),
+
+    ([_, frequency]) => frequency,
+    'desc',
+  )
+    .map(([codePoint]) => codePoint)
+    .slice(0, 10)
+
+  const testString = String.fromCodePoint(
+    ...(testStringCodePoints.length === 10 ? testStringCodePoints : codePoints.slice(0, 10)),
+  )
+
+  return { files, testString }
 }

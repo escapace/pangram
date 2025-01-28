@@ -1,4 +1,4 @@
-import { quoteFontFamily } from '../utilities/quote-font-family'
+import { fontFamilyQuote } from './font-family-quote'
 
-export const fontFamilyJoin = (value: string[] = []) =>
-  value.length === 0 ? undefined : value.map((value) => quoteFontFamily(value)).join(', ')
+export const fontFamilyJoin = (value: string[] = []): string | undefined =>
+  value.length === 0 ? undefined : value.map((value) => fontFamilyQuote(value)).join(', ')
