@@ -141,7 +141,7 @@ CMD []
 
 # ---
 
-FROM quay.io/centos/centos:stream9
+FROM scratch
 COPY --from=production / /
 
 ENV PATH="/home/node/package/packages/container/.venv/bin:$PATH" PYTHONUNBUFFERED=1

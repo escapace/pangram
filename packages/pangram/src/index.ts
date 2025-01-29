@@ -299,11 +299,13 @@ export const fallback = async (
   for (const name of values) {
     const file = `${name}.json`
     if (names.includes(file as typeof names extends ReadonlyArray<infer U> ? U : never)) {
-      result.push(
-        (await import(`./fonts/${file}`, {
-          with: { type: 'json' },
-        })) as FontInformation,
-      )
+      // eslint-disable-next-line typescript/no-unsafe-assignment
+      const _module = await import(`./fonts/${file}`, {
+        with: { type: 'json' },
+      })
+
+      // eslint-disable-next-line typescript/no-unsafe-member-access
+      result.push((_module?.default ?? _module) as FontInformation)
     }
   }
 

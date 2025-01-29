@@ -45,7 +45,7 @@ export const inspect = async (options: { font: string }): Promise<void> => {
 
   assert(!(result.variable && result.variations.length > 0))
 
-  result.id = path.basename(options.font)
+  result.id = path.basename(options.font).split('.').slice(0, -1).join('.')
 
   console.log(stringify(result))
 }

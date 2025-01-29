@@ -188,12 +188,16 @@ def inspect(font, options):
     descent = hhea_table.descent
     line_gap = hhea_table.lineGap
 
-    cmap = font.getBestCmap()
+    # ascent = getattr(os2_table, "sTypoAscender", None)
+    # descent = getattr(os2_table, "sTypoDescender", None)
+    # line_gap = getattr(os2_table, "sTypoLineGap", None)
 
     # OS/2-based metrics may not always be set, so use getattr with None fallback
     cap_height = getattr(os2_table, "sCapHeight", None)
     x_height = getattr(os2_table, "sxHeight", None)
     x_width_avg = getattr(os2_table, "xAvgCharWidth", None)
+
+    cmap = font.getBestCmap()
 
     units_per_em = head_table.unitsPerEm
 
