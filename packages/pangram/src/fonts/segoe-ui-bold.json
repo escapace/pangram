@@ -43928,7 +43928,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Segoe UI Bold",
-  "id": "segoe-ui-bold.ttf",
+  "id": "segoe-ui-bold",
   "lineGap": 0,
   "postScriptName": "SegoeUI-Bold",
   "subfamilyName": "Bold",

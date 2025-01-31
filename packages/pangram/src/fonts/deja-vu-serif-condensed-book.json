@@ -37936,7 +37936,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif Condensed",
-  "id": "deja-vu-serif-condensed-book.ttf",
+  "id": "deja-vu-serif-condensed-book",
   "lineGap": 0,
   "postScriptName": "DejaVuSerifCondensed",
   "subfamilyName": "Condensed",

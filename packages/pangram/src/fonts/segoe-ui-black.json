@@ -24115,7 +24115,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Segoe UI Black",
-  "id": "segoe-ui-black.ttf",
+  "id": "segoe-ui-black",
   "lineGap": 0,
   "postScriptName": "SegoeUIBlack",
   "subfamilyName": "Black",

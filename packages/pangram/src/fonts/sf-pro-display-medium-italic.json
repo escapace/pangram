@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Medium Italic",
-  "id": "sf-pro-display-medium-italic.otf",
+  "id": "sf-pro-display-medium-italic",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-MediumItalic",
   "subfamilyName": "Medium Italic",

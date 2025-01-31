@@ -32093,7 +32093,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Segoe UI Italic",
-  "id": "segoe-ui-italic.ttf",
+  "id": "segoe-ui-italic",
   "lineGap": 0,
   "postScriptName": "SegoeUI-Italic",
   "subfamilyName": "Italic",

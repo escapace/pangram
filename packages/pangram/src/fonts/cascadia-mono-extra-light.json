@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono ExtraLight",
-  "id": "cascadia-mono-extra-light.otf",
+  "id": "cascadia-mono-extra-light",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-ExtraLight",
   "subfamilyName": "ExtraLight",

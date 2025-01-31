@@ -40469,7 +40469,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Times New Roman Bold",
-  "id": "times-new-roman-bold.ttf",
+  "id": "times-new-roman-bold",
   "lineGap": 87,
   "postScriptName": "TimesNewRomanPS-BoldMT",
   "subfamilyName": "Bold",

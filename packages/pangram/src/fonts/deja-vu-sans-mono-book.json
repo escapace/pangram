@@ -36562,7 +36562,7 @@
     { "name": "rtbd", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans Mono",
-  "id": "deja-vu-sans-mono-book.ttf",
+  "id": "deja-vu-sans-mono-book",
   "lineGap": 0,
   "postScriptName": "DejaVuSansMono",
   "subfamilyName": "Book",

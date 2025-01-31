@@ -7363,7 +7363,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Arial Black",
-  "id": "arial-black.ttf",
+  "id": "arial-black",
   "lineGap": 0,
   "postScriptName": "Arial-Black",
   "subfamilyName": "Black",

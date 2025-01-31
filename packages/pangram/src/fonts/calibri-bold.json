@@ -41286,7 +41286,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Calibri Bold",
-  "id": "calibri-bold.ttf",
+  "id": "calibri-bold",
   "lineGap": 452,
   "postScriptName": "Calibri-Bold",
   "subfamilyName": "Bold",

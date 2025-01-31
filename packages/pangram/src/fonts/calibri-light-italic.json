@@ -33666,7 +33666,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Calibri Light Italic",
-  "id": "calibri-light-italic.ttf",
+  "id": "calibri-light-italic",
   "lineGap": 452,
   "postScriptName": "Calibri-LightItalic",
   "subfamilyName": "Light Italic",

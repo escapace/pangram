@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Heavy",
-  "id": "sf-pro-text-heavy.otf",
+  "id": "sf-pro-text-heavy",
   "lineGap": 0,
   "postScriptName": "SFProText-Heavy",
   "subfamilyName": "Heavy",

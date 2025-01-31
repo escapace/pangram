@@ -12114,7 +12114,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Bold Italic",
-  "id": "sf-mono-bold-italic.otf",
+  "id": "sf-mono-bold-italic",
   "lineGap": 0,
   "postScriptName": "SFMono-BoldItalic",
   "subfamilyName": "Bold Italic",

@@ -14468,7 +14468,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Light",
-  "id": "sf-mono-light.otf",
+  "id": "sf-mono-light",
   "lineGap": 0,
   "postScriptName": "SFMono-Light",
   "subfamilyName": "Light",

@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Cond Bold",
-  "id": "georgia-pro-cond-bold.ttf",
+  "id": "georgia-pro-cond-bold",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-CondBold",
   "subfamilyName": "Cond Bold",

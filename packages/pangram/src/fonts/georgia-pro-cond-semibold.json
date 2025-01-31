@@ -7900,7 +7900,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Cond Semibold",
-  "id": "georgia-pro-cond-semibold.ttf",
+  "id": "georgia-pro-cond-semibold",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-CondSemibold",
   "subfamilyName": "Cond Semibold",

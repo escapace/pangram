@@ -7900,7 +7900,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Black Italic",
-  "id": "georgia-pro-black-italic.ttf",
+  "id": "georgia-pro-black-italic",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-BlackItalic",
   "subfamilyName": "Black Italic",

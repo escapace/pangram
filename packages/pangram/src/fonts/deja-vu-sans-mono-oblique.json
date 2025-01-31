@@ -29525,7 +29525,7 @@
     { "name": "mark", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans Mono Oblique",
-  "id": "deja-vu-sans-mono-oblique.ttf",
+  "id": "deja-vu-sans-mono-oblique",
   "lineGap": 0,
   "postScriptName": "DejaVuSansMono-Oblique",
   "subfamilyName": "Oblique",

@@ -37481,7 +37481,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Arial Bold",
-  "id": "arial-bold.ttf",
+  "id": "arial-bold",
   "lineGap": 67,
   "postScriptName": "Arial-BoldMT",
   "subfamilyName": "Bold",

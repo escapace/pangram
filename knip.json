@@ -13,7 +13,14 @@
     "src/index.ts!",
     "src/types.ts"
   ],
-  "ignore": ["**/*.d.+([a-zA-Z0-9]).ts", "**/*.d.ts", "lib/**", "packages/container/test/**"],
+  "ignore": [
+    "**/*.d.+([a-zA-Z0-9]).ts",
+    "**/*.d.ts",
+    "lib/**",
+    "packages/container/test/**",
+    "packages/pangram/src/fonts/**",
+    "packages/example/**"
+  ],
   "ignoreBinaries": ["ncu", "python3", "pyftsubset"],
   "ignoreDependencies": [
     "@pangram/*",

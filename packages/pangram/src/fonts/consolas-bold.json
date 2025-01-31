@@ -26432,7 +26432,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Consolas Bold",
-  "id": "consolas-bold.ttf",
+  "id": "consolas-bold",
   "lineGap": 350,
   "postScriptName": "Consolas-Bold",
   "subfamilyName": "Bold",

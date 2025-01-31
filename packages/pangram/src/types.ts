@@ -4,6 +4,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
   z.objectUtil.extendShape<
     {
       namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+      namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
       variable: z.ZodLiteral<false>
     },
     {
@@ -112,6 +113,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
     familyName?: string | null | undefined
     fullName?: string | null | undefined
     namedInstance?: string | null | undefined
+    namedInstancePostScriptName?: string | null | undefined
     postScriptName?: string | null | undefined
     subfamilyName?: string | null | undefined
     typographicFamilyName?: string | null | undefined
@@ -147,6 +149,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
     familyName?: string | null | undefined
     fullName?: string | null | undefined
     namedInstance?: string | null | undefined
+    namedInstancePostScriptName?: string | null | undefined
     postScriptName?: string | null | undefined
     subfamilyName?: string | null | undefined
     typographicFamilyName?: string | null | undefined
@@ -188,6 +191,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
           z.objectUtil.extendShape<
             {
               namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
               variable: z.ZodLiteral<false>
             },
             {
@@ -296,6 +300,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
             familyName?: string | null | undefined
             fullName?: string | null | undefined
             namedInstance?: string | null | undefined
+            namedInstancePostScriptName?: string | null | undefined
             postScriptName?: string | null | undefined
             subfamilyName?: string | null | undefined
             typographicFamilyName?: string | null | undefined
@@ -331,6 +336,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
             familyName?: string | null | undefined
             fullName?: string | null | undefined
             namedInstance?: string | null | undefined
+            namedInstancePostScriptName?: string | null | undefined
             postScriptName?: string | null | undefined
             subfamilyName?: string | null | undefined
             typographicFamilyName?: string | null | undefined
@@ -476,6 +482,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
       familyName?: string | null | undefined
       fullName?: string | null | undefined
       namedInstance?: string | null | undefined
+      namedInstancePostScriptName?: string | null | undefined
       postScriptName?: string | null | undefined
       subfamilyName?: string | null | undefined
       typographicFamilyName?: string | null | undefined
@@ -551,6 +558,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
       familyName?: string | null | undefined
       fullName?: string | null | undefined
       namedInstance?: string | null | undefined
+      namedInstancePostScriptName?: string | null | undefined
       postScriptName?: string | null | undefined
       subfamilyName?: string | null | undefined
       typographicFamilyName?: string | null | undefined
@@ -608,6 +616,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
               z.objectUtil.extendShape<
                 {
                   namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                  namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                   variable: z.ZodLiteral<false>
                 },
                 {
@@ -716,6 +725,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                 familyName?: string | null | undefined
                 fullName?: string | null | undefined
                 namedInstance?: string | null | undefined
+                namedInstancePostScriptName?: string | null | undefined
                 postScriptName?: string | null | undefined
                 subfamilyName?: string | null | undefined
                 typographicFamilyName?: string | null | undefined
@@ -751,6 +761,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                 familyName?: string | null | undefined
                 fullName?: string | null | undefined
                 namedInstance?: string | null | undefined
+                namedInstancePostScriptName?: string | null | undefined
                 postScriptName?: string | null | undefined
                 subfamilyName?: string | null | undefined
                 typographicFamilyName?: string | null | undefined
@@ -896,6 +907,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           familyName?: string | null | undefined
           fullName?: string | null | undefined
           namedInstance?: string | null | undefined
+          namedInstancePostScriptName?: string | null | undefined
           postScriptName?: string | null | undefined
           subfamilyName?: string | null | undefined
           typographicFamilyName?: string | null | undefined
@@ -971,6 +983,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           familyName?: string | null | undefined
           fullName?: string | null | undefined
           namedInstance?: string | null | undefined
+          namedInstancePostScriptName?: string | null | undefined
           postScriptName?: string | null | undefined
           subfamilyName?: string | null | undefined
           typographicFamilyName?: string | null | undefined
@@ -994,6 +1007,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
       z.objectUtil.extendShape<
         {
           namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
           variable: z.ZodLiteral<false>
         },
         {
@@ -1102,6 +1116,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
         familyName?: string | null | undefined
         fullName?: string | null | undefined
         namedInstance?: string | null | undefined
+        namedInstancePostScriptName?: string | null | undefined
         postScriptName?: string | null | undefined
         subfamilyName?: string | null | undefined
         typographicFamilyName?: string | null | undefined
@@ -1137,6 +1152,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
         familyName?: string | null | undefined
         fullName?: string | null | undefined
         namedInstance?: string | null | undefined
+        namedInstancePostScriptName?: string | null | undefined
         postScriptName?: string | null | undefined
         subfamilyName?: string | null | undefined
         typographicFamilyName?: string | null | undefined
@@ -1259,6 +1275,9 @@ export declare const schemaFontProperties: z.ZodObject<
                             z.objectUtil.extendShape<
                               {
                                 namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                namedInstancePostScriptName: z.ZodNullable<
+                                  z.ZodOptional<z.ZodString>
+                                >
                                 variable: z.ZodLiteral<false>
                               },
                               {
@@ -1367,6 +1386,7 @@ export declare const schemaFontProperties: z.ZodObject<
                               familyName?: string | null | undefined
                               fullName?: string | null | undefined
                               namedInstance?: string | null | undefined
+                              namedInstancePostScriptName?: string | null | undefined
                               postScriptName?: string | null | undefined
                               subfamilyName?: string | null | undefined
                               typographicFamilyName?: string | null | undefined
@@ -1402,6 +1422,7 @@ export declare const schemaFontProperties: z.ZodObject<
                               familyName?: string | null | undefined
                               fullName?: string | null | undefined
                               namedInstance?: string | null | undefined
+                              namedInstancePostScriptName?: string | null | undefined
                               postScriptName?: string | null | undefined
                               subfamilyName?: string | null | undefined
                               typographicFamilyName?: string | null | undefined
@@ -1547,6 +1568,7 @@ export declare const schemaFontProperties: z.ZodObject<
                         familyName?: string | null | undefined
                         fullName?: string | null | undefined
                         namedInstance?: string | null | undefined
+                        namedInstancePostScriptName?: string | null | undefined
                         postScriptName?: string | null | undefined
                         subfamilyName?: string | null | undefined
                         typographicFamilyName?: string | null | undefined
@@ -1622,6 +1644,7 @@ export declare const schemaFontProperties: z.ZodObject<
                         familyName?: string | null | undefined
                         fullName?: string | null | undefined
                         namedInstance?: string | null | undefined
+                        namedInstancePostScriptName?: string | null | undefined
                         postScriptName?: string | null | undefined
                         subfamilyName?: string | null | undefined
                         typographicFamilyName?: string | null | undefined
@@ -1645,6 +1668,7 @@ export declare const schemaFontProperties: z.ZodObject<
                     z.objectUtil.extendShape<
                       {
                         namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                        namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                         variable: z.ZodLiteral<false>
                       },
                       {
@@ -1753,6 +1777,7 @@ export declare const schemaFontProperties: z.ZodObject<
                       familyName?: string | null | undefined
                       fullName?: string | null | undefined
                       namedInstance?: string | null | undefined
+                      namedInstancePostScriptName?: string | null | undefined
                       postScriptName?: string | null | undefined
                       subfamilyName?: string | null | undefined
                       typographicFamilyName?: string | null | undefined
@@ -1788,6 +1813,7 @@ export declare const schemaFontProperties: z.ZodObject<
                       familyName?: string | null | undefined
                       fullName?: string | null | undefined
                       namedInstance?: string | null | undefined
+                      namedInstancePostScriptName?: string | null | undefined
                       postScriptName?: string | null | undefined
                       subfamilyName?: string | null | undefined
                       typographicFamilyName?: string | null | undefined
@@ -1835,6 +1861,7 @@ export declare const schemaFontProperties: z.ZodObject<
               familyName?: string | null | undefined
               fullName?: string | null | undefined
               namedInstance?: string | null | undefined
+              namedInstancePostScriptName?: string | null | undefined
               postScriptName?: string | null | undefined
               subfamilyName?: string | null | undefined
               typographicFamilyName?: string | null | undefined
@@ -1899,6 +1926,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 familyName?: string | null | undefined
                 fullName?: string | null | undefined
                 namedInstance?: string | null | undefined
+                namedInstancePostScriptName?: string | null | undefined
                 postScriptName?: string | null | undefined
                 subfamilyName?: string | null | undefined
                 typographicFamilyName?: string | null | undefined
@@ -1973,6 +2001,7 @@ export declare const schemaFontProperties: z.ZodObject<
               familyName?: string | null | undefined
               fullName?: string | null | undefined
               namedInstance?: string | null | undefined
+              namedInstancePostScriptName?: string | null | undefined
               postScriptName?: string | null | undefined
               subfamilyName?: string | null | undefined
               typographicFamilyName?: string | null | undefined
@@ -2037,6 +2066,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 familyName?: string | null | undefined
                 fullName?: string | null | undefined
                 namedInstance?: string | null | undefined
+                namedInstancePostScriptName?: string | null | undefined
                 postScriptName?: string | null | undefined
                 subfamilyName?: string | null | undefined
                 typographicFamilyName?: string | null | undefined
@@ -2134,6 +2164,7 @@ export declare const schemaLocale: z.ZodObject<
                 familyName?: string | null | undefined
                 fullName?: string | null | undefined
                 namedInstance?: string | null | undefined
+                namedInstancePostScriptName?: string | null | undefined
                 postScriptName?: string | null | undefined
                 subfamilyName?: string | null | undefined
                 typographicFamilyName?: string | null | undefined
@@ -2198,6 +2229,7 @@ export declare const schemaLocale: z.ZodObject<
                   familyName?: string | null | undefined
                   fullName?: string | null | undefined
                   namedInstance?: string | null | undefined
+                  namedInstancePostScriptName?: string | null | undefined
                   postScriptName?: string | null | undefined
                   subfamilyName?: string | null | undefined
                   typographicFamilyName?: string | null | undefined
@@ -2282,6 +2314,7 @@ export declare const schemaLocales: z.ZodEffects<
                         familyName?: string | null | undefined
                         fullName?: string | null | undefined
                         namedInstance?: string | null | undefined
+                        namedInstancePostScriptName?: string | null | undefined
                         postScriptName?: string | null | undefined
                         subfamilyName?: string | null | undefined
                         typographicFamilyName?: string | null | undefined
@@ -2346,6 +2379,7 @@ export declare const schemaLocales: z.ZodEffects<
                           familyName?: string | null | undefined
                           fullName?: string | null | undefined
                           namedInstance?: string | null | undefined
+                          namedInstancePostScriptName?: string | null | undefined
                           postScriptName?: string | null | undefined
                           subfamilyName?: string | null | undefined
                           typographicFamilyName?: string | null | undefined

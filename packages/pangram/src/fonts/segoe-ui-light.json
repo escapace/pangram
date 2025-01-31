@@ -43951,7 +43951,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Segoe UI Light",
-  "id": "segoe-ui-light.ttf",
+  "id": "segoe-ui-light",
   "lineGap": 0,
   "postScriptName": "SegoeUI-Light",
   "subfamilyName": "Light",

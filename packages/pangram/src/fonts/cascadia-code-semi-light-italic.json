@@ -16409,7 +16409,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Code SemiLight Italic",
-  "id": "cascadia-code-semi-light-italic.otf",
+  "id": "cascadia-code-semi-light-italic",
   "lineGap": 0,
   "postScriptName": "CascadiaCode-SemiLightItalic",
   "subfamilyName": "SemiLight Italic",

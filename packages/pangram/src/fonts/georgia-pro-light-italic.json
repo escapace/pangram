@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Light Italic",
-  "id": "georgia-pro-light-italic.ttf",
+  "id": "georgia-pro-light-italic",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-LightItalic",
   "subfamilyName": "Light Italic",

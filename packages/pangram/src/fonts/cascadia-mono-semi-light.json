@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono SemiLight",
-  "id": "cascadia-mono-semi-light.otf",
+  "id": "cascadia-mono-semi-light",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-SemiLight",
   "subfamilyName": "SemiLight",

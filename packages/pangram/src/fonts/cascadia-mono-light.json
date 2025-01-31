@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono Light",
-  "id": "cascadia-mono-light.otf",
+  "id": "cascadia-mono-light",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-Light",
   "subfamilyName": "Light",

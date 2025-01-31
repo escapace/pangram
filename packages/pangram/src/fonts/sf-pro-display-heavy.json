@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Heavy",
-  "id": "sf-pro-display-heavy.otf",
+  "id": "sf-pro-display-heavy",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-Heavy",
   "subfamilyName": "Heavy",

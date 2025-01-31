@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Ultralight",
-  "id": "sf-pro-rounded-ultralight.otf",
+  "id": "sf-pro-rounded-ultralight",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Ultralight",
   "subfamilyName": "Ultralight",

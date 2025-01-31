@@ -35889,7 +35889,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans Mono Bold",
-  "id": "deja-vu-sans-mono-bold.ttf",
+  "id": "deja-vu-sans-mono-bold",
   "lineGap": 0,
   "postScriptName": "DejaVuSansMono-Bold",
   "subfamilyName": "Bold",

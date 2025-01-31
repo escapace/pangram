@@ -16409,7 +16409,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Code Light Italic",
-  "id": "cascadia-code-light-italic.otf",
+  "id": "cascadia-code-light-italic",
   "lineGap": 0,
   "postScriptName": "CascadiaCode-LightItalic",
   "subfamilyName": "Light Italic",

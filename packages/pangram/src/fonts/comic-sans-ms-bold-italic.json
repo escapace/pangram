@@ -6699,7 +6699,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Comic Sans MS Bold Italic",
-  "id": "comic-sans-ms-bold-italic.ttf",
+  "id": "comic-sans-ms-bold-italic",
   "lineGap": 0,
   "postScriptName": "ComicSansMS-BoldItalic",
   "subfamilyName": "Bold Italic",

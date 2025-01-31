@@ -7900,7 +7900,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Semibold Italic",
-  "id": "georgia-pro-semibold-italic.ttf",
+  "id": "georgia-pro-semibold-italic",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-SemiboldItalic",
   "subfamilyName": "Semibold Italic",

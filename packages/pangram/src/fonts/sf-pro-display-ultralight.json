@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Ultralight",
-  "id": "sf-pro-display-ultralight.otf",
+  "id": "sf-pro-display-ultralight",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-Ultralight",
   "subfamilyName": "Ultralight",

@@ -12114,7 +12114,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Light Italic",
-  "id": "sf-mono-light-italic.otf",
+  "id": "sf-mono-light-italic",
   "lineGap": 0,
   "postScriptName": "SFMono-LightItalic",
   "subfamilyName": "Light Italic",

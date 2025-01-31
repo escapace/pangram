@@ -6843,7 +6843,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Bold",
-  "id": "georgia-bold.ttf",
+  "id": "georgia-bold",
   "lineGap": 0,
   "postScriptName": "Georgia-Bold",
   "subfamilyName": "Bold",

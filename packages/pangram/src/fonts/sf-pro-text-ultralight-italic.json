@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Ultralight Italic",
-  "id": "sf-pro-text-ultralight-italic.otf",
+  "id": "sf-pro-text-ultralight-italic",
   "lineGap": 0,
   "postScriptName": "SFProText-UltralightItalic",
   "subfamilyName": "Ultralight Italic",

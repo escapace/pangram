@@ -37891,7 +37891,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif Bold",
-  "id": "deja-vu-serif-bold.ttf",
+  "id": "deja-vu-serif-bold",
   "lineGap": 0,
   "postScriptName": "DejaVuSerif-Bold",
   "subfamilyName": "Bold",

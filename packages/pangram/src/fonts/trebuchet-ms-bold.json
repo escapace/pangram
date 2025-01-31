@@ -7716,7 +7716,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Trebuchet MS Bold",
-  "id": "trebuchet-ms-bold.ttf",
+  "id": "trebuchet-ms-bold",
   "lineGap": 0,
   "postScriptName": "TrebuchetMS-Bold",
   "subfamilyName": "Bold",

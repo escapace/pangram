@@ -41492,7 +41492,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Tahoma Bold",
-  "id": "tahoma-bold.ttf",
+  "id": "tahoma-bold",
   "lineGap": 0,
   "postScriptName": "Tahoma-Bold",
   "subfamilyName": "Bold",

@@ -184,13 +184,61 @@ def inspect(font, options):
     os2_table = font["OS/2"]
     head_table = font["head"]
 
+    units_per_em = head_table.unitsPerEm
+
+    # ascent = hhea_table.ascent
+    # descent = hhea_table.descent
+    # line_gap = hhea_table.lineGap
+
+    typo_ascent = getattr(os2_table, "sTypoAscender", None)
+    typo_descent = getattr(os2_table, "sTypoDescender", None)
+    typo_line_gap = getattr(os2_table, "sTypoLineGap", None)
+
+    winAscent = getattr(os2_table, "winAscent", None)
+    winDescent = getattr(os2_table, "winDescent", None)
+
     ascent = hhea_table.ascent
     descent = hhea_table.descent
     line_gap = hhea_table.lineGap
 
-    # ascent = getattr(os2_table, "sTypoAscender", None)
-    # descent = getattr(os2_table, "sTypoDescender", None)
-    # line_gap = getattr(os2_table, "sTypoLineGap", None)
+    fsselection_bit7_mask = 1 << 7
+    # USE_TYPO_METRICS bit
+    fsselection_bit7_set = (os2_table.fsSelection & fsselection_bit7_mask) != 0
+
+    osx_line_height = (ascent + descent + line_gap) / units_per_em
+    # https://developer.chrome.com/blog/font-fallbacks
+    # determine whether a font uses the same font metric overrides on both OSX and Windows devices.
+    if fsselection_bit7_set and (
+        (typo_ascent is not None)
+        and (typo_descent is not None)
+        and (typo_line_gap is not None)
+    ):
+        # If USE_TYPO_METRICS is enabled, the font will be rendered using hhea metrics on OSX
+        # devices and typo metrics on Windows devices.
+        win_line_height = (typo_ascent + typo_descent + typo_line_gap) / units_per_em
+
+        if not (osx_line_height == win_line_height):
+            raise ValueError("Inconsistent font font metric")
+
+        # FIXME: https://www.w3.org/TR/css-inline-3/#ascent-descent
+        # It is recommended that implementations that use OpenType or TrueType fonts use the metrics
+        # sTypoAscender and sTypoDescender from the font’s OS/2 table (after scaling to the current
+        # element’s font size) to find the ascent metric and descent metric for CSS layout. In the absence
+        # of these metrics, the "Ascent" and "Descent" metrics from the HHEA table should be used.
+
+        ascent = typo_ascent
+        descent = typo_descent
+        typo_line_gap = typo_line_gap
+
+    if (not fsselection_bit7_set) and (
+        (winAscent is not None) and (winDescent is not None)
+    ):
+        # If USE_TYPO_METRICS is not enabled, the font will be rendered using hhea metrics on OSX
+        # devices and win metrics on Windows devices.
+        win_line_height = (winAscent + winDescent) / units_per_em
+
+        if not (line_gap == 0 and osx_line_height == win_line_height):
+            raise ValueError("Inconsistent font font metric")
 
     # OS/2-based metrics may not always be set, so use getattr with None fallback
     cap_height = getattr(os2_table, "sCapHeight", None)
@@ -198,8 +246,6 @@ def inspect(font, options):
     x_width_avg = getattr(os2_table, "xAvgCharWidth", None)
 
     cmap = font.getBestCmap()
-
-    units_per_em = head_table.unitsPerEm
 
     if cap_height is None:
         x_min, y_min, x_max, y_max = get_glyph_bounding_box(font, cmap[ord("H")])
@@ -358,6 +404,11 @@ def main(args=None):
                 namedInstance = getFirstDecodedName(
                     instance.subfamilyNameID, font["name"].names
                 )
+
+                namedInstancePostScriptName = getFirstDecodedName(
+                    instance.postscriptNameID, font["name"].names
+                )
+
                 coordinates = instance.coordinates
 
                 for axis in fvar_table.axes:
@@ -368,8 +419,9 @@ def main(args=None):
                 variation_info = inspect(variation, options)
 
                 named_instance_info = {
-                    "variable": False,
                     "namedInstance": namedInstance,
+                    "namedInstancePostScriptName": namedInstancePostScriptName,
+                    "variable": False,
                     "variationSettings": coordinates,
                     **variation_info,
                 }

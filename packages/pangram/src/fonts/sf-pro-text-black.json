@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Black",
-  "id": "sf-pro-text-black.otf",
+  "id": "sf-pro-text-black",
   "lineGap": 0,
   "postScriptName": "SFProText-Black",
   "subfamilyName": "Black",

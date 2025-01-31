@@ -14468,7 +14468,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Heavy",
-  "id": "sf-mono-heavy.otf",
+  "id": "sf-mono-heavy",
   "lineGap": 0,
   "postScriptName": "SFMono-Heavy",
   "subfamilyName": "Heavy",

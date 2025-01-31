@@ -12114,7 +12114,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Heavy Italic",
-  "id": "sf-mono-heavy-italic.otf",
+  "id": "sf-mono-heavy-italic",
   "lineGap": 0,
   "postScriptName": "SFMono-HeavyItalic",
   "subfamilyName": "Heavy Italic",

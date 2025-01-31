@@ -16409,7 +16409,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono ExtraLight Italic",
-  "id": "cascadia-mono-extra-light-italic.otf",
+  "id": "cascadia-mono-extra-light-italic",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-ExtraLightItalic",
   "subfamilyName": "ExtraLight Italic",

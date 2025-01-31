@@ -43917,7 +43917,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Segoe UI Semibold",
-  "id": "segoe-ui-semibold.ttf",
+  "id": "segoe-ui-semibold",
   "lineGap": 0,
   "postScriptName": "SegoeUI-Semibold",
   "subfamilyName": "Semibold",

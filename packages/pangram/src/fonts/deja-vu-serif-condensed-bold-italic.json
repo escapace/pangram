@@ -37803,7 +37803,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif Condensed Bold Italic",
-  "id": "deja-vu-serif-condensed-bold-italic.ttf",
+  "id": "deja-vu-serif-condensed-bold-italic",
   "lineGap": 0,
   "postScriptName": "DejaVuSerifCondensed-BoldItalic",
   "subfamilyName": "Condensed Bold Italic",

@@ -8206,7 +8206,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "San Francisco Display Light",
-  "id": "san-francisco-display-light.otf",
+  "id": "san-francisco-display-light",
   "lineGap": 0,
   "postScriptName": "SanFranciscoDisplay-Light",
   "subfamilyName": "Light",

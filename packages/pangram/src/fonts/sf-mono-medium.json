@@ -14468,7 +14468,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Medium",
-  "id": "sf-mono-medium.otf",
+  "id": "sf-mono-medium",
   "lineGap": 0,
   "postScriptName": "SFMono-Medium",
   "subfamilyName": "Medium",

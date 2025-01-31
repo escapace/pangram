@@ -43939,7 +43939,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Segoe UI Semilight",
-  "id": "segoe-ui-semilight.ttf",
+  "id": "segoe-ui-semilight",
   "lineGap": 0,
   "postScriptName": "SegoeUI-Semilight",
   "subfamilyName": "Semilight",

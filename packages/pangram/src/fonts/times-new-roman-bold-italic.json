@@ -32828,7 +32828,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Times New Roman Bold Italic",
-  "id": "times-new-roman-bold-italic.ttf",
+  "id": "times-new-roman-bold-italic",
   "lineGap": 87,
   "postScriptName": "TimesNewRomanPS-BoldItalicMT",
   "subfamilyName": "Bold Italic",

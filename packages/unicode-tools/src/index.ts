@@ -123,31 +123,11 @@ export const codePointFrequencies = (codePoints: number[], locales: string[] = [
   )
 }
 
-// const testData = ` e
-// Ա Բ Գ Դ Ե Զ Է Ը Թ Ժ Ի Լ Խ Ծ Կ
-// U+054x Հ Ձ Ղ Ճ Մ Յ Ն Շ Ո Չ Պ Ջ Ռ Ս Վ Տ
-// U+055x Ր Ց Ւ Փ Ք Օ Ֆ ՙ ՚ ՛ ՜ ՝ ՞ ՟
-// U+056x ՠ ա բ գ դ ե զ է ը թ ժ ի լ խ ծ կ
-// U+057x հ ձ ղ ճ մ յ ն շ ո չ պ ջ ռ ս վ տ
-// U+058x ր ց ւ փ ք օ ֆ և ֈ ։ ֊ ֍ ֎ ֏
-// U+040x Ѐ Ё Ђ Ѓ Є Ѕ І Ї Ј Љ Њ Ћ Ќ Ѝ Ў Џ
-// U+041x А Б В Г Д Е Ж З И Й К Л М Н О П
-// U+042x Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я
-// U+043x а б в г д е ж з и й к л м н о п
-// U+044x р с т у ф х ц ч ш щ ъ ы ь э ю я
-// U+045x ѐ ё ђ ѓ є ѕ і ї ј љ њ ћ ќ ѝ ў џ
-// U+046x Ѡ ѡ Ѣ ѣ Ѥ ѥ Ѧ ѧ Ѩ ѩ Ѫ ѫ Ѭ ѭ Ѯ ѯ
-// U+047x Ѱ ѱ Ѳ ѳ Ѵ ѵ Ѷ ѷ Ѹ ѹ Ѻ ѻ Ѽ ѽ Ѿ ѿ
-// U+048x Ҁ ҁ ҂ ◌҃ ◌҄ ◌҅ ◌҆ ◌҇ ◌҈ ◌҉ Ҋ ҋ Ҍ ҍ Ҏ ҏ
-// U+049x Ґ ґ Ғ ғ Ҕ ҕ Җ җ Ҙ ҙ Қ қ Ҝ ҝ Ҟ ҟ
-// U+04Ax Ҡ ҡ Ң ң Ҥ ҥ Ҧ ҧ Ҩ ҩ Ҫ ҫ Ҭ ҭ Ү ү
-// U+04Bx Ұ ұ Ҳ ҳ Ҵ ҵ Ҷ ҷ Ҹ ҹ Һ һ Ҽ ҽ Ҿ ҿ
-// U+04Cx Ӏ Ӂ ӂ Ӄ ӄ Ӆ ӆ Ӈ ӈ Ӊ ӊ Ӌ ӌ Ӎ ӎ ӏ
-// U+04Dx Ӑ ӑ Ӓ ӓ Ӕ ӕ Ӗ ӗ Ә ә Ӛ ӛ Ӝ ӝ Ӟ ӟ
-// U+04Ex Ӡ ӡ Ӣ ӣ Ӥ ӥ Ӧ ӧ Ө ө Ӫ ӫ Ӭ ӭ Ӯ ӯ
-// U+04Fx Ӱ ӱ Ӳ ӳ Ӵ ӵ Ӷ ӷ Ӹ ӹ Ӻ ӻ Ӽ ӽ Ӿ ӿ
+// const testData = `
+// A aB bC cD dE eF fG gH hI iJ jK kL lM mN nO oP pQ qR rS sT tU uV vW wX xY yZ z
 // `
 //
+// // eslint-disable-next-line typescript/no-non-null-assertion
 // const testCodepoints = Array.from(testData, (char) => char.codePointAt(0)!)
 //
 // const test = codePointFrequencies(testCodepoints, ['en'])

@@ -12114,7 +12114,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Semibold Italic",
-  "id": "sf-mono-semibold-italic.otf",
+  "id": "sf-mono-semibold-italic",
   "lineGap": 0,
   "postScriptName": "SFMono-SemiboldItalic",
   "subfamilyName": "Semibold Italic",

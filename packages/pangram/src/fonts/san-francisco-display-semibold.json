@@ -8195,7 +8195,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "San Francisco Display Semibold",
-  "id": "san-francisco-display-semibold.otf",
+  "id": "san-francisco-display-semibold",
   "lineGap": 0,
   "postScriptName": "SanFranciscoDisplay-Semibold",
   "subfamilyName": "Semibold",

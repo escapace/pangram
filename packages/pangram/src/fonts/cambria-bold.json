@@ -25564,7 +25564,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cambria Bold",
-  "id": "cambria-bold.ttf",
+  "id": "cambria-bold",
   "lineGap": 0,
   "postScriptName": "Cambria-Bold",
   "subfamilyName": "Bold",

@@ -6698,7 +6698,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Candara Light Italic",
-  "id": "candara-light-italic.ttf",
+  "id": "candara-light-italic",
   "lineGap": 452,
   "postScriptName": "Candara-LightItalic",
   "subfamilyName": "Light Italic",

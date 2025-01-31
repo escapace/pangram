@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Thin",
-  "id": "sf-pro-display-thin.otf",
+  "id": "sf-pro-display-thin",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-Thin",
   "subfamilyName": "Thin",

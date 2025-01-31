@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Cond Light",
-  "id": "georgia-pro-cond-light.ttf",
+  "id": "georgia-pro-cond-light",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-CondLight",
   "subfamilyName": "Cond Light",

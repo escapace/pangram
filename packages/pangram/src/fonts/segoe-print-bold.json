@@ -7344,7 +7344,7 @@
   "familyName": "Segoe Print",
   "features": [{ "name": "kern", "type": "positioning" }],
   "fullName": "Segoe Print Bold",
-  "id": "segoe-print-bold.ttf",
+  "id": "segoe-print-bold",
   "lineGap": 46,
   "postScriptName": "SegoePrint-Bold",
   "subfamilyName": "Bold",

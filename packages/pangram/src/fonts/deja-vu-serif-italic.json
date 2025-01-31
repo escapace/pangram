@@ -37814,7 +37814,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif Italic",
-  "id": "deja-vu-serif-italic.ttf",
+  "id": "deja-vu-serif-italic",
   "lineGap": 0,
   "postScriptName": "DejaVuSerif-Italic",
   "subfamilyName": "Italic",

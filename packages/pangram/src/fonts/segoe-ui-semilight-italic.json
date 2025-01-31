@@ -32093,7 +32093,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Segoe UI Semilight Italic",
-  "id": "segoe-ui-semilight-italic.ttf",
+  "id": "segoe-ui-semilight-italic",
   "lineGap": 0,
   "postScriptName": "SegoeUI-SemilightItalic",
   "subfamilyName": "Semilight Italic",

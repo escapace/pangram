@@ -28,6 +28,9 @@ const xWidthAverage = (data: RequiredFontInformation, locales: string[]) => {
   }, 0)
 }
 
+const toPercentString = (value: number) => `${round(value * 100)}%`
+
+// extended from https://github.com/seek-oss/capsize/blob/master/packages/core/src/createFontStack.ts
 export const fontAdjust = (
   primary: RequiredFontInformation,
   secondary: RequiredFontInformation,
@@ -50,12 +53,23 @@ export const fontAdjust = (
   const descentOverride = Math.abs(primary.descent) / adjustedEmSquare
   const lineGapOverride = primary.lineGap / adjustedEmSquare
 
-  // Conditionally populate font face properties and format to percent
-  const adjustments = {
-    ascentOverride: `${round(ascentOverride * 100)}%`,
-    descentOverride: `${round(descentOverride * 100)}%`,
-    lineGapOverride: `${round(lineGapOverride * 100)}%`,
-    sizeAdjust: `${round(sizeAdjust * 100)}%`,
+  const secondaryAscentOverride = secondary.ascent / adjustedEmSquare
+  const secondaryDescentOverride = Math.abs(secondary.descent) / adjustedEmSquare
+  const secondaryLineGapOverride = secondary.lineGap / adjustedEmSquare
+
+  const adjustments: FontFaceAdjustments = {}
+
+  if (ascentOverride && ascentOverride !== secondaryAscentOverride) {
+    adjustments.ascentOverride = toPercentString(ascentOverride)
+  }
+  if (descentOverride && descentOverride !== secondaryDescentOverride) {
+    adjustments.descentOverride = toPercentString(descentOverride)
+  }
+  if (lineGapOverride !== secondaryLineGapOverride) {
+    adjustments.lineGapOverride = toPercentString(lineGapOverride)
+  }
+  if (sizeAdjust && sizeAdjust !== 1) {
+    adjustments.sizeAdjust = toPercentString(sizeAdjust)
   }
 
   return adjustments

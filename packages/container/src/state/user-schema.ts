@@ -54,6 +54,7 @@ const schemaFontInspectVariationAxis = z.object({
 const schemaFontInformationVariation = z
   .object({
     namedInstance: z.string().optional().nullable(),
+    namedInstancePostScriptName: z.string().optional().nullable(),
     variable: z.literal(false),
   })
   .extend(schemaFontInformationShared.shape)

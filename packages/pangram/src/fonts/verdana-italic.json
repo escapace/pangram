@@ -9927,7 +9927,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Verdana Italic",
-  "id": "verdana-italic.ttf",
+  "id": "verdana-italic",
   "lineGap": 0,
   "postScriptName": "Verdana-Italic",
   "subfamilyName": "Italic",

@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Bold",
-  "id": "sf-pro-rounded-bold.otf",
+  "id": "sf-pro-rounded-bold",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Bold",
   "subfamilyName": "Bold",

@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Black",
-  "id": "sf-pro-rounded-black.otf",
+  "id": "sf-pro-rounded-black",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Black",
   "subfamilyName": "Black",

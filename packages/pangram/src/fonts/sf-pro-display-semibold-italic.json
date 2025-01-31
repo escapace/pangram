@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Semibold Italic",
-  "id": "sf-pro-display-semibold-italic.otf",
+  "id": "sf-pro-display-semibold-italic",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-SemiboldItalic",
   "subfamilyName": "Semibold Italic",

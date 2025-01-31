@@ -1,13 +1,15 @@
 import { execa } from 'execa'
 import { findUp } from 'find-up'
 import { pathExists } from 'fs-extra'
-import { compact } from 'lodash-es'
+import { writeFile } from 'node:fs/promises'
+import { compact, first, kebabCase } from 'lodash-es'
 import assert from 'node:assert'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { schemaFontInformation } from './state/user-schema'
 import { configure } from 'safe-stable-stringify'
-// import { } from 'prettier'
+import { fontNames } from './font/font-names'
+import { schemaFontInformation } from './state/user-schema'
+
 const stringify = configure({
   bigint: false,
   circularValue: Error,
@@ -30,6 +32,7 @@ export const inspect = async (options: { font: string }): Promise<void> => {
 
   const file = path.resolve(process.cwd(), options.font)
   assert(await pathExists(file), `${file}: no such file`)
+  const directory = path.dirname(file)
 
   // ...[
   //   isEmpty(variationSettings)
@@ -43,9 +46,22 @@ export const inspect = async (options: { font: string }): Promise<void> => {
     JSON.parse((await execa('python3', arguments_)).stdout),
   )
 
-  assert(!(result.variable && result.variations.length > 0))
+  if (result.variable) {
+    for (const variation of result.variations) {
+      const names = fontNames(variation)
+      const name = first(names)
+      const result = { ...variation, id: name === undefined ? variation.id : kebabCase(name) }
 
-  result.id = path.basename(options.font).split('.').slice(0, -1).join('.')
+      await writeFile(path.join(directory, `${result.id}.json`), stringify(result))
+    }
+  } else {
+    const name = first(fontNames(result))
 
-  console.log(stringify(result))
+    result.id =
+      name === undefined
+        ? path.basename(options.font).split('.').slice(0, -1).join('.')
+        : kebabCase(name)
+
+    await writeFile(path.join(directory, `${result.id}.json`), stringify(result))
+  }
 }

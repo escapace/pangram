@@ -16409,7 +16409,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono Bold Italic",
-  "id": "cascadia-mono-bold-italic.otf",
+  "id": "cascadia-mono-bold-italic",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-BoldItalic",
   "subfamilyName": "Bold Italic",

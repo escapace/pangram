@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Black Italic",
-  "id": "sf-pro-display-black-italic.otf",
+  "id": "sf-pro-display-black-italic",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-BlackItalic",
   "subfamilyName": "Black Italic",

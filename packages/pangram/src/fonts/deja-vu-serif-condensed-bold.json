@@ -37891,7 +37891,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif Condensed Bold",
-  "id": "deja-vu-serif-condensed-bold.ttf",
+  "id": "deja-vu-serif-condensed-bold",
   "lineGap": 0,
   "postScriptName": "DejaVuSerifCondensed-Bold",
   "subfamilyName": "Condensed Bold",

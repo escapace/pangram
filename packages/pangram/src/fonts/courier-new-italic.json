@@ -26633,7 +26633,7 @@
     { "name": "mark", "type": "positioning" }
   ],
   "fullName": "Courier New Italic",
-  "id": "courier-new-italic.ttf",
+  "id": "courier-new-italic",
   "lineGap": 0,
   "postScriptName": "CourierNewPS-ItalicMT",
   "subfamilyName": "Italic",

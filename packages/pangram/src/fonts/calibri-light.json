@@ -41275,7 +41275,7 @@
     { "name": "cpsp", "type": "positioning" }
   ],
   "fullName": "Calibri Light",
-  "id": "calibri-light.ttf",
+  "id": "calibri-light",
   "lineGap": 452,
   "postScriptName": "Calibri-Light",
   "subfamilyName": "Light",

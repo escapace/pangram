@@ -14468,7 +14468,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Semibold",
-  "id": "sf-mono-semibold.otf",
+  "id": "sf-mono-semibold",
   "lineGap": 0,
   "postScriptName": "SFMono-Semibold",
   "subfamilyName": "Semibold",

@@ -34967,7 +34967,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Courier New Bold",
-  "id": "courier-new-bold.ttf",
+  "id": "courier-new-bold",
   "lineGap": 0,
   "postScriptName": "CourierNewPS-BoldMT",
   "subfamilyName": "Bold",

@@ -6843,7 +6843,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Bold Italic",
-  "id": "georgia-bold-italic.ttf",
+  "id": "georgia-bold-italic",
   "lineGap": 0,
   "postScriptName": "Georgia-BoldItalic",
   "subfamilyName": "Bold Italic",

@@ -2786,7 +2786,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "BodoniMTStd-BoldCond",
-  "id": "bodoni-mt-std-bold-cond.otf",
+  "id": "bodoni-mt-std-bold-cond",
   "lineGap": 200,
   "postScriptName": "BodoniMTStd-BoldCond",
   "subfamilyName": "Bold Cond",

@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Bold Italic",
-  "id": "georgia-pro-bold-italic.ttf",
+  "id": "georgia-pro-bold-italic",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-BoldItalic",
   "subfamilyName": "Bold Italic",

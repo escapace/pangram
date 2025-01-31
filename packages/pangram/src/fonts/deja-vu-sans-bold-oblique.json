@@ -58770,7 +58770,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans Bold Oblique",
-  "id": "deja-vu-sans-bold-oblique.ttf",
+  "id": "deja-vu-sans-bold-oblique",
   "lineGap": 0,
   "postScriptName": "DejaVuSans-BoldOblique",
   "subfamilyName": "Bold Oblique",

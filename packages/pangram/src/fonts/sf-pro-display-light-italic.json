@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Light Italic",
-  "id": "sf-pro-display-light-italic.otf",
+  "id": "sf-pro-display-light-italic",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-LightItalic",
   "subfamilyName": "Light Italic",

@@ -32093,7 +32093,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Segoe UI Semibold Italic",
-  "id": "segoe-ui-semibold-italic.ttf",
+  "id": "segoe-ui-semibold-italic",
   "lineGap": 9,
   "postScriptName": "SegoeUI-SemiboldItalic",
   "subfamilyName": "Semibold Italic",

@@ -25564,7 +25564,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cambria Bold Italic",
-  "id": "cambria-bold-italic.ttf",
+  "id": "cambria-bold-italic",
   "lineGap": 0,
   "postScriptName": "Cambria-BoldItalic",
   "subfamilyName": "Bold Italic",

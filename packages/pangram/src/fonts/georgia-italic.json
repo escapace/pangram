@@ -6832,7 +6832,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Italic",
-  "id": "georgia-italic.ttf",
+  "id": "georgia-italic",
   "lineGap": 0,
   "postScriptName": "Georgia-Italic",
   "subfamilyName": "Italic",

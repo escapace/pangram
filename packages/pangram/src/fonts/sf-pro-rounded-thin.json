@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Thin",
-  "id": "sf-pro-rounded-thin.otf",
+  "id": "sf-pro-rounded-thin",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Thin",
   "subfamilyName": "Thin",

@@ -14468,7 +14468,7 @@
     { "name": "locl", "type": "substitution" }
   ],
   "fullName": "SF Mono Bold",
-  "id": "sf-mono-bold.otf",
+  "id": "sf-mono-bold",
   "lineGap": 0,
   "postScriptName": "SFMono-Bold",
   "subfamilyName": "Bold",

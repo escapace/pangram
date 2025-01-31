@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Medium",
-  "id": "sf-pro-text-medium.otf",
+  "id": "sf-pro-text-medium",
   "lineGap": 0,
   "postScriptName": "SFProText-Medium",
   "subfamilyName": "Medium",

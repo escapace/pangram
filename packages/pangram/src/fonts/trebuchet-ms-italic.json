@@ -7716,7 +7716,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Trebuchet MS Italic",
-  "id": "trebuchet-ms-italic.ttf",
+  "id": "trebuchet-ms-italic",
   "lineGap": 0,
   "postScriptName": "TrebuchetMS-Italic",
   "subfamilyName": "Italic",

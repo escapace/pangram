@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Light",
-  "id": "georgia-pro-light.ttf",
+  "id": "georgia-pro-light",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-Light",
   "subfamilyName": "Light",

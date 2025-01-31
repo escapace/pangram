@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Heavy",
-  "id": "sf-pro-rounded-heavy.otf",
+  "id": "sf-pro-rounded-heavy",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Heavy",
   "subfamilyName": "Heavy",

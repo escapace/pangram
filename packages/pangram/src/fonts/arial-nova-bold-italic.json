@@ -6603,7 +6603,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Arial Nova Bold Italic",
-  "id": "arial-nova-bold-italic.otf",
+  "id": "arial-nova-bold-italic",
   "lineGap": 0,
   "postScriptName": "ArialNova-BoldItalic",
   "subfamilyName": "Bold Italic",

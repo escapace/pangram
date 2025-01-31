@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Code SemiBold",
-  "id": "cascadia-code-semi-bold.otf",
+  "id": "cascadia-code-semi-bold",
   "lineGap": 0,
   "postScriptName": "CascadiaCode-SemiBold",
   "subfamilyName": "SemiBold",

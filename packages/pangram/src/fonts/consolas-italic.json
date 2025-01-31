@@ -27400,7 +27400,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Consolas Italic",
-  "id": "consolas-italic.ttf",
+  "id": "consolas-italic",
   "lineGap": 350,
   "postScriptName": "Consolas-Italic",
   "subfamilyName": "Italic",

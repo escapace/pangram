@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Bold Italic",
-  "id": "sf-pro-text-bold-italic.otf",
+  "id": "sf-pro-text-bold-italic",
   "lineGap": 0,
   "postScriptName": "SFProText-BoldItalic",
   "subfamilyName": "Bold Italic",

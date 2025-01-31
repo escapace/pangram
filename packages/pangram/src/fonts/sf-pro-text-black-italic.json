@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Black Italic",
-  "id": "sf-pro-text-black-italic.otf",
+  "id": "sf-pro-text-black-italic",
   "lineGap": 0,
   "postScriptName": "SFProText-BlackItalic",
   "subfamilyName": "Black Italic",

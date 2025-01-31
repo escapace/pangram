@@ -7988,7 +7988,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Cond Light Italic",
-  "id": "georgia-pro-cond-light-italic.ttf",
+  "id": "georgia-pro-cond-light-italic",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-CondLightItalic",
   "subfamilyName": "Cond Light Italic",

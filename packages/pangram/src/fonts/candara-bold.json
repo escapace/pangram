@@ -8400,7 +8400,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Candara Bold",
-  "id": "candara-bold.ttf",
+  "id": "candara-bold",
   "lineGap": 452,
   "postScriptName": "Candara-Bold",
   "subfamilyName": "Bold",

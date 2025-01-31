@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Mono Bold",
-  "id": "cascadia-mono-bold.otf",
+  "id": "cascadia-mono-bold",
   "lineGap": 0,
   "postScriptName": "CascadiaMono-Bold",
   "subfamilyName": "Bold",

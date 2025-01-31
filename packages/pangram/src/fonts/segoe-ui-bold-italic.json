@@ -32093,7 +32093,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Segoe UI Bold Italic",
-  "id": "segoe-ui-bold-italic.ttf",
+  "id": "segoe-ui-bold-italic",
   "lineGap": 0,
   "postScriptName": "SegoeUI-BoldItalic",
   "subfamilyName": "Bold Italic",

@@ -2786,7 +2786,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "BodoniMTStd-Italic",
-  "id": "bodoni-mt-std-italic.otf",
+  "id": "bodoni-mt-std-italic",
   "lineGap": 200,
   "postScriptName": "BodoniMTStd-Italic",
   "subfamilyName": "Italic",

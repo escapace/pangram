@@ -8195,7 +8195,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "San Francisco Display Bold",
-  "id": "san-francisco-display-bold.otf",
+  "id": "san-francisco-display-bold",
   "lineGap": 0,
   "postScriptName": "SanFranciscoDisplay-Bold",
   "subfamilyName": "Bold",

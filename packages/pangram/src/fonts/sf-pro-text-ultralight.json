@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Ultralight",
-  "id": "sf-pro-text-ultralight.otf",
+  "id": "sf-pro-text-ultralight",
   "lineGap": 0,
   "postScriptName": "SFProText-Ultralight",
   "subfamilyName": "Ultralight",

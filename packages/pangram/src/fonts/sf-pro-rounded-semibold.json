@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Semibold",
-  "id": "sf-pro-rounded-semibold.otf",
+  "id": "sf-pro-rounded-semibold",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Semibold",
   "subfamilyName": "Semibold",

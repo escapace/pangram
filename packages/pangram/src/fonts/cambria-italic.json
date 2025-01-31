@@ -25564,7 +25564,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cambria Italic",
-  "id": "cambria-italic.ttf",
+  "id": "cambria-italic",
   "lineGap": 0,
   "postScriptName": "Cambria-Italic",
   "subfamilyName": "Italic",

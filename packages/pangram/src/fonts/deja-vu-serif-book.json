@@ -37936,7 +37936,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Serif",
-  "id": "deja-vu-serif-book.ttf",
+  "id": "deja-vu-serif-book",
   "lineGap": 0,
   "postScriptName": "DejaVuSerif",
   "subfamilyName": "Book",

@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Thin Italic",
-  "id": "sf-pro-text-thin-italic.otf",
+  "id": "sf-pro-text-thin-italic",
   "lineGap": 0,
   "postScriptName": "SFProText-ThinItalic",
   "subfamilyName": "Thin Italic",

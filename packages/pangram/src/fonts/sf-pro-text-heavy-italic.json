@@ -68969,7 +68969,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Heavy Italic",
-  "id": "sf-pro-text-heavy-italic.otf",
+  "id": "sf-pro-text-heavy-italic",
   "lineGap": 0,
   "postScriptName": "SFProText-HeavyItalic",
   "subfamilyName": "Heavy Italic",

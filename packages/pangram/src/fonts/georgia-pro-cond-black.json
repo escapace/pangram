@@ -7900,7 +7900,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Cond Black",
-  "id": "georgia-pro-cond-black.ttf",
+  "id": "georgia-pro-cond-black",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-CondBlack",
   "subfamilyName": "Cond Black",

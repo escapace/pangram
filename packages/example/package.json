@@ -1,0 +1,49 @@
+{
+  "name": "@pangram/example",
+  "description": "",
+  "version": "0.0.0",
+  "author": "escapace <opensource@escapace.com>",
+  "bugs": "https://github.com/escapace/pangram/issues",
+  "dependencies": {
+    "@hono/node-server": "^1.13.7",
+    "@vueuse/core": "^12.5.0",
+    "hono": "^4.6.19",
+    "pangram": "workspace:*",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@ls-lint/ls-lint": "2.2.3",
+    "@pointe/types": "5.12.1",
+    "@vitejs/plugin-vue": "5.2.1",
+    "eslint": "9.19.0",
+    "eslint-config-escapace": "5.4.1",
+    "pointe": "5.12.1",
+    "prettier": "3.4.2",
+    "prettier-config-escapace": "1.2.1",
+    "sass": "1.83.4",
+    "syncpack": "13.0.0",
+    "typescript": "5.7.3",
+    "vite": "6.0.11",
+    "vue-tsc": "2.2.0"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "pnpm": ">=9.15.4"
+  },
+  "homepage": "https://github.com/escapace/pangram",
+  "license": "MPL-2.0",
+  "private": true,
+  "repository": "escapace/pangram",
+  "scripts": {
+    "build": "pointe build",
+    "dev": "pointe dev",
+    "format": "syncpack format --source package.json && eslint --no-warn-ignored --fix && prettier -uw .",
+    "lint": "ls-lint --config .ls-lint.yaml && eslint",
+    "ls-lint": "ls-lint --config .ls-lint.yaml",
+    "preview": "pointe preview",
+    "test": "echo 'No Tests'",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "type": "module"
+}

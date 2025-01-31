@@ -6698,7 +6698,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Candara Light",
-  "id": "candara-light.ttf",
+  "id": "candara-light",
   "lineGap": 452,
   "postScriptName": "Candara-Light",
   "subfamilyName": "Light",

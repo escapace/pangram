@@ -65122,7 +65122,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans",
-  "id": "deja-vu-sans-book.ttf",
+  "id": "deja-vu-sans-book",
   "lineGap": 0,
   "postScriptName": "DejaVuSans",
   "subfamilyName": "Book",

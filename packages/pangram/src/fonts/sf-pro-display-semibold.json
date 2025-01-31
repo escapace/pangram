@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Semibold",
-  "id": "sf-pro-display-semibold.otf",
+  "id": "sf-pro-display-semibold",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-Semibold",
   "subfamilyName": "Semibold",

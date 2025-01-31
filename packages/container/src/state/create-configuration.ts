@@ -62,6 +62,7 @@ const cosmicconfigLoader = async (
       },
       minify: false,
       outdir: temporaryDirectory,
+      outExtension: { '.js': '.mjs' },
       platform: 'node',
       target: [`node${process.version.slice(1)}`],
       treeShaking: true,
@@ -73,7 +74,7 @@ const cosmicconfigLoader = async (
     // const base64URI = `data:text/javascript;base64,${base64Content}`
 
     // eslint-disable-next-line typescript/no-unsafe-assignment
-    const module_ = await import(path.join(temporaryDirectory, 'index.js'))
+    const module_ = await import(path.join(temporaryDirectory, 'index.mjs'))
 
     await remove(temporaryDirectory)
 

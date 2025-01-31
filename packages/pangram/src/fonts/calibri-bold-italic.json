@@ -33665,7 +33665,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Calibri Bold Italic",
-  "id": "calibri-bold-italic.ttf",
+  "id": "calibri-bold-italic",
   "lineGap": 452,
   "postScriptName": "Calibri-BoldItalic",
   "subfamilyName": "Bold Italic",

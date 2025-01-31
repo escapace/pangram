@@ -20491,7 +20491,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Cascadia Code Light",
-  "id": "cascadia-code-light.otf",
+  "id": "cascadia-code-light",
   "lineGap": 0,
   "postScriptName": "CascadiaCode-Light",
   "subfamilyName": "Light",

@@ -64902,7 +64902,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "DejaVu Sans Condensed Bold",
-  "id": "deja-vu-sans-condensed-bold.ttf",
+  "id": "deja-vu-sans-condensed-bold",
   "lineGap": 0,
   "postScriptName": "DejaVuSansCondensed-Bold",
   "subfamilyName": "Condensed Bold",

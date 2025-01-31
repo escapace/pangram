@@ -7535,7 +7535,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Impact",
-  "id": "impact.ttf",
+  "id": "impact",
   "lineGap": 0,
   "postScriptName": "Impact",
   "subfamilyName": "Regular",

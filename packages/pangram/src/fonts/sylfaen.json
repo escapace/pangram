@@ -8823,7 +8823,7 @@
     { "name": "mark", "type": "positioning" }
   ],
   "fullName": "Sylfaen",
-  "id": "sylfaen.ttf",
+  "id": "sylfaen",
   "lineGap": 611,
   "postScriptName": "Sylfaen",
   "subfamilyName": "Regular",

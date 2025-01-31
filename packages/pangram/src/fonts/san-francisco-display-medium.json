@@ -8195,7 +8195,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "San Francisco Display Medium",
-  "id": "san-francisco-display-medium.otf",
+  "id": "san-francisco-display-medium",
   "lineGap": 0,
   "postScriptName": "SanFranciscoDisplay-Medium",
   "subfamilyName": "Medium",

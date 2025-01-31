@@ -9334,7 +9334,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Corbel Italic",
-  "id": "corbel-italic.ttf",
+  "id": "corbel-italic",
   "lineGap": 425,
   "postScriptName": "Corbel-Italic",
   "subfamilyName": "Italic",

@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Text Light",
-  "id": "sf-pro-text-light.otf",
+  "id": "sf-pro-text-light",
   "lineGap": 0,
   "postScriptName": "SFProText-Light",
   "subfamilyName": "Light",

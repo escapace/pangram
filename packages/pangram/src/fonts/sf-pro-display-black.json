@@ -72121,7 +72121,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Display Black",
-  "id": "sf-pro-display-black.otf",
+  "id": "sf-pro-display-black",
   "lineGap": 0,
   "postScriptName": "SFProDisplay-Black",
   "subfamilyName": "Black",

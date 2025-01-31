@@ -29840,7 +29840,7 @@
     { "name": "mkmk", "type": "positioning" }
   ],
   "fullName": "Arial Italic",
-  "id": "arial-italic.ttf",
+  "id": "arial-italic",
   "lineGap": 67,
   "postScriptName": "Arial-ItalicMT",
   "subfamilyName": "Italic",

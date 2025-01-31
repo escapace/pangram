@@ -70741,7 +70741,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "SF Pro Rounded Light",
-  "id": "sf-pro-rounded-light.otf",
+  "id": "sf-pro-rounded-light",
   "lineGap": 0,
   "postScriptName": "SFProRounded-Light",
   "subfamilyName": "Light",

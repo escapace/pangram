@@ -8400,7 +8400,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Candara Italic",
-  "id": "candara-italic.ttf",
+  "id": "candara-italic",
   "lineGap": 452,
   "postScriptName": "Candara-Italic",
   "subfamilyName": "Italic",

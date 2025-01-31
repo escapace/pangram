@@ -7900,7 +7900,7 @@
     { "name": "kern", "type": "positioning" }
   ],
   "fullName": "Georgia Pro Semibold",
-  "id": "georgia-pro-semibold.ttf",
+  "id": "georgia-pro-semibold",
   "lineGap": 0,
   "postScriptName": "GeorgiaPro-Semibold",
   "subfamilyName": "Semibold",
