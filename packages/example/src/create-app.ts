@@ -1,4 +1,3 @@
-import '@unocss/reset/normalize.css'
 import { createSSRApp } from 'vue'
 import { createMemoryHistory, createRouter, createWebHistory } from 'vue-router'
 import HomeView from './views/home.vue'
