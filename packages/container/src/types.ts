@@ -96,6 +96,7 @@ export interface FontProperties extends Omit<InferFontProperties, 'fontFamily'> 
 
 export interface Style {
   atRules: AtRule[]
+  variables: Record<string, number | string>
   // fontPropertiesKeys: Array<keyof Required<FontProperties>>
   classname: string
   id: string
@@ -131,7 +132,6 @@ export interface State {
   publicPath: string
   runtimeDirectory: string
   runtimeFontInspectPath: string
-  runtimeFontLoaderPath: string
   runtimeFontStripPath: string
   targets: {
     browserslist: string[]

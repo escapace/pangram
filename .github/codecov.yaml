@@ -20,6 +20,12 @@ flags:
   container:
     paths:
       - packages/container/
+  example:
+    paths:
+      - packages/example/
+  font-loader:
+    paths:
+      - packages/font-loader/
   pangram:
     paths:
       - packages/pangram/

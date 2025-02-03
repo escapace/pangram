@@ -13,20 +13,20 @@ const enUnicodeRange =
 //   // prefer: [robotoFlex]
 // }
 
-const robotoFlex: Font = {
-  display: 'swap',
-  name: 'roboto-flex',
-  resourceHint: 'preload',
-  source: './src/fonts/roboto-flex.ttf',
-  tech: ['variations'],
-  unicodeRange: enUnicodeRange,
-  // prefer: [robotoMedium]
-}
+// const robotoFlex: Font = {
+//   display: 'swap',
+//   name: 'roboto-flex',
+//   resourceHint: 'preload',
+//   source: './src/fonts/roboto-flex.ttf',
+//   tech: ['variations'],
+//   unicodeRange: enUnicodeRange,
+//   // prefer: [robotoMedium]
+// }
 
 const robotoRegular: Font = {
   display: 'swap',
   name: 'roboto-regular',
-  prefer: [robotoFlex],
+  // prefer: [robotoFlex],
   source: './src/fonts/roboto-regular.ttf',
   unicodeRange: enUnicodeRange,
 }
@@ -34,7 +34,7 @@ const robotoRegular: Font = {
 const robotoBold: Font = {
   display: 'swap',
   name: 'roboto-bold',
-  prefer: [robotoFlex],
+  // prefer: [robotoFlex],
   source: './src/fonts/roboto-bold.ttf',
   unicodeRange: enUnicodeRange,
 }
@@ -42,7 +42,7 @@ const robotoBold: Font = {
 const robotoItalic: Font = {
   display: 'swap',
   name: 'roboto-italic',
-  prefer: [robotoFlex],
+  // prefer: [robotoFlex],
   source: './src/fonts/roboto-italic.ttf',
   unicodeRange: enUnicodeRange,
 }
@@ -50,7 +50,7 @@ const robotoItalic: Font = {
 const locales: Locales = {
   en: {
     'sans-serif': {
-      fontFamily: [robotoRegular, ...(await fallback('sf-pro-regular'))],
+      fontFamily: [robotoRegular, ...(await fallback('arial'))],
       fontWeight: 400,
     },
     'sans-serif-bold': {
@@ -67,9 +67,10 @@ const locales: Locales = {
         slnt: -10,
       },
     },
-    // 'sans-serif-medium': {
-    //   fontFamily: [robotoRegular, 'system-ui']
-    // }
+    'test': {
+      fontFamily: [...(await fallback('sf-pro-ultralight'))],
+      fontWeight: 100,
+    },
   },
 }
 

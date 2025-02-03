@@ -1,5 +1,6 @@
 import type { Properties } from 'csstype'
 import type { z } from 'zod'
+import type { WebFont } from '@pangram/font-loader'
 declare const schemaFontInformationVariation: z.ZodObject<
   z.objectUtil.extendShape<
     {
@@ -2417,27 +2418,6 @@ export declare const schemaLocales: z.ZodEffects<
   },
   Record<string, string | {}>
 >
-export interface ResourceHint {
-  as: 'font'
-  crossorigin: 'anonymous'
-  href: string
-  rel: 'prefetch' | 'preload'
-  type: string
-}
-export interface WebFont {
-  slug: string
-  fontFace?: Array<{
-    fontFamily: string
-    fontStretch?: number | [number, number]
-    fontStyle?: 'italic'
-    fontWeight?: number | [number, number]
-  }>
-  prefer?: string[]
-  resourceHint?: ResourceHint[]
-  state?: WebFontState
-  tech?: string[]
-  testString?: string
-}
 export interface WebFontLocale {
   font: WebFont[]
   fontFace: string
@@ -2455,11 +2435,5 @@ export interface WebFontsJson {
   script: string
   style: string
 }
-export type WebFontState =
-  | 'error'
-  | 'font-already-loaded'
-  | 'font-loaded'
-  | 'font-not-supported'
-  | 'font-unknown'
 
 //# sourceMappingURL=user-schema.d.ts.map

@@ -8,6 +8,7 @@
   },
   "bugs": "https://github.com/escapace/pangram/issues",
   "dependencies": {
+    "@pangram/font-loader": "workspace:*",
     "csstype": "^3.1.3",
     "zod": "^3.24.1"
   },

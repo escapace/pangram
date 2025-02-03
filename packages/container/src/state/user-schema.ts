@@ -4,6 +4,7 @@ import { sortBy, uniq } from 'lodash-es'
 import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
 import { fontUnicodeRange } from '../font/font-unicode-range'
+import type { WebFont } from '@pangram/font-loader'
 
 const schemaFontInformationShared = z.object({
   ascent: z.number(),
@@ -298,35 +299,35 @@ export const schemaLocales = z
     }
   })
 
-export interface ResourceHint {
-  as: 'font'
-  crossorigin: 'anonymous'
-  href: string
-  rel: 'prefetch' | 'preload'
-  type: string
-}
-
-export type WebFontState =
-  | 'error'
-  | 'font-already-loaded'
-  | 'font-loaded'
-  | 'font-not-supported'
-  | 'font-unknown'
-
-export interface WebFont {
-  slug: string
-  fontFace?: Array<{
-    fontFamily: string
-    fontStretch?: number | [number, number]
-    fontStyle?: 'italic'
-    fontWeight?: number | [number, number]
-  }>
-  prefer?: string[]
-  resourceHint?: ResourceHint[]
-  state?: WebFontState
-  tech?: string[]
-  testString?: string
-}
+// export interface ResourceHint {
+//   as: 'font'
+//   crossorigin: 'anonymous'
+//   href: string
+//   rel: 'prefetch' | 'preload'
+//   type: string
+// }
+//
+// export type WebFontState =
+//   | 'error'
+//   | 'font-already-loaded'
+//   | 'font-loaded'
+//   | 'font-not-supported'
+//   | 'font-unknown'
+//
+// export interface WebFont {
+//   slug: string
+//   fontFace?: Array<{
+//     fontFamily: string
+//     fontStretch?: number | [number, number]
+//     fontStyle?: 'italic'
+//     fontWeight?: number | [number, number]
+//   }>
+//   prefer?: string[]
+//   resourceHint?: ResourceHint[]
+//   state?: WebFontState
+//   tech?: string[]
+//   testString?: string
+// }
 
 export interface WebFontLocale {
   font: WebFont[]

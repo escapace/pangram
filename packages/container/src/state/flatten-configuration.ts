@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto'
 import {
   compact,
   defaults,
@@ -12,6 +11,7 @@ import {
   pickBy,
   uniq,
 } from 'lodash-es'
+import { randomUUID } from 'node:crypto'
 import { fontSort } from '../font/font-sort'
 import type {
   AtRule,
@@ -22,6 +22,7 @@ import type {
   Style,
 } from '../types'
 import { createHash } from '../utilities/create-hash'
+import { reduceGraph } from '../utilities/reduce-graph'
 import { toposortReverse } from '../utilities/toposort'
 import {
   type CSSProperties,
@@ -32,7 +33,6 @@ import {
   type StyleRule,
   schemaFontProperties,
 } from './user-schema'
-import { reduceGraph } from '../utilities/reduce-graph'
 
 // "wght" font-weight
 // "wdth" font-stretch
@@ -214,6 +214,7 @@ export const flattenConfiguration = (locales: InferLocales, cwd: string): Config
           ...value,
           fontProperties: reducedFontProperties?.id,
           graph: reducedFontProperties?.graph,
+          variables: {},
         }
       }),
     )

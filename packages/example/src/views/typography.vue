@@ -15,7 +15,7 @@
   </div>
 </template>
 
-<style>
+<style scoped>
 @font-face {
   font-family: test;
   src: local(Avenir Black);

@@ -3,27 +3,10 @@ export type {
   FontInformation,
   InputLocale as Locale,
   InputLocales as Locales,
-  ResourceHint,
-  WebFont,
   WebFontLocale,
   WebFontsJson,
 } from './types'
-
-import type { FontInformation, WebFont } from './types'
-
-export type WebFontLoaderSubscribe = (callback: (webFonts: WebFont[]) => void) => () => void
-
-export type WebFontLoader = (locale: string) => Promise<WebFont[]>
-
-export declare const webFontLoaderSubscribe: WebFontLoaderSubscribe
-export declare const webFontLoader: WebFontLoader
-
-declare global {
-  interface Window {
-    webFontLoader: WebFontLoader
-    webFontLoaderSubscribe: WebFontLoaderSubscribe
-  }
-}
+import type { FontInformation } from './types'
 
 const names = [
   'arial-black.json',

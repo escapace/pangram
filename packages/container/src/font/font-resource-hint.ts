@@ -1,7 +1,7 @@
 import { compact } from 'lodash-es'
 import urljoin from 'url-join'
-import type { ResourceHint } from '../state/user-schema'
 import type { FontStateWritten, State } from '../types'
+import type { ResourceHint } from '@pangram/font-loader'
 
 export const fontResourceHint = (slug: string, state: State): ResourceHint[] | undefined => {
   const fontState = state.configuration.fonts.get(slug) as FontStateWritten | undefined

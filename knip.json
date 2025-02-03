@@ -18,14 +18,14 @@
     "**/*.d.ts",
     "lib/**",
     "packages/container/test/**",
-    "packages/pangram/src/fonts/**",
-    "packages/example/**"
+    "packages/example/**",
+    "packages/pangram/src/fonts/**"
   ],
   "ignoreBinaries": ["ncu", "python3", "pyftsubset"],
   "ignoreDependencies": [
-    "@pangram/*",
     "@commitlint/cli",
     "@microsoft/api-extractor",
+    "@pangram/*",
     "cldr-misc-full",
     "esbuild",
     "eslint-config-escapace",

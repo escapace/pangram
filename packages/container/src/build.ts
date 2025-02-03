@@ -9,6 +9,7 @@ import {
   includes,
   isEmpty,
   isEqual,
+  kebabCase,
   last,
   map,
   mapValues,
@@ -24,7 +25,7 @@ import assert from 'node:assert'
 import path from 'node:path'
 import stringify from 'safe-stable-stringify'
 import type { ValuesType } from 'utility-types'
-import { fontAdjust } from './font/font-adjust'
+import { fontAdjust, xWidthAverage } from './font/font-adjust'
 import { fontFace } from './font/font-face'
 import { fontFaceCompact } from './font/font-face-compact'
 import { fontFaceToString } from './font/font-face-to-string'
@@ -36,7 +37,7 @@ import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
 import { createState } from './state/create-state'
 import { schemaFontPropertiesKeys } from './state/flatten-configuration'
-import type { CSSProperties, WebFont, WebFontLocale, WebFontsJson } from './state/user-schema'
+import type { CSSProperties, WebFontLocale, WebFontsJson } from './state/user-schema'
 import {
   TypeFontState,
   type FontProperties,
@@ -49,8 +50,10 @@ import { combinations } from './utilities/combinations'
 import { createHash } from './utilities/create-hash'
 import { minifyCss } from './utilities/minify-css'
 import { reduceGraph } from './utilities/reduce-graph'
+import { round } from './utilities/round'
 import { iterateProperties } from './utilities/style'
 import { toposort } from './utilities/toposort'
+import type { WebFont } from '@pangram/font-loader'
 
 // const selectorFontLocales = (state: State, slug?: string) =>
 //   slug === undefined
@@ -71,23 +74,30 @@ const toLang = (locale: string, state: State): string =>
 
 const stylePropertiesToString = (
   style: Style,
-  selector: string,
-  properties?: CSSProperties<{}>,
+  selectors: Record<string, CSSProperties<{}> | undefined>,
+  // selector: string,
+  // properties?: CSSProperties<{}>,
 ): string | undefined => {
-  if (isEmpty(properties)) {
-    return
-  }
+  const results = Object.entries(selectors)
+    .map(([selector, properties]) => {
+      if (isEmpty(properties)) {
+        return
+      }
 
-  const atRulesOpen = style.atRules.map((value) => `${value.type} ${value.value} { `)
-  const atRulesClose = style.atRules.map(() => `}`)
+      const atRulesOpen = style.atRules.map((value) => `${value.type} ${value.value} { `)
+      const atRulesClose = style.atRules.map(() => `}`)
 
-  return compact([
-    ...atRulesOpen,
-    `${selector} {`,
-    iterateProperties(properties),
-    `}`,
-    ...atRulesClose,
-  ]).join('\n')
+      return compact([
+        ...atRulesOpen,
+        `${selector} {`,
+        iterateProperties(properties),
+        `}`,
+        ...atRulesClose,
+      ]).join('\n')
+    })
+    .filter((value): value is string => value !== undefined)
+
+  return results.length === 0 ? undefined : results.join('\n')
 }
 
 const selectorParent = (style: Style, state: State): Style | undefined =>
@@ -383,6 +393,34 @@ export const build = async (options: Options = {}) => {
         ? undefined
         : await fontInspect(primaryFont.slug, state, fontProperties)) ?? fallbackFonts[0].font
 
+    const locales = uniq(
+      [
+        style.locale,
+        // TODO: is this appropriate?
+        // ...(primaryFont?.slug === undefined ? [] : selectorFontLocales(state, primaryFont.slug)),
+      ].flatMap((value) => state.configuration.localeToAlias.get(value) ?? []),
+    )
+
+    const variablePrefix = kebabCase(style.classname)
+
+    Object.assign(style.variables, {
+      [`--${variablePrefix}-ascent`]: round(
+        primaryFontInformation.ascent / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${variablePrefix}-cap-height`]: round(
+        primaryFontInformation.capHeight / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${variablePrefix}-descent`]: round(
+        Math.abs(primaryFontInformation.descent / primaryFontInformation.unitsPerEm),
+      ),
+      [`--${variablePrefix}-line-gap`]: round(
+        primaryFontInformation.lineGap / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${variablePrefix}-x-width-average`]: round(
+        xWidthAverage(primaryFontInformation, locales),
+      ),
+    })
+
     primaryFont?.fontFaces.set(
       style.id,
       fontFace({
@@ -391,14 +429,6 @@ export const build = async (options: Options = {}) => {
         publicPath: state.publicPath,
         type: 'font',
       }),
-    )
-
-    const locales = uniq(
-      [
-        style.locale,
-        // TODO: is this appropriate?
-        // ...(primaryFont?.slug === undefined ? [] : selectorFontLocales(state, primaryFont.slug)),
-      ].flatMap((value) => state.configuration.localeToAlias.get(value) ?? []),
     )
 
     for (const secondaryFont of secondaryFonts) {
@@ -506,31 +536,31 @@ export const build = async (options: Options = {}) => {
 
         return stylePropertiesToString(
           style,
-          selector,
-          pickBy(
-            {
-              fontFamily: fontFamilyJoin([
-                ...fonts.map((value) => value.fontFamily),
-                ...fallbackFontFamilies,
-              ]),
-            },
-            (value) => value !== undefined,
-          ),
+          {
+            [selector]: pickBy(
+              {
+                fontFamily: fontFamilyJoin([
+                  ...fonts.map((value) => value.fontFamily),
+                  ...fallbackFontFamilies,
+                ]),
+              },
+              (value) => value !== undefined,
+            ),
+          },
+          // selector,
         )
       }),
     )
 
-    style.fallbackStyle = stylePropertiesToString(
-      style,
-      `html:lang(${toLang(style.locale, state)}) .${style.classname}`,
-      fallbackStyleProperties,
-    )
+    style.fallbackStyle = stylePropertiesToString(style, {
+      [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
+      [`html:lang(${toLang(style.locale, state)}) .${style.classname}`]: fallbackStyleProperties,
+    })
 
-    style.noScriptStyle = stylePropertiesToString(
-      style,
-      `html:lang(${toLang(style.locale, state)}) .${style.classname}`,
-      noScriptStyleProperties,
-    )
+    style.noScriptStyle = stylePropertiesToString(style, {
+      [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
+      [`html:lang(${toLang(style.locale, state)}) .${style.classname}`]: noScriptStyleProperties,
+    })
 
     style.style = primaryStyles.length === 0 ? undefined : primaryStyles.join('\n')
   }

@@ -12,20 +12,23 @@ type RequiredFontInformation = Required<
   >
 >
 
-const xWidthAverage = (data: RequiredFontInformation, locales: string[]) => {
+export const xWidthAverage = (data: RequiredFontInformation, locales: string[]) => {
   assert(data.codePoints.length !== 0)
 
   const frequencies = codePointFrequencies(
     data.codePoints.map((value) => value.codePoint),
     locales,
+    [32],
   )
 
-  return frequencies.reduce((sum, [codePoint, frequency]) => {
-    // eslint-disable-next-line typescript/no-non-null-assertion
-    const { advanceWidth } = data.codePoints.find((value) => value.codePoint === codePoint)!
+  return (
+    frequencies.reduce((sum, [codePoint, frequency]) => {
+      // eslint-disable-next-line typescript/no-non-null-assertion
+      const { advanceWidth } = data.codePoints.find((value) => value.codePoint === codePoint)!
 
-    return sum + advanceWidth * frequency
-  }, 0)
+      return sum + advanceWidth * frequency
+    }, 0) / data.unitsPerEm
+  )
 }
 
 const toPercentString = (value: number) => `${round(value * 100)}%`
@@ -39,12 +42,10 @@ export const fontAdjust = (
   const primaryXWidthAverage = xWidthAverage(primary, locales)
   const secondaryXWidthAverage = xWidthAverage(secondary, locales)
 
-  // Calculate size adjust
-  const primaryFontXAvgRatio = primaryXWidthAverage / primary.unitsPerEm
-  const fallbackFontXAvgRatio = secondaryXWidthAverage / secondary.unitsPerEm
-
   const sizeAdjust =
-    primaryFontXAvgRatio && fallbackFontXAvgRatio ? primaryFontXAvgRatio / fallbackFontXAvgRatio : 1
+    primaryXWidthAverage && secondaryXWidthAverage
+      ? primaryXWidthAverage / secondaryXWidthAverage
+      : 1
 
   const adjustedEmSquare = primary.unitsPerEm * sizeAdjust
 

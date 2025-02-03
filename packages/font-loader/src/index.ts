@@ -1,7 +1,36 @@
 /* eslint-disable typescript/no-non-null-assertion */
 
 import FontFaceObserver from 'fontfaceobserver'
-import type { WebFont, WebFontState } from '../state/user-schema'
+
+export type WebFontState =
+  | 'error'
+  | 'font-already-loaded'
+  | 'font-loaded'
+  | 'font-not-supported'
+  | 'font-unknown'
+
+export interface ResourceHint {
+  as: 'font'
+  crossorigin: 'anonymous'
+  href: string
+  rel: 'prefetch' | 'preload'
+  type: string
+}
+
+export interface WebFont {
+  slug: string
+  fontFace?: Array<{
+    fontFamily: string
+    fontStretch?: number | [number, number]
+    fontStyle?: 'italic'
+    fontWeight?: number | [number, number]
+  }>
+  prefer?: string[]
+  resourceHint?: ResourceHint[]
+  state?: WebFontState
+  tech?: string[]
+  testString?: string
+}
 
 interface Font extends Omit<WebFont, 'state'> {
   state?: Promise<WebFontState>

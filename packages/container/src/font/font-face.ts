@@ -64,7 +64,6 @@ export const fontFace = (options: FontFaceOptionsFallback | FontFaceOptionsFont)
 
     return {
       fontFamily: font.id,
-      // fontNamedInstance: font.namedInstance,
       fontStretch,
       fontStyle,
       fontWeight,

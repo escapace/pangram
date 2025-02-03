@@ -28,7 +28,7 @@
     "vue-tsc": "2.2.0"
   },
   "engines": {
-    "node": ">=22.12.0",
+    "node": ">=22.13.1",
     "pnpm": ">=9.15.4"
   },
   "homepage": "https://github.com/escapace/pangram",

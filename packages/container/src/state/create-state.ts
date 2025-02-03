@@ -4,7 +4,7 @@ import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from '../constants'
-import type { State, Options } from '../types'
+import type { Options, State } from '../types'
 import { createConfiguration } from './create-configuration'
 
 export const createState = async (options: Options): Promise<State> => {
@@ -20,11 +20,10 @@ export const createState = async (options: Options): Promise<State> => {
   }
 
   const runtimeDirectory = path.dirname(runtimePackageJSON)
-  const runtimeFontLoaderPath = path.join(runtimeDirectory, 'src/font/font-loader.ts')
   const runtimeFontStripPath = path.join(runtimeDirectory, 'src/font/font-strip.py')
   const runtimeFontInspectPath = path.join(runtimeDirectory, 'src/font/font-inspect.py')
 
-  if (!existsSync(runtimeFontStripPath) || !existsSync(runtimeFontLoaderPath)) {
+  if (!existsSync(runtimeFontStripPath)) {
     throw new Error('Damaged installation')
   }
 
@@ -36,7 +35,6 @@ export const createState = async (options: Options): Promise<State> => {
   const jsonFile = path.resolve(processDirectory, options.manifest ?? DEFAULT_JSON_FILE)
 
   const targets = browserslistToTargets({
-    // browsers: u
     ignoreUnknownVersions: true,
     path: processDirectory,
   })
@@ -51,7 +49,6 @@ export const createState = async (options: Options): Promise<State> => {
     publicPath,
     runtimeDirectory,
     runtimeFontInspectPath,
-    runtimeFontLoaderPath,
     runtimeFontStripPath,
     targets,
   }

@@ -69,7 +69,11 @@ function combineCodepointFrequencies(
   return orderBy(result, (value) => value[1], 'desc')
 }
 
-export const codePointFrequencies = (codePoints: number[], locales: string[] = []) => {
+export const codePointFrequencies = (
+  codePoints: number[],
+  locales: string[] = [],
+  exclude: number[] = [],
+) => {
   const tags = locales
     .map((value) => bcp47Normalize(value, { forgiving: false }))
     .filter((value) => value !== undefined)
@@ -84,8 +88,8 @@ export const codePointFrequencies = (codePoints: number[], locales: string[] = [
 
           const exemplarCodePoints = document.exemplarCodePoints
 
-          const codePointFrequencies = document.codePointFrequencies.filter(([codePoint]) =>
-            codePoints.includes(codePoint),
+          const codePointFrequencies = document.codePointFrequencies.filter(
+            ([codePoint]) => codePoints.includes(codePoint) && !exclude.includes(codePoint),
           )
 
           if (exemplarCodePoints.length === 0) {
@@ -130,7 +134,7 @@ export const codePointFrequencies = (codePoints: number[], locales: string[] = [
 // // eslint-disable-next-line typescript/no-non-null-assertion
 // const testCodepoints = Array.from(testData, (char) => char.codePointAt(0)!)
 //
-// const test = codePointFrequencies(testCodepoints, ['en'])
+// const test = codePointFrequencies(testCodepoints, ['en'], [32])
 //
 // console.log(
 //   JSON.stringify(
