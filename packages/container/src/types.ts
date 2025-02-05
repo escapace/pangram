@@ -29,18 +29,6 @@ export interface FontFace extends FontFaceAdjustments {
   unicodeRange?: InferFont['unicodeRange']
 }
 
-// export interface LightningCSSTargets {
-//   android?: number
-//   chrome?: number
-//   edge?: number
-//   firefox?: number
-//   ie?: number
-//   ios_saf?: number
-//   opera?: number
-//   safari?: number
-//   samsung?: number
-// }
-
 export const enum TypeFontState {
   Initial,
   Written,
@@ -73,22 +61,11 @@ export interface AtRule {
   value: string
 }
 
-// export interface FontProperties {
-//   fontFamily:
-//     | {
-//         fallbacks: string[]
-//         fonts: string[]
-//       }
-//     | undefined
-//   fontWeight?: number | undefined
-//   fontStretch?: number | undefined
-//   fontStyle?: 'normal' | 'italic'
-// }
-
 export interface FontProperties extends Omit<InferFontProperties, 'fontFamily'> {
   fontFamily:
     | {
         fallbacks: string[]
+        fallbacksGeneric: string[]
         fonts: string[]
       }
     | undefined

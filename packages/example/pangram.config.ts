@@ -50,7 +50,7 @@ const robotoItalic: Font = {
 const locales: Locales = {
   en: {
     'sans-serif': {
-      fontFamily: [robotoRegular, ...(await fallback('arial'))],
+      fontFamily: [robotoRegular, ...(await fallback('arial')), 'sans-serif', 'system-ui'],
       fontWeight: 400,
     },
     'sans-serif-bold': {

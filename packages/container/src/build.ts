@@ -191,6 +191,12 @@ const selectorFallbackFontFamilies = (style: Style, state: State): string[] => {
   ).map((value) => value.fontFamily)
 }
 
+const selectorFallbackGenericFontFamilies = (style: Style, state: State): string[] => {
+  const fontProperties = selectorFontProperties(style, state)
+
+  return compact(fontProperties?.fontFamily?.fallbacksGeneric)
+}
+
 const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
   const style = minifyCss(
     [
@@ -482,11 +488,7 @@ export const build = async (options: Options = {}) => {
     const fontProperties = selectorFontProperties(style, state)
     const fontFamilies = selectorFontFamilies(style, state)
     const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
-
-    const combinedFontFamilies = [
-      ...fontFamilies.map((value) => value.fontFamily),
-      ...fallbackFontFamilies,
-    ]
+    const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
 
     const isRoot = selectorParent(style, state) === undefined
 
@@ -503,7 +505,11 @@ export const build = async (options: Options = {}) => {
     style.noScriptStyleProperties = pickBy(
       {
         ...sharedStyleProperties,
-        fontFamily: fontFamilyJoin(combinedFontFamilies),
+        fontFamily: fontFamilyJoin([
+          ...fontFamilies.map((value) => value.fontFamily),
+          ...fallbackFontFamilies,
+          ...fallbackGenericFontFamilies,
+        ]),
       },
       (value) => value !== undefined,
     ) as CSSProperties<{}>
@@ -511,7 +517,7 @@ export const build = async (options: Options = {}) => {
     style.fallbackStyleProperties = pickBy(
       {
         ...sharedStyleProperties,
-        fontFamily: fontFamilyJoin(fallbackFontFamilies),
+        fontFamily: fontFamilyJoin([...fallbackFontFamilies, ...fallbackGenericFontFamilies]),
       },
       (value) => value !== undefined,
     ) as CSSProperties<{}>
@@ -523,6 +529,7 @@ export const build = async (options: Options = {}) => {
 
     const fontFamilies = selectorFontFamilies(style, state)
     const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
+    const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
     const fontFamilyCombinations = map(
       combinations(fontFamilies.map((value) => value.slug)),
       (value) => map(value, (value) => find(fontFamilies, ({ slug }) => slug === value)!),
@@ -542,6 +549,7 @@ export const build = async (options: Options = {}) => {
                 fontFamily: fontFamilyJoin([
                   ...fonts.map((value) => value.fontFamily),
                   ...fallbackFontFamilies,
+                  ...fallbackGenericFontFamilies,
                 ]),
               },
               (value) => value !== undefined,

@@ -26,8 +26,7 @@ import { reduceGraph } from '../utilities/reduce-graph'
 import { toposortReverse } from '../utilities/toposort'
 import {
   type CSSProperties,
-  type FontInformation,
-  type InferFont,
+  type InferFontFamily,
   type InferFontProperties,
   type InferLocales,
   type StyleRule,
@@ -118,7 +117,7 @@ export const flattenConfiguration = (locales: InferLocales, cwd: string): Config
   const fallbacks = new Map<string, FontFallback>()
   const fontProperties = new Map<string, Required<FontProperties>>()
 
-  const reduceFontFamily = (fontFamily?: { fallbacks: FontInformation[]; fonts: InferFont[] }) => {
+  const reduceFontFamily = (fontFamily?: InferFontFamily) => {
     if (fontFamily === undefined) {
       return
     }
@@ -146,6 +145,7 @@ export const flattenConfiguration = (locales: InferLocales, cwd: string): Config
     return {
       fontFamily: {
         fallbacks: _fallbacks,
+        fallbacksGeneric: fontFamily.fallbacksGeneric,
         fonts: _fonts,
       },
       graph: sorted.graph,

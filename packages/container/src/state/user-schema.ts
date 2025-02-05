@@ -1,10 +1,10 @@
+import type { WebFont } from '@pangram/font-loader'
 import { bcp47Normalize } from '@pangram/unicode-tools'
 import type { Properties } from 'csstype'
 import { sortBy, uniq } from 'lodash-es'
 import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
 import { fontUnicodeRange } from '../font/font-unicode-range'
-import type { WebFont } from '@pangram/font-loader'
 
 const schemaFontInformationShared = z.object({
   ascent: z.number(),
@@ -144,25 +144,45 @@ const schemaFont: z.ZodType<InferFont, z.ZodTypeDef, InputFont> = schemaFontPlac
   })
   .strict()
 
-const isFontInformation = (value: Record<string, unknown>): value is FontInformation =>
-  schemaFontInformation.safeParse(value).success
+const schemaFontFamilyGeneric = z.enum([
+  'serif',
+  'sans-serif',
+  'monospace',
+  'cursive',
+  'fantasy',
+  'system-ui',
+  'math',
+])
 
-const schemaFontFamily = z.array(schemaFont.or(schemaFontInformation)).transform(
-  (
-    values,
-  ): {
-    fallbacks: FontInformation[]
-    fonts: InferFont[]
-  } => {
-    const fallbacks = values.filter(isFontInformation)
-    const fonts = values.filter((value): value is InferFont => !isFontInformation(value))
+export type InferFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
 
-    return {
-      fallbacks,
-      fonts,
-    }
-  },
-)
+const schemaFontFamily = z
+  .array(schemaFont.or(schemaFontInformation).or(schemaFontFamilyGeneric))
+  .transform(
+    (
+      values,
+    ): {
+      fallbacks: FontInformation[]
+      fallbacksGeneric: InferFontFaimlyGeneric[]
+      fonts: InferFont[]
+    } => {
+      const fallbacksGeneric = values.filter((value) => typeof value === 'string')
+      const fallbacks = values.filter(
+        (value): value is FontInformation => schemaFontInformation.safeParse(value).success,
+      )
+      const fonts = values.filter(
+        (value): value is InferFont => schemaFont.safeParse(value).success,
+      )
+
+      return {
+        fallbacks,
+        fallbacksGeneric,
+        fonts,
+      }
+    },
+  )
+
+export type InferFontFamily = z.infer<typeof schemaFontFamily>
 
 // TODO: support css variables
 export const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number()))
