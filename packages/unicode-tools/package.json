@@ -33,7 +33,7 @@
     "tsx": "4.19.2",
     "typescript": "5.7.3",
     "udhr": "5.2.0",
-    "vitest": "3.0.4",
+    "vitest": "3.0.5",
     "zod": "3.24.1"
   },
   "engines": {
