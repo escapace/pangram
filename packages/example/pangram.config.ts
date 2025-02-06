@@ -35,6 +35,7 @@ const robotoBold: Font = {
   display: 'swap',
   name: 'roboto-bold',
   // prefer: [robotoFlex],
+  layoutFeatures: ['mark'],
   source: './src/fonts/roboto-bold.ttf',
   unicodeRange: enUnicodeRange,
 }
@@ -50,8 +51,13 @@ const robotoItalic: Font = {
 const locales: Locales = {
   en: {
     'sans-serif': {
-      fontFamily: [robotoRegular, ...(await fallback('arial')), 'sans-serif', 'system-ui'],
-      fontWeight: 400,
+      '@media': {
+        'print and (orientation: portrait)': {
+          fontWeight: 450,
+        },
+      },
+      'fontFamily': [robotoRegular, ...(await fallback('arial')), 'sans-serif', 'system-ui'],
+      'fontWeight': 400,
     },
     'sans-serif-bold': {
       fontFamily: [robotoBold, ...(await fallback('arial-bold'))],

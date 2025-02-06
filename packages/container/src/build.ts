@@ -36,8 +36,8 @@ import { fontResourceHint } from './font/font-resource-hint'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
 import { createState } from './state/create-state'
-import { schemaFontPropertiesKeys } from './state/flatten-configuration'
 import type { CSSProperties, WebFontLocale, WebFontsJson } from './state/user-schema'
+import { schemaFontPropertiesKeys } from './state/user-schema'
 import {
   TypeFontState,
   type FontProperties,
@@ -566,7 +566,7 @@ export const build = async (options: Options = {}) => {
     })
 
     style.noScriptStyle = stylePropertiesToString(style, {
-      [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
+      // [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
       [`html:lang(${toLang(style.locale, state)}) .${style.classname}`]: noScriptStyleProperties,
     })
 

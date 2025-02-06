@@ -101,6 +101,7 @@ export type InferLocales = Record<string, string | InferLocale>
 export type InputLocales = Record<string, string | InputLocale>
 
 export const schemaFontPlaceholder = z.object({
+  desubroutinize: z.boolean().default(false),
   display: z.optional(
     z
       .literal('auto')
@@ -117,6 +118,7 @@ export const schemaFontPlaceholder = z.object({
           value === 'woff2' ? 0 : 1,
         ),
     ),
+  layoutFeatures: z.array(z.string().regex(/^[\p{L}\p{N}]+$/u)).optional(),
   name: z
     .string()
     .optional()
@@ -199,6 +201,8 @@ export const schemaFontProperties = z.object({
   fontVariationSettings: schemaFontVariationSettings.optional(),
   fontWeight: schemaFontWeight.optional(),
 })
+
+export const schemaFontPropertiesKeys = schemaFontProperties.keyof().options
 
 export type CSSTypeProperties = Properties<({} & string) | number>
 export type InferFontProperties = z.infer<typeof schemaFontProperties>
@@ -318,36 +322,6 @@ export const schemaLocales = z
       return z.NEVER
     }
   })
-
-// export interface ResourceHint {
-//   as: 'font'
-//   crossorigin: 'anonymous'
-//   href: string
-//   rel: 'prefetch' | 'preload'
-//   type: string
-// }
-//
-// export type WebFontState =
-//   | 'error'
-//   | 'font-already-loaded'
-//   | 'font-loaded'
-//   | 'font-not-supported'
-//   | 'font-unknown'
-//
-// export interface WebFont {
-//   slug: string
-//   fontFace?: Array<{
-//     fontFamily: string
-//     fontStretch?: number | [number, number]
-//     fontStyle?: 'italic'
-//     fontWeight?: number | [number, number]
-//   }>
-//   prefer?: string[]
-//   resourceHint?: ResourceHint[]
-//   state?: WebFontState
-//   tech?: string[]
-//   testString?: string
-// }
 
 export interface WebFontLocale {
   font: WebFont[]

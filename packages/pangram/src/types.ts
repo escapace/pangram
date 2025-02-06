@@ -1179,6 +1179,7 @@ export type InputLocales = Record<string, string | InputLocale>
 export type InputRule = z.input<typeof schemaRule>
 export declare const schemaFontPlaceholder: z.ZodObject<
   {
+    desubroutinize: z.ZodDefault<z.ZodBoolean>
     display: z.ZodOptional<
       z.ZodUnion<
         [
@@ -1199,6 +1200,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
       Array<'woff' | 'woff2'>,
       Array<'woff' | 'woff2'> | undefined
     >
+    layoutFeatures: z.ZodOptional<z.ZodArray<z.ZodString>>
     name: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>
     resourceHint: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
     source: z.ZodString
@@ -1208,9 +1210,11 @@ export declare const schemaFontPlaceholder: z.ZodObject<
   'strip',
   z.ZodTypeAny,
   {
+    desubroutinize: boolean
     format: Array<'woff' | 'woff2'>
     source: string
     display?: 'auto' | 'block' | 'fallback' | 'optional' | 'swap' | undefined
+    layoutFeatures?: string[] | undefined
     name?: string | undefined
     resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
@@ -1218,8 +1222,10 @@ export declare const schemaFontPlaceholder: z.ZodObject<
   },
   {
     source: string
+    desubroutinize?: boolean | undefined
     display?: 'auto' | 'block' | 'fallback' | 'optional' | 'swap' | undefined
     format?: Array<'woff' | 'woff2'> | undefined
+    layoutFeatures?: string[] | undefined
     name?: string | undefined
     resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
@@ -2848,6 +2854,13 @@ export declare const schemaFontProperties: z.ZodObject<
     fontWeight?: number | undefined
   }
 >
+export declare const schemaFontPropertiesKeys: [
+  'fontFamily',
+  'fontStretch',
+  'fontStyle',
+  'fontVariationSettings',
+  'fontWeight',
+]
 export type CSSProperties<T extends {}> = {
   [Property in Exclude<keyof CSSTypeProperties, keyof T>]?:
     | Array<CSSTypeProperties[Property]>

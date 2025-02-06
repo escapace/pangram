@@ -9,7 +9,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Configuration } from '../types'
-import { flattenConfiguration } from './flatten-configuration'
+import { normalizeConfiguration } from './normalize-configuration'
 import { schemaLocales } from './user-schema'
 
 const resolve = async (id: string, basedir?: string): Promise<string | undefined> => {
@@ -117,7 +117,7 @@ export const createConfiguration = async (
   const configurationDirectory = path.dirname(config.filepath)
   const configFile = config.filepath
 
-  const configuration = flattenConfiguration(
+  const configuration = normalizeConfiguration(
     schemaLocales.parse(find([config.config], (value) => isObject(value) && !isEmpty(value))),
     configurationDirectory,
   )

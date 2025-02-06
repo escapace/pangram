@@ -29,7 +29,7 @@ const SLUG_PARTS: TupleUnion<
     | 'testString'
     | 'weight'
   >
-> = ['source', 'unicodeRange']
+> = ['source', 'unicodeRange', 'layoutFeatures', 'desubroutinize']
 
 export const fontSlug = (value: InferFont, cwd: string): string => {
   const source = cryptoHash('sha1')

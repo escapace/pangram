@@ -29,6 +29,24 @@ export const fontWrite = async (
     )
   }
 
+  // https://www.w3.org/TR/css-fonts-4/#default-features
+  const layoutFeatures =
+    font.layoutFeatures === undefined
+      ? `'*'`
+      : uniq([
+          ...font.layoutFeatures,
+          'rlig',
+          'liga',
+          'clig',
+          'calt',
+          'locl',
+          'ccmp',
+          'mark',
+          'mkmk',
+        ])
+          .sort()
+          .join(',')
+
   await mkdirp(state.outputDir)
 
   const files = await Promise.all(
@@ -42,10 +60,10 @@ export const fontWrite = async (
           format === 'woff' ? '--with-zopfli' : undefined,
           `--output-file=${outputFile}`,
           font.unicodeRange !== undefined ? `--unicodes=${font.unicodeRange}` : undefined,
+          font.desubroutinize ? '--desubroutinize' : undefined,
           '--harfbuzz-repacker',
           `--flavor=${format}`,
-          // TODO: make layout features configurable https://www.w3.org/TR/css-fonts-4/#default-features
-          `--layout-features='*'`,
+          `--layout-features=${layoutFeatures}`,
           `--name-IDs=''`,
           `--recalc-average-width`,
           `--recalc-bounds`,
@@ -99,3 +117,10 @@ export const fontWrite = async (
 
   return { files, testString }
 }
+
+// --layout-features=
+
+// fonttools by default keeps 'calt', 'ccmp', 'clig', 'curs', 'dnom', 'frac', 'kern', 'liga',
+// 'locl', 'mark', 'mkmk', 'numr', 'rclt', 'rlig', 'rvrn'
+
+//
