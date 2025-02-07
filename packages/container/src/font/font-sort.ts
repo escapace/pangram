@@ -4,12 +4,11 @@ import { type FontStateInitial, TypeFontState } from '../types'
 import { toposort } from '../utilities/toposort'
 import { fontSlug } from './font-slug'
 
-const hasFontOverlap = (fonts: InferFont[], cwd: string): boolean =>
-  uniqBy(fonts, (value) => fontSlug(value, cwd)).length !== fonts.length
+const hasFontOverlap = (fonts: InferFont[]): boolean =>
+  uniqBy(fonts, (value) => fontSlug(value)).length !== fonts.length
 
 export const fontSort = (
   initial: InferFont[],
-  cwd: string,
 ): {
   fonts: FontStateInitial[]
   graph: Map<string, string[]>
@@ -18,7 +17,7 @@ export const fontSort = (
   //   throw new Error('At least one font is necessary.')
   // }
 
-  if (hasFontOverlap(initial, cwd)) {
+  if (hasFontOverlap(initial)) {
     throw new Error('One of the classes has font overlaps.')
   }
 
@@ -42,7 +41,7 @@ export const fontSort = (
 
   const next = (values: InferFont[], parent?: string) => {
     values.forEach((font) => {
-      const slug = fontSlug(font, cwd)
+      const slug = fontSlug(font)
 
       if (!fontStates.has(slug)) {
         fontStates.set(slug, {

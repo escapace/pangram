@@ -296,11 +296,7 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
                 ) as ValuesType<Required<WebFont>['fontFace']>,
             ),
       prefer: Array.isArray(font.font.prefer)
-        ? uniq(
-            fontSort(font.font.prefer, state.configurationDirectory).fonts.map(
-              (value) => value.slug,
-            ),
-          )
+        ? uniq(fontSort(font.font.prefer).fonts.map((value) => value.slug))
         : undefined,
       resourceHint: fontResourceHint(font.slug, state),
       slug: font.slug,
@@ -537,7 +533,7 @@ export const build = async (options: Options = {}) => {
 
     const primaryStyles = compact(
       fontFamilyCombinations.map((fonts): string | undefined => {
-        const selector = `html${map(fonts, ({ slug }) => `[data-fonts-loaded~='${slug}']`).join(
+        const selector = `:root${map(fonts, ({ slug }) => `[data-fonts-loaded~='${slug}']`).join(
           '',
         )}:lang(${toLang(style.locale, state)}) .${style.classname}`
 
@@ -562,12 +558,13 @@ export const build = async (options: Options = {}) => {
 
     style.fallbackStyle = stylePropertiesToString(style, {
       [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
-      [`html:lang(${toLang(style.locale, state)}) .${style.classname}`]: fallbackStyleProperties,
+
+      [`:root:lang(${toLang(style.locale, state)}) .${style.classname}`]: fallbackStyleProperties,
     })
 
     style.noScriptStyle = stylePropertiesToString(style, {
       // [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
-      [`html:lang(${toLang(style.locale, state)}) .${style.classname}`]: noScriptStyleProperties,
+      [`:root:lang(${toLang(style.locale, state)}) .${style.classname}`]: noScriptStyleProperties,
     })
 
     style.style = primaryStyles.length === 0 ? undefined : primaryStyles.join('\n')

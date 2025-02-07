@@ -13,12 +13,12 @@
     "@escapace/pnpm-pack": "0.5.4",
     "@ls-lint/ls-lint": "2.2.3",
     "eslint": "9.19.0",
-    "eslint-config-escapace": "5.4.1",
+    "eslint-config-escapace": "5.4.2",
     "knip": "5.43.6",
     "lefthook": "1.10.10",
     "prettier": "3.4.2",
     "prettier-config-escapace": "1.2.1",
-    "syncpack": "13.0.1"
+    "syncpack": "13.0.2"
   },
   "engines": {
     "pnpm": ">=9.15.4"

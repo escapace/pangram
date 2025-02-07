@@ -50,7 +50,9 @@
 
 <style>
 :root:lang(en) {
-  --sans-serif-line-height: calc(var(--sans-serif-ascent) + var(--sans-serif-descent) + var(--sans-serif-line-gap));
+  --sans-serif-line-height: calc(
+    var(--sans-serif-ascent) + var(--sans-serif-descent) + var(--sans-serif-line-gap)
+  );
   --sans-serif-bottom: var(--sans-serif-descent);
   --sans-serif-top: calc(var(--sans-serif-ascent) - var(--sans-serif-cap-height));
 }
@@ -62,7 +64,9 @@
 * {
   --computed-font-size: (var(--capital-height) / var(--sans-serif-cap-height));
   --computed-content-area: (var(--sans-serif-line-height) * var(--computed-font-size));
-  --computed-vertical-align: ((var(--sans-serif-bottom) - var(--sans-serif-top)) * var(--computed-font-size));
+  --computed-vertical-align: (
+    (var(--sans-serif-bottom) - var(--sans-serif-top)) * var(--computed-font-size)
+  );
   --computed-line-height: (
     (var(--line-height) * var(--capital-height)) - var(--computed-vertical-align)
   );

@@ -35,21 +35,23 @@ const robotoBold: Font = {
   display: 'swap',
   name: 'roboto-bold',
   // prefer: [robotoFlex],
-  layoutFeatures: ['mark'],
+  layoutFeatures: ['mark', 'ss01'],
   source: './src/fonts/roboto-bold.ttf',
   unicodeRange: enUnicodeRange,
 }
 
 const robotoItalic: Font = {
+  desubroutinize: true,
   display: 'swap',
   name: 'roboto-italic',
   // prefer: [robotoFlex],
+  layoutFeatures: [],
   source: './src/fonts/roboto-italic.ttf',
   unicodeRange: enUnicodeRange,
 }
 
 const locales: Locales = {
-  en: {
+  'en': {
     'sans-serif': {
       '@media': {
         'print and (orientation: portrait)': {
@@ -78,6 +80,7 @@ const locales: Locales = {
       fontWeight: 100,
     },
   },
+  'en-GB': 'en',
 }
 
 export default locales

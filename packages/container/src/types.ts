@@ -73,12 +73,11 @@ export interface FontProperties extends Omit<InferFontProperties, 'fontFamily'> 
 
 export interface Style {
   atRules: AtRule[]
-  variables: Record<string, number | string>
-  // fontPropertiesKeys: Array<keyof Required<FontProperties>>
   classname: string
   id: string
   locale: string
   properties: CSSProperties<{}>
+  variables: Record<string, number | string>
   fallbackStyle?: string
   fallbackStyleProperties?: CSSProperties<{}>
   fontProperties?: string
@@ -116,6 +115,8 @@ export interface State {
     lightningcss: Targets
   }
 }
+
+export type StatePartial = Pick<Configuration, 'fallbackFonts' | 'fontProperties' | 'fonts'>
 
 // eslint-disable-next-line typescript/no-explicit-any
 export type TupleUnion<U extends string, R extends any[] = []> = {

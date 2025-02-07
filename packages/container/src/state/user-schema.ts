@@ -5,6 +5,7 @@ import { sortBy, uniq } from 'lodash-es'
 import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
 import { fontUnicodeRange } from '../font/font-unicode-range'
+import path from 'node:path'
 
 const schemaFontInformationShared = z.object({
   ascent: z.number(),
@@ -130,7 +131,7 @@ export const schemaFontPlaceholder = z.object({
       return /^[a-z-]+$/i.test(value)
     }),
   resourceHint: z.optional(z.literal('preload').or(z.literal('prefetch'))),
-  source: z.string(),
+  source: z.string().transform((value) => path.resolve(value)),
   tech: z.optional(z.array(z.enum(['variations']))),
   unicodeRange: z.optional(
     z

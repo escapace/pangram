@@ -32,20 +32,10 @@ export const fontWrite = async (
   // https://www.w3.org/TR/css-fonts-4/#default-features
   const layoutFeatures =
     font.layoutFeatures === undefined
-      ? `'*'`
-      : uniq([
-          ...font.layoutFeatures,
-          'rlig',
-          'liga',
-          'clig',
-          'calt',
-          'locl',
-          'ccmp',
-          'mark',
-          'mkmk',
-        ])
-          .sort()
-          .join(',')
+      ? `--layout-features=*`
+      : font.layoutFeatures.length === 0
+        ? undefined
+        : `--layout-features+=${uniq(font.layoutFeatures).sort().join(',')}`
 
   await mkdirp(state.outputDir)
 
@@ -63,7 +53,7 @@ export const fontWrite = async (
           font.desubroutinize ? '--desubroutinize' : undefined,
           '--harfbuzz-repacker',
           `--flavor=${format}`,
-          `--layout-features=${layoutFeatures}`,
+          layoutFeatures,
           `--name-IDs=''`,
           `--recalc-average-width`,
           `--recalc-bounds`,

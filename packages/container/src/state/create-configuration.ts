@@ -41,6 +41,8 @@ const cosmicconfigLoader = async (
 
   const configurationDirectory = path.dirname(configFile)
 
+  process.chdir(configurationDirectory)
+
   const temporaryDirectory = await mkdtemp(path.join(tmpdir(), 'pangram'))
 
   try {
@@ -68,10 +70,6 @@ const cosmicconfigLoader = async (
       treeShaking: true,
       write: true,
     })
-
-    // const contents = new TextDecoder('utf-8').decode(outputFiles[0].contents)
-    // const base64Content = Buffer.from(contents).toString('base64')
-    // const base64URI = `data:text/javascript;base64,${base64Content}`
 
     // eslint-disable-next-line typescript/no-unsafe-assignment
     const module_ = await import(path.join(temporaryDirectory, 'index.mjs'))
@@ -119,7 +117,6 @@ export const createConfiguration = async (
 
   const configuration = normalizeConfiguration(
     schemaLocales.parse(find([config.config], (value) => isObject(value) && !isEmpty(value))),
-    configurationDirectory,
   )
 
   return {
