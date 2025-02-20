@@ -79,8 +79,8 @@
   "repository": "escapace/pangram",
   "scripts": {
     "build": "tsx scripts/build.ts",
-    "container:build": "pnpm run pack && docker build -t pangram:latest -f package/packages/container/Dockerfile --target production --build-arg NODE_VERSION=20.18.0 --build-arg PNPM_VERSION=10.4.1 - < lib/context.tgz",
-    "container:test": "pnpm run pack && docker build -t pangram:test -f package/packages/container/Dockerfile --target test --build-arg NODE_VERSION=20.18.0 --build-arg PNPM_VERSION=10.4.1 - < lib/context.tgz",
+    "container:build": "pnpm run pack && docker build -t pangram:latest -f package/packages/container/Dockerfile --target production --build-arg NODE_VERSION=22.13.1 --build-arg PNPM_VERSION=10.4.1 - < lib/context.tgz",
+    "container:test": "pnpm run pack && docker build -t pangram:test -f package/packages/container/Dockerfile --target test --build-arg NODE_VERSION=22.13.1 --build-arg PNPM_VERSION=10.4.1 - < lib/context.tgz",
     "format": "syncpack format --source package.json && eslint --no-warn-ignored --fix && prettier -uw .",
     "lint": "ls-lint --config .ls-lint.yaml && eslint",
     "ls-lint": "ls-lint --config .ls-lint.yaml",
