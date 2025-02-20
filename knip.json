@@ -21,7 +21,7 @@
     "packages/example/**",
     "packages/pangram/src/fonts/**"
   ],
-  "ignoreBinaries": ["ncu", "python3", "pyftsubset"],
+  "ignoreBinaries": ["ncu", "pyftsubset", "python3"],
   "ignoreDependencies": [
     "@commitlint/cli",
     "@microsoft/api-extractor",

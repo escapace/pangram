@@ -1203,7 +1203,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     layoutFeatures: z.ZodOptional<z.ZodArray<z.ZodString>>
     name: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>
     resourceHint: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
-    source: z.ZodString
+    source: z.ZodEffects<z.ZodString, string, string>
     tech: z.ZodOptional<z.ZodArray<z.ZodEnum<['variations']>>>
     unicodeRange: z.ZodOptional<z.ZodEffects<z.ZodString, string, string>>
   },
