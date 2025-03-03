@@ -14,11 +14,11 @@
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "2.2.3",
-    "@pointe/types": "5.13.2",
+    "@pointe/types": "5.13.4",
     "@vitejs/plugin-vue": "5.2.1",
     "eslint": "9.20.1",
     "eslint-config-escapace": "5.4.6",
-    "pointe": "5.13.2",
+    "pointe": "5.13.4",
     "prettier": "3.5.1",
     "prettier-config-escapace": "1.2.1",
     "sass": "1.85.0",
