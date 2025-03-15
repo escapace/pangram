@@ -6,8 +6,8 @@
   "bugs": "https://github.com/escapace/pangram/issues",
   "dependencies": {
     "@hono/node-server": "^1.13.8",
-    "@vueuse/core": "^12.7.0",
-    "hono": "^4.7.2",
+    "@vueuse/core": "^12.8.2",
+    "hono": "^4.7.4",
     "pangram": "workspace:*",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
@@ -16,16 +16,16 @@
     "@ls-lint/ls-lint": "2.2.3",
     "@pointe/types": "5.13.4",
     "@vitejs/plugin-vue": "5.2.1",
-    "eslint": "9.20.1",
+    "eslint": "9.22.0",
     "eslint-config-escapace": "5.4.6",
     "pointe": "5.13.4",
-    "prettier": "3.5.1",
+    "prettier": "3.5.3",
     "prettier-config-escapace": "1.2.1",
-    "sass": "1.85.0",
+    "sass": "1.85.1",
     "syncpack": "13.0.2",
-    "typescript": "5.7.3",
-    "vite": "6.1.1",
-    "vue-tsc": "2.2.2"
+    "typescript": "5.8.2",
+    "vite": "6.2.1",
+    "vue-tsc": "2.2.8"
   },
   "engines": {
     "node": ">=22.13.1",
