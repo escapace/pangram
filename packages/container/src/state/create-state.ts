@@ -3,11 +3,10 @@ import { findUp } from 'find-up'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from '../constants'
-import type { Options, State } from '../types'
+import type { State } from '../types'
 import { createConfiguration } from './create-configuration'
 
-export const createState = async (options: Options): Promise<State> => {
+export const createState = async (): Promise<State> => {
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
 
@@ -27,26 +26,20 @@ export const createState = async (options: Options): Promise<State> => {
     throw new Error('Damaged installation')
   }
 
-  const processDirectory = options.cwd ?? process.cwd()
+  const processDirectory = process.cwd()
   const { configuration, configurationDirectory, configurationFile } =
     await createConfiguration(processDirectory)
-  const outputDirectory = path.resolve(processDirectory, options.output ?? DEFAULT_OUTPUT_DIR)
-  const publicPath = options.base ?? DEFAULT_PUBLIC_PATH
-  const jsonFile = path.resolve(processDirectory, options.manifest ?? DEFAULT_JSON_FILE)
 
   const targets = browserslistToTargets({
     ignoreUnknownVersions: true,
-    path: processDirectory,
+    path: configurationDirectory,
   })
 
   return {
     configuration,
     configurationDirectory,
     configurationFile,
-    jsonFile,
-    outputDir: outputDirectory,
     processDirectory,
-    publicPath,
     runtimeDirectory,
     runtimeFontInspectPath,
     runtimeFontStripPath,

@@ -3,9 +3,9 @@ import type { StatePartial, Style } from '../types'
 import { toposortReverse } from '../utilities/toposort'
 import { normalizeFontProperties } from './normalize-font-properties'
 import { normalizeStyleRule } from './normalize-style-rule'
-import type { InferLocales } from './user-schema'
+import type { ConfigurationLocales } from './user-schema'
 
-export const normalizeStyles = (locales: InferLocales, state: StatePartial) => {
+export const normalizeStyles = (locales: ConfigurationLocales, state: StatePartial) => {
   const styles: Style[] = flatMap(locales, (value, locale) => {
     if (typeof value === 'string') {
       return []

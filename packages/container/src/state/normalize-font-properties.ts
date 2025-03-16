@@ -3,10 +3,10 @@ import type { FontProperties, StatePartial } from '../types'
 import { createHash } from '../utilities/create-hash'
 import { reduceGraph } from '../utilities/reduce-graph'
 import { normalizeFontFamily } from './normalize-font-family'
-import type { InferFontProperties } from './user-schema'
+import type { ConfigurationFontProperties } from './user-schema'
 
 export const normalizeFontProperties = (
-  infered: InferFontProperties[],
+  infered: ConfigurationFontProperties[],
   state: StatePartial,
 ):
   | {

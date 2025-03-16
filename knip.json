@@ -18,7 +18,6 @@
     "**/*.d.ts",
     "lib/**",
     "packages/container/test/**",
-    "packages/example/**",
     "packages/pangram/src/fonts/**"
   ],
   "ignoreBinaries": ["ncu", "pyftsubset", "python3"],

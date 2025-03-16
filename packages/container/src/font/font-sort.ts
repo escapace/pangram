@@ -1,14 +1,14 @@
 import { uniq, uniqBy } from 'lodash-es'
-import type { InferFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../state/user-schema'
 import { type FontStateInitial, TypeFontState } from '../types'
 import { toposort } from '../utilities/toposort'
 import { fontSlug } from './font-slug'
 
-const hasFontOverlap = (fonts: InferFont[]): boolean =>
+const hasFontOverlap = (fonts: ConfigurationFont[]): boolean =>
   uniqBy(fonts, (value) => fontSlug(value)).length !== fonts.length
 
 export const fontSort = (
-  initial: InferFont[],
+  initial: ConfigurationFont[],
 ): {
   fonts: FontStateInitial[]
   graph: Map<string, string[]>
@@ -39,7 +39,7 @@ export const fontSort = (
     }
   }
 
-  const next = (values: InferFont[], parent?: string) => {
+  const next = (values: ConfigurationFont[], parent?: string) => {
     values.forEach((font) => {
       const slug = fontSlug(font)
 

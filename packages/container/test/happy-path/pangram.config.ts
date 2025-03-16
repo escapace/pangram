@@ -1,5 +1,5 @@
-import type { InputFont as Font, InputLocales } from '../../src/state/user-schema'
 import { fallback } from 'pangram'
+import type { UserConfiguration, UserConfigurationFont } from '../../src/state/user-schema'
 
 const arialBold = (await fallback('arial-bold'))[0]
 const arialRegular = (await fallback('arial'))[0]
@@ -11,14 +11,14 @@ const RU_UNICODE_RANGE = 'U+400-45F,U+490,U+491,U+4B0,U+4B1,U+2116'
 // const EN_NOTO_SANS_FAMILY = 'EN Noto Sans'
 // const RU_NOTO_SANS_FAMILY = 'RU Noto Sans'
 
-const robotoFlex: Font = {
+const robotoFlex: UserConfigurationFont = {
   name: 'roboto-flex',
   source: './fixtures/roboto-flex.ttf',
   tech: ['variations'],
   unicodeRange: EN_UNICODE_RANGE,
 }
 
-const EN_NOTO_SANS: Font = {
+const EN_NOTO_SANS: UserConfigurationFont = {
   name: 'en-noto-sans',
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
@@ -27,99 +27,99 @@ const EN_NOTO_SANS: Font = {
   unicodeRange: EN_UNICODE_RANGE,
 }
 
-const EN_NOTO_SANS_ITALIC: Font = {
+const EN_NOTO_SANS_ITALIC: UserConfigurationFont = {
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
   source: './fixtures/NotoSans-Italic.ttf',
   unicodeRange: EN_UNICODE_RANGE,
 }
 
-const EN_NOTO_SANS_BOLD: Font = {
+const EN_NOTO_SANS_BOLD: UserConfigurationFont = {
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
   source: './fixtures/NotoSans-Bold.ttf',
   unicodeRange: EN_UNICODE_RANGE,
 }
 
-const EN_NOTO_SANS_BOLD_ITALIC: Font = {
+const EN_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
   source: './fixtures/NotoSans-BoldItalic.ttf',
   unicodeRange: EN_UNICODE_RANGE,
 }
 
-const RU_NOTO_SANS: Font = {
+const RU_NOTO_SANS: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
   resourceHint: 'preload',
   source: './fixtures/NotoSans-Italic.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }
 
-const RU_NOTO_SANS_ITALIC: Font = {
+const RU_NOTO_SANS_ITALIC: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
   source: './fixtures/NotoSans-Italic.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }
 
-const RU_NOTO_SANS_BOLD: Font = {
+const RU_NOTO_SANS_BOLD: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
   source: './fixtures/NotoSans-Bold.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }
 
-const RU_NOTO_SANS_BOLD_ITALIC: Font = {
+const RU_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
   source: './fixtures/NotoSans-BoldItalic.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }
 
-const locales: InputLocales = {
-  en: {
-    'sans-serif': {
-      '@media': {
-        '(min-width: 900px)': {
-          '@supports': {
-            '(font-variation-settings: "wdth" 115)': {
-              fontStretch: 50,
-              fontWeight: 900,
+export default (): UserConfiguration => ({
+  locales: {
+    en: {
+      'sans-serif': {
+        '@media': {
+          '(min-width: 900px)': {
+            '@supports': {
+              '(font-variation-settings: "wdth" 115)': {
+                fontStretch: 50,
+                fontWeight: 900,
+              },
             },
           },
         },
+        'fontFamily': [EN_NOTO_SANS, arialRegular],
       },
-      'fontFamily': [EN_NOTO_SANS, arialRegular],
+      'sans-serif-bold': {
+        fontFamily: [EN_NOTO_SANS_BOLD, arialBold],
+        fontWeight: 700,
+      },
+      'sans-serif-bold-italic': {
+        fontFamily: [EN_NOTO_SANS_BOLD_ITALIC, arialBold],
+        fontStyle: 'italic',
+        fontWeight: 700,
+      },
+      'sans-serif-italic': {
+        fontFamily: [EN_NOTO_SANS_ITALIC, arialRegular],
+        fontStyle: 'italic',
+      },
     },
-    'sans-serif-bold': {
-      fontFamily: [EN_NOTO_SANS_BOLD, arialBold],
-      fontWeight: 700,
-    },
-    'sans-serif-bold-italic': {
-      fontFamily: [EN_NOTO_SANS_BOLD_ITALIC, arialBold],
-      fontStyle: 'italic',
-      fontWeight: 700,
-    },
-    'sans-serif-italic': {
-      fontFamily: [EN_NOTO_SANS_ITALIC, arialRegular],
-      fontStyle: 'italic',
+    ru: {
+      'sans-serif': {
+        fontFamily: [RU_NOTO_SANS, EN_NOTO_SANS, arialRegular],
+      },
+      'sans-serif-bold': {
+        fontFamily: [RU_NOTO_SANS_BOLD, EN_NOTO_SANS_BOLD, arialBold],
+        fontWeight: 700,
+      },
+      'sans-serif-bold-italic': {
+        fontFamily: [RU_NOTO_SANS_BOLD_ITALIC, EN_NOTO_SANS_BOLD_ITALIC, arialBold],
+        fontStyle: 'italic',
+        fontWeight: 700,
+      },
+      'sans-serif-italic': {
+        fontFamily: [RU_NOTO_SANS_ITALIC, EN_NOTO_SANS_ITALIC, arialRegular],
+        fontStyle: 'italic',
+      },
     },
   },
-  ru: {
-    'sans-serif': {
-      fontFamily: [RU_NOTO_SANS, EN_NOTO_SANS, arialRegular],
-    },
-    'sans-serif-bold': {
-      fontFamily: [RU_NOTO_SANS_BOLD, EN_NOTO_SANS_BOLD, arialBold],
-      fontWeight: 700,
-    },
-    'sans-serif-bold-italic': {
-      fontFamily: [RU_NOTO_SANS_BOLD_ITALIC, EN_NOTO_SANS_BOLD_ITALIC, arialBold],
-      fontStyle: 'italic',
-      fontWeight: 700,
-    },
-    'sans-serif-italic': {
-      fontFamily: [RU_NOTO_SANS_ITALIC, EN_NOTO_SANS_ITALIC, arialRegular],
-      fontStyle: 'italic',
-    },
-  },
-}
-
-export default locales
+})

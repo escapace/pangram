@@ -1,7 +1,7 @@
 import { cosmiconfig, type defaultLoaders } from 'cosmiconfig'
 import { build } from 'esbuild'
 import { remove } from 'fs-extra'
-import { find, isEmpty, isObject, pickBy } from 'lodash-es'
+import { pickBy } from 'lodash-es'
 import { resolvePath } from 'mlly'
 import assert from 'node:assert'
 import { mkdtemp } from 'node:fs/promises'
@@ -10,7 +10,7 @@ import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import type { Configuration } from '../types'
 import { normalizeConfiguration } from './normalize-configuration'
-import { schemaLocales } from './user-schema'
+import type { UserConfiguration } from './user-schema'
 
 const resolve = async (id: string, basedir?: string): Promise<string | undefined> => {
   try {
@@ -111,12 +111,16 @@ export const createConfiguration = async (
   const config = await explorer.search(processDirectory)
   assert(typeof config?.filepath === 'string', 'No config file.')
   assert(config?.isEmpty !== true, 'Empty config.')
+  assert(typeof config.config === 'function', 'Empty config.')
 
   const configurationDirectory = path.dirname(config.filepath)
   const configFile = config.filepath
 
   const configuration = normalizeConfiguration(
-    schemaLocales.parse(find([config.config], (value) => isObject(value) && !isEmpty(value))),
+    await Promise.resolve(
+      (config.config as (() => Promise<UserConfiguration>) | (() => UserConfiguration))(),
+    ),
+    configurationDirectory,
   )
 
   return {

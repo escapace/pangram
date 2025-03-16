@@ -5,8 +5,8 @@ import assert from 'node:assert'
 import memoize from 'p-memoize'
 import {
   schemaFontInformation,
-  type FontInformation,
-  type FontInformationStatic,
+  type UserConfigurationFontInformation,
+  type UserConfigurationFontInformationStatic,
 } from '../state/user-schema'
 import { TypeFontState, type FontProperties, type State } from '../types'
 import { createHash } from '../utilities/create-hash'
@@ -22,7 +22,7 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 // const schemaPropertiesVariationAxes = z.record(schemaFontInspectVariationAxis)
 
 function createVariationSettings(
-  selectedFont: FontInformationStatic,
+  selectedFont: UserConfigurationFontInformationStatic,
   computedStyle: Omit<FontProperties, 'fontFamily'>,
 ): Record<string, number> {
   // Initialize final axis map from the font's default axis values.
@@ -167,7 +167,7 @@ export const fontInspect = async (
   slug: string,
   state: State,
   properties: Omit<FontProperties, 'fontFamily'> = {},
-): Promise<FontInformation> => {
+): Promise<UserConfigurationFontInformation> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
   const fontState = state.configuration.fonts.get(slug)!
   // const font = fontState

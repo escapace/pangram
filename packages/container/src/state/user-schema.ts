@@ -1,11 +1,11 @@
-import type { WebFont } from '@pangram/font-loader'
+import type { Font } from '@pangram/font-loader'
 import { bcp47Normalize } from '@pangram/unicode-tools'
 import type { Properties } from 'csstype'
 import { sortBy, uniq } from 'lodash-es'
+import path from 'node:path'
 import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
 import { fontUnicodeRange } from '../font/font-unicode-range'
-import path from 'node:path'
 
 const schemaFontInformationShared = z.object({
   ascent: z.number(),
@@ -69,15 +69,17 @@ export const schemaFontInformationStatic = z
   })
   .extend(schemaFontInformationShared.shape)
 
-export type FontInformationStatic = z.infer<typeof schemaFontInformationStatic>
-export type FontInformationVariation = z.infer<typeof schemaFontInformationVariation>
+export type UserConfigurationFontInformationStatic = z.infer<typeof schemaFontInformationStatic>
+export type UserConfigurationFontInformationVariation = z.infer<
+  typeof schemaFontInformationVariation
+>
 
 export const schemaFontInformation = z.discriminatedUnion('variable', [
   schemaFontInformationStatic,
   schemaFontInformationVariation,
 ])
 
-export type FontInformation = z.infer<typeof schemaFontInformation>
+export type UserConfigurationFontInformation = z.infer<typeof schemaFontInformation>
 
 // "wght" font-weight
 // "wdth" font-stretch
@@ -85,21 +87,21 @@ export type FontInformation = z.infer<typeof schemaFontInformation>
 // "ital" font-style: italic
 // "opsz" font-optical-sizing
 
-export type InferFont = {
-  prefer?: InferFont[]
+export type ConfigurationFont = {
+  prefer?: ConfigurationFont[]
 } & z.infer<typeof schemaFontPlaceholder>
-export type InputFont = {
-  prefer?: InputFont[]
+export type UserConfigurationFont = {
+  prefer?: UserConfigurationFont[]
 } & z.input<typeof schemaFontPlaceholder>
 
-export type InferRule = z.infer<typeof schemaRule>
-export type InputRule = z.input<typeof schemaRule>
+export type ConfigurationRule = z.infer<typeof schemaRule>
+export type UserConfigurationRule = z.input<typeof schemaRule>
 
-export type InferLocale = Record<string, InferRule>
-export type InputLocale = Record<string, InputRule>
+export type ConfigurationLocale = Record<string, ConfigurationRule>
+export type UserConfigurationLocale = Record<string, UserConfigurationRule>
 
-export type InferLocales = Record<string, string | InferLocale>
-export type InputLocales = Record<string, string | InputLocale>
+export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
+export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
 
 export const schemaFontPlaceholder = z.object({
   desubroutinize: z.boolean().default(false),
@@ -141,11 +143,12 @@ export const schemaFontPlaceholder = z.object({
   ),
 })
 
-const schemaFont: z.ZodType<InferFont, z.ZodTypeDef, InputFont> = schemaFontPlaceholder
-  .extend({
-    prefer: z.lazy(() => z.optional(z.array(schemaFont).min(1))),
-  })
-  .strict()
+const schemaFont: z.ZodType<ConfigurationFont, z.ZodTypeDef, UserConfigurationFont> =
+  schemaFontPlaceholder
+    .extend({
+      prefer: z.lazy(() => z.optional(z.array(schemaFont).min(1))),
+    })
+    .strict()
 
 const schemaFontFamilyGeneric = z.enum([
   'serif',
@@ -157,7 +160,7 @@ const schemaFontFamilyGeneric = z.enum([
   'math',
 ])
 
-export type InferFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
+export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
 
 const schemaFontFamily = z
   .array(schemaFont.or(schemaFontInformation).or(schemaFontFamilyGeneric))
@@ -165,16 +168,17 @@ const schemaFontFamily = z
     (
       values,
     ): {
-      fallbacks: FontInformation[]
-      fallbacksGeneric: InferFontFaimlyGeneric[]
-      fonts: InferFont[]
+      fallbacks: UserConfigurationFontInformation[]
+      fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+      fonts: ConfigurationFont[]
     } => {
       const fallbacksGeneric = values.filter((value) => typeof value === 'string')
       const fallbacks = values.filter(
-        (value): value is FontInformation => schemaFontInformation.safeParse(value).success,
+        (value): value is UserConfigurationFontInformation =>
+          schemaFontInformation.safeParse(value).success,
       )
       const fonts = values.filter(
-        (value): value is InferFont => schemaFont.safeParse(value).success,
+        (value): value is ConfigurationFont => schemaFont.safeParse(value).success,
       )
 
       return {
@@ -185,7 +189,7 @@ const schemaFontFamily = z
     },
   )
 
-export type InferFontFamily = z.infer<typeof schemaFontFamily>
+export type ConfigurationFontFamily = z.infer<typeof schemaFontFamily>
 
 // TODO: support css variables
 export const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number()))
@@ -205,9 +209,9 @@ export const schemaFontProperties = z.object({
 
 export const schemaFontPropertiesKeys = schemaFontProperties.keyof().options
 
+export type ConfigurationFontProperties = z.infer<typeof schemaFontProperties>
 export type CSSTypeProperties = Properties<({} & string) | number>
-export type InferFontProperties = z.infer<typeof schemaFontProperties>
-export type InputFontProperties = z.input<typeof schemaFontProperties>
+export type UserConfigurationFontProperties = z.input<typeof schemaFontProperties>
 
 export type CSSProperties<T extends {}> = {
   [Property in Exclude<keyof CSSTypeProperties, keyof T>]?:
@@ -228,9 +232,9 @@ export type StyleRule<T extends {}> = CSSProperties<T> &
   MediaQueries<CSSProperties<T> & FeatureQueries<CSSProperties<T>>>
 
 const schemaRule: z.ZodType<
-  StyleRule<InferFontProperties>,
+  StyleRule<ConfigurationFontProperties>,
   z.ZodTypeDef,
-  StyleRule<InputFontProperties>
+  StyleRule<UserConfigurationFontProperties>
 > = z.lazy(() => {
   const schemaCSSProperties = schemaFontProperties.passthrough()
 
@@ -324,21 +328,24 @@ export const schemaLocales = z
     }
   })
 
-export interface WebFontLocale {
-  font: WebFont[]
+export interface Locale {
+  font: Font[]
   fontFace: string
   noScriptStyle: string
   order: string[] | undefined
   style: string
 }
 
-export interface WebFontsJson {
+export interface Manifest {
   alias: Record<string, string>
-  font: WebFont[]
-  fontFace: string
-  locale: Record<string, WebFontLocale>
-  noScriptStyle: string
-  order: string[] | undefined
+  locale: Record<string, Locale>
   script: string
-  style: string
+}
+
+export interface UserConfiguration {
+  locales: UserConfigurationLocales
+  manifest?: ((manifest: Manifest) => Promise<void>) | string
+  outputDirectory?: string
+  publicPath?: string
+  selector?: string
 }

@@ -1,34 +1,13 @@
 #!/usr/bin/env node
 
-import { command, string, compose } from '@escapace/cli'
-import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from './constants'
+import { command, compose, string } from '@escapace/cli'
 import assert from 'node:assert'
 
 const commandBuild = command()
   .reference('build')
   .name('build')
   .description('Write locale-optmizied fonts')
-  .input(
-    string()
-      .reference('output')
-      .description('font output directory path')
-      .option('--output')
-      .default(DEFAULT_OUTPUT_DIR),
-  )
-  .input(
-    string()
-      .reference('manifest')
-      .description('manifest path')
-      .option('--manifest')
-      .default(DEFAULT_JSON_FILE),
-  )
-  .input(
-    string()
-      .reference('base')
-      .description('font public base path')
-      .option('--base')
-      .default(DEFAULT_PUBLIC_PATH),
-  )
+  .reducer(() => ({}))
 
 const commandInspect = command()
   .reference('inspect')
@@ -47,9 +26,7 @@ const app = compose(
       if (value.reference === 'build') {
         const { build } = await import('./build')
 
-        return await build({
-          ...value.value,
-        })
+        return await build()
       }
 
       if (value.reference === 'inspect') {

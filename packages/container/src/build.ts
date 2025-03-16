@@ -1,4 +1,5 @@
 /* eslint-disable typescript/no-non-null-assertion */
+import type { Font } from '@pangram/font-loader'
 import fse from 'fs-extra'
 import {
   cloneDeep,
@@ -36,13 +37,12 @@ import { fontResourceHint } from './font/font-resource-hint'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
 import { createState } from './state/create-state'
-import type { CSSProperties, WebFontLocale, WebFontsJson } from './state/user-schema'
+import type { CSSProperties, Locale, Manifest } from './state/user-schema'
 import { schemaFontPropertiesKeys } from './state/user-schema'
 import {
   TypeFontState,
   type FontProperties,
   type FontStateWritten,
-  type Options,
   type State,
   type Style,
 } from './types'
@@ -53,7 +53,6 @@ import { reduceGraph } from './utilities/reduce-graph'
 import { round } from './utilities/round'
 import { iterateProperties } from './utilities/style'
 import { toposort } from './utilities/toposort'
-import type { WebFont } from '@pangram/font-loader'
 
 // const selectorFontLocales = (state: State, slug?: string) =>
 //   slug === undefined
@@ -197,7 +196,7 @@ const selectorFallbackGenericFontFamilies = (style: Style, state: State): string
   return compact(fontProperties?.fontFamily?.fallbacksGeneric)
 }
 
-const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
+const toWebFontLocale = (styles: Style[], state: State): Locale => {
   const style = minifyCss(
     [
       ...uniq(compact(styles.map((value) => value.fallbackStyle))),
@@ -271,7 +270,7 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
     ).map((value) => Array.from(value)),
   )
 
-  const outputFont = fonts.map((font): WebFont => {
+  const outputFont = fonts.map((font): Font => {
     const fontFaces = uniqBy(
       compact(styles.map(({ id }) => font.fontFaces.get(id))).map((value) =>
         pick(value, ['fontWeight', 'fontStyle', 'fontStretch', 'fontFamily']),
@@ -279,7 +278,7 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
       (value) => createHash(value),
     )
 
-    const output: WebFont = {
+    const output: Font = {
       fontFace:
         fontFaces.length === 0
           ? undefined
@@ -293,7 +292,7 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
                     fontWeight: value.fontWeight === 400 ? undefined : value.fontWeight,
                   },
                   (value) => value !== undefined,
-                ) as ValuesType<Required<WebFont>['fontFace']>,
+                ) as ValuesType<Required<Font>['fontFace']>,
             ),
       prefer: Array.isArray(font.font.prefer)
         ? uniq(fontSort(font.font.prefer).fonts.map((value) => value.slug))
@@ -304,10 +303,10 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
       testString: font.testString,
     }
 
-    return pickBy(output, (value) => value !== undefined) as WebFont
+    return pickBy(output, (value) => value !== undefined) as Font
   })
 
-  const output: WebFontLocale = {
+  const output: Locale = {
     font: outputFont,
     fontFace,
     noScriptStyle,
@@ -315,11 +314,10 @@ const toWebFontLocale = (styles: Style[], state: State): WebFontLocale => {
     style,
   }
 
-  return pickBy(output, (value) => value !== undefined) as WebFontLocale
+  return pickBy(output, (value) => value !== undefined) as Locale
 }
 
-const toWebFontsJson = async (state: State): Promise<WebFontsJson> => {
-  const combined = toWebFontLocale(state.configuration.styles, state)
+const toManifest = async (state: State): Promise<Manifest> => {
   const locale = mapValues(state.configuration.locales, (style) => toWebFontLocale(style, state))
 
   const aliasPartial = map(locale, (_, locale) =>
@@ -335,21 +333,24 @@ const toWebFontsJson = async (state: State): Promise<WebFontsJson> => {
 
   forEach(locale, (_, locale) => alias.push([locale, locale]))
 
+  const wildcard = toWebFontLocale(state.configuration.styles, state)
+
+  Object.assign(locale, { '*': wildcard })
+
   return {
-    ...combined,
     alias: Object.fromEntries(alias),
     locale,
     script: await fontLoaderScript(
       state,
       locales,
       // resourceHint is not useful for the font loader
-      combined.font.map((value) => omit(value, ['resourceHint'])),
+      wildcard.font.map((value) => omit(value, ['resourceHint'])),
     ),
   }
 }
 
-export const build = async (options: Options = {}) => {
-  const state = await createState(options)
+export const build = async () => {
+  const state = await createState()
 
   for (const slug of state.configuration.fonts.keys()) {
     const { files, testString } = await fontWrite(slug, state)
@@ -418,6 +419,9 @@ export const build = async (options: Options = {}) => {
       [`--${variablePrefix}-line-gap`]: round(
         primaryFontInformation.lineGap / primaryFontInformation.unitsPerEm,
       ),
+      [`--${variablePrefix}-x-height`]: round(
+        Math.abs(primaryFontInformation.xHeight / primaryFontInformation.unitsPerEm),
+      ),
       [`--${variablePrefix}-x-width-average`]: round(
         xWidthAverage(primaryFontInformation, locales),
       ),
@@ -428,7 +432,7 @@ export const build = async (options: Options = {}) => {
       fontFace({
         font: primaryFont,
         fontProperties,
-        publicPath: state.publicPath,
+        publicPath: state.configuration.publicPath,
         type: 'font',
       }),
     )
@@ -444,7 +448,7 @@ export const build = async (options: Options = {}) => {
           adjustments: fontAdjust(primaryFontInformation, secondaryFontInformation, locales),
           font: secondaryFont,
           fontProperties,
-          publicPath: state.publicPath,
+          publicPath: state.configuration.publicPath,
           type: 'font',
         }),
       )
@@ -457,7 +461,7 @@ export const build = async (options: Options = {}) => {
           adjustments: fontAdjust(primaryFontInformation, fallbackFont.font, locales),
           font: fallbackFont,
           fontProperties,
-          publicPath: state.publicPath,
+          publicPath: state.configuration.publicPath,
           type: 'fallback',
         }),
       )
@@ -486,13 +490,12 @@ export const build = async (options: Options = {}) => {
     const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
     const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
 
-    const isRoot = selectorParent(style, state) === undefined
+    // const isRoot = selectorParent(style, state) === undefined
 
     const sharedStyleProperties: CSSProperties<{}> = {
       fontStretch:
         fontProperties?.fontStretch === undefined ? undefined : `${fontProperties.fontStretch}%`,
       fontStyle: fontProperties?.fontStyle,
-      fontSynthesis: isRoot ? 'none' : undefined,
       fontVariationSettings: selectorFontVariationSettings(style, state),
       fontWeight: fontProperties?.fontWeight,
       ...style.properties,
@@ -530,49 +533,52 @@ export const build = async (options: Options = {}) => {
       combinations(fontFamilies.map((value) => value.slug)),
       (value) => map(value, (value) => find(fontFamilies, ({ slug }) => slug === value)!),
     )
-
     const primaryStyles = compact(
       fontFamilyCombinations.map((fonts): string | undefined => {
-        const selector = `:root${map(fonts, ({ slug }) => `[data-fonts-loaded~='${slug}']`).join(
-          '',
-        )}:lang(${toLang(style.locale, state)}) .${style.classname}`
+        const selector = `${state.configuration.selector}${map(
+          fonts,
+          ({ slug }) => `[data-fonts-loaded~='${slug}']`,
+        ).join('')}:lang(${toLang(style.locale, state)}) .${style.classname}`
 
-        return stylePropertiesToString(
-          style,
-          {
-            [selector]: pickBy(
-              {
-                fontFamily: fontFamilyJoin([
-                  ...fonts.map((value) => value.fontFamily),
-                  ...fallbackFontFamilies,
-                  ...fallbackGenericFontFamilies,
-                ]),
-              },
-              (value) => value !== undefined,
-            ),
-          },
-          // selector,
-        )
+        return stylePropertiesToString(style, {
+          [selector]: pickBy(
+            {
+              fontFamily: fontFamilyJoin([
+                ...fonts.map((value) => value.fontFamily),
+                ...fallbackFontFamilies,
+                ...fallbackGenericFontFamilies,
+              ]),
+            },
+            (value) => value !== undefined,
+          ),
+        })
       }),
     )
 
     style.fallbackStyle = stylePropertiesToString(style, {
-      [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
+      [`${state.configuration.selector}:lang(${toLang(style.locale, state)})`]: style.variables,
 
-      [`:root:lang(${toLang(style.locale, state)}) .${style.classname}`]: fallbackStyleProperties,
+      [`${state.configuration.selector}:lang(${toLang(style.locale, state)}) .${style.classname}`]:
+        fallbackStyleProperties,
     })
 
     style.noScriptStyle = stylePropertiesToString(style, {
       // [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
-      [`:root:lang(${toLang(style.locale, state)}) .${style.classname}`]: noScriptStyleProperties,
+      [`${state.configuration.selector}:lang(${toLang(style.locale, state)}) .${style.classname}`]:
+        noScriptStyleProperties,
     })
 
     style.style = primaryStyles.length === 0 ? undefined : primaryStyles.join('\n')
   }
 
-  const result = await toWebFontsJson(state)
-  await fse.mkdirp(path.dirname(state.jsonFile))
-  await fse.writeFile(state.jsonFile, stringify(result, null, 2))
+  const result = await toManifest(state)
+
+  if (typeof state.configuration.manifest === 'string') {
+    await fse.mkdirp(path.dirname(state.configuration.manifest))
+    await fse.writeFile(state.configuration.manifest, stringify(result, null, 2))
+  } else {
+    await state.configuration.manifest(result)
+  }
 
   return result
 }

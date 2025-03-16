@@ -1,13 +1,14 @@
 import type { Targets } from 'lightningcss'
 import type {
   CSSProperties,
-  FontInformation,
-  InferFont,
-  InferFontProperties,
+  UserConfigurationFontInformation,
+  ConfigurationFont,
+  ConfigurationFontProperties,
+  Manifest,
 } from './state/user-schema'
 
 export interface FontFallback {
-  font: FontInformation
+  font: UserConfigurationFontInformation
   fontFaces: Map<string, FontFace>
 }
 
@@ -24,9 +25,9 @@ export interface FontFace extends FontFaceAdjustments {
   fontStyle: 'italic' | 'normal'
   fontWeight: number | [number, number]
   src: string
-  fontDisplay?: InferFont['display']
+  fontDisplay?: ConfigurationFont['display']
   // fontNamedInstance?: string
-  unicodeRange?: InferFont['unicodeRange']
+  unicodeRange?: ConfigurationFont['unicodeRange']
 }
 
 export const enum TypeFontState {
@@ -35,7 +36,7 @@ export const enum TypeFontState {
 }
 
 export interface FontStateInitial {
-  font: InferFont
+  font: ConfigurationFont
   fontFaces: Map<string, FontFace>
   slug: string
   type: TypeFontState.Initial
@@ -49,19 +50,12 @@ export interface FontStateWritten extends Omit<FontStateInitial, 'type'> {
 
 export type FontState = FontStateInitial | FontStateWritten
 
-export interface Options {
-  base?: string
-  cwd?: string
-  manifest?: string
-  output?: string
-}
-
 export interface AtRule {
   type: '@media' | '@supports'
   value: string
 }
 
-export interface FontProperties extends Omit<InferFontProperties, 'fontFamily'> {
+export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontFamily'> {
   fontFamily:
     | {
         fallbacks: string[]
@@ -95,6 +89,10 @@ export interface Configuration {
   localeFromAlias: Map<string, string[]>
   locales: Record<string, Style[]>
   localeToAlias: Map<string, string[]>
+  manifest: ((value: Manifest) => Promise<void>) | string
+  outputDirectory: string
+  publicPath: string
+  selector: string
   styles: Style[]
 }
 
@@ -102,10 +100,7 @@ export interface State {
   configuration: Configuration
   configurationDirectory: string
   configurationFile: string
-  jsonFile: string
-  outputDir: string
   processDirectory: string
-  publicPath: string
   runtimeDirectory: string
   runtimeFontInspectPath: string
   runtimeFontStripPath: string

@@ -10,9 +10,8 @@ export const isCointainer = () => process.env.CONTAINER_TEST?.toLowerCase() === 
 describe.runIf(isCointainer())('case-a', { timeout: 20 * 60 * 1000 }, () => {
   it('happy-path', async () => {
     assert.isFunction(build)
-    const result = await build({
-      cwd: path.resolve(dirname, '../test/happy-path'),
-    })
+    process.chdir(path.resolve(dirname, '../test/happy-path'))
+    const result = await build()
     assert.isObject(result)
   })
 })

@@ -1,8 +1,8 @@
 import { uniq } from 'lodash-es'
 import assert from 'node:assert'
-import type { FontInformation } from '../state/user-schema'
+import type { UserConfigurationFontInformation } from '../state/user-schema'
 
-export const fontNames = (font: FontInformation) => {
+export const fontNames = (font: UserConfigurationFontInformation) => {
   const namedInstance = (font.variable ? undefined : font.namedInstance) ?? undefined
   const namedInstancePostScriptName =
     (font.variable ? undefined : font.namedInstancePostScriptName) ?? undefined

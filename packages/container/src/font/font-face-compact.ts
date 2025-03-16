@@ -1,11 +1,11 @@
 import { groupBy, omit, uniq } from 'lodash-es'
-import type { InferFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../state/user-schema'
 import type { FontFace, TupleUnion } from '../types'
 import { createHash } from '../utilities/create-hash'
 import { type CharacterSet, fontUnicodeRange } from './font-unicode-range'
 
-const fontDisplayCompact = (value: InferFont['display']) => {
-  const priority: TupleUnion<Exclude<InferFont['display'], undefined>> = [
+const fontDisplayCompact = (value: ConfigurationFont['display']) => {
+  const priority: TupleUnion<Exclude<ConfigurationFont['display'], undefined>> = [
     'block',
     'auto',
     'swap',

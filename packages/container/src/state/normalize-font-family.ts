@@ -1,9 +1,9 @@
 import { fontSort } from '../font/font-sort'
 import type { StatePartial } from '../types'
-import type { InferFontFamily } from './user-schema'
+import type { ConfigurationFontFamily } from './user-schema'
 
 export const normalizeFontFamily = (
-  fontFamily: InferFontFamily | undefined,
+  fontFamily: ConfigurationFontFamily | undefined,
   state: StatePartial,
 ) => {
   if (fontFamily === undefined) {

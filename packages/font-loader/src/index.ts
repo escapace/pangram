@@ -2,7 +2,7 @@
 
 import FontFaceObserver from 'fontfaceobserver'
 
-export type WebFontState =
+export type FontState =
   | 'error'
   | 'font-already-loaded'
   | 'font-loaded'
@@ -17,7 +17,7 @@ export interface ResourceHint {
   type: string
 }
 
-export interface WebFont {
+export interface Font {
   slug: string
   fontFace?: Array<{
     fontFamily: string
@@ -27,25 +27,25 @@ export interface WebFont {
   }>
   prefer?: string[]
   resourceHint?: ResourceHint[]
-  state?: WebFontState
+  state?: FontState
   tech?: string[]
   testString?: string
 }
 
-interface Font extends Omit<WebFont, 'state'> {
-  state?: Promise<WebFontState>
+interface FontWithState extends Omit<Font, 'state'> {
+  state?: Promise<FontState>
 }
 
 declare const __DATA_LOCALES__: Array<readonly [string, string | string[]]>
-declare const __DATA_FONTS__: Font[]
+declare const __DATA_FONTS__: FontWithState[]
 
-type Callback = (webFonts: WebFont[]) => unknown
+type Callback = (fonts: Font[]) => unknown
 
 declare global {
   interface Window {
     FontFaceObserver: typeof FontFaceObserver
-    webFontLoader: (locale: string) => Promise<WebFont[]>
-    webFontLoaderSubscribe: (callback: Callback) => () => void
+    fontLoader: (locale: string) => Promise<Font[]>
+    fontLoaderSubscribe: (callback: Callback) => () => void
   }
 }
 
@@ -91,7 +91,7 @@ const updateDataFontsLoaded = (value: string) => {
   }
 }
 
-const createPromise = async (slug: string): Promise<WebFontState> => {
+const createPromise = async (slug: string): Promise<FontState> => {
   const font = FONTS.get(slug)
 
   if (font?.fontFace === undefined) {
@@ -102,7 +102,7 @@ const createPromise = async (slug: string): Promise<WebFontState> => {
     return await font.state
   }
 
-  font.state = (async (): Promise<WebFontState> => {
+  font.state = (async (): Promise<FontState> => {
     if (getDataFontsLoaded().includes(slug)) {
       updateDataFontsLoaded(slug)
 
@@ -161,7 +161,7 @@ const createPromise = async (slug: string): Promise<WebFontState> => {
   return await font.state
 }
 
-const iterateFonts = async (): Promise<Font[]> =>
+const iterateFonts = async (): Promise<FontWithState[]> =>
   (
     await Promise.all(
       Array.from(FONTS.values()).map(async (font) => {
@@ -174,11 +174,11 @@ const iterateFonts = async (): Promise<Font[]> =>
         return
       }),
     )
-  ).filter((value): value is Font => value !== undefined)
+  ).filter((value): value is FontWithState => value !== undefined)
 
-const normalize = async (fonts: Font[]): Promise<WebFont[]> =>
+const normalize = async (fonts: FontWithState[]): Promise<Font[]> =>
   await Promise.all(
-    fonts.map(async (value): Promise<WebFont> => {
+    fonts.map(async (value): Promise<Font> => {
       const state = await value.state
 
       return { ...value, state }
@@ -195,7 +195,7 @@ const updateSubscribers = async () => {
   return fonts
 }
 
-export const webFontLoaderSubscribe = (callback: Callback): (() => void) => {
+export const fontLoaderSubscribe = (callback: Callback): (() => void) => {
   if (!SUBSCRIBERS.has(callback)) {
     SUBSCRIBERS.add(callback)
 
@@ -211,7 +211,7 @@ export const webFontLoaderSubscribe = (callback: Callback): (() => void) => {
   }
 }
 
-const next = async (slug: string): Promise<WebFontState> => {
+const next = async (slug: string): Promise<FontState> => {
   const font = FONTS.get(slug)!
 
   for (const preference of font.prefer ?? []) {
@@ -225,7 +225,7 @@ const next = async (slug: string): Promise<WebFontState> => {
   return await createPromise(slug)
 }
 
-export const webFontLoader = async (locale: string): Promise<WebFont[]> => {
+export const fontLoader = async (locale: string): Promise<Font[]> => {
   if (locale === undefined || !LOCALE_INDEX.has(locale)) {
     throw new Error('Font Loader: No locale')
   }
@@ -240,5 +240,5 @@ export const webFontLoader = async (locale: string): Promise<WebFont[]> => {
 }
 
 window.FontFaceObserver = FontFaceObserver
-window.webFontLoader = webFontLoader
-window.webFontLoaderSubscribe = webFontLoaderSubscribe
+window.fontLoader = fontLoader
+window.fontLoaderSubscribe = fontLoaderSubscribe

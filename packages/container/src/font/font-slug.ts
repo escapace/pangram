@@ -1,7 +1,7 @@
 import { createHash as cryptoHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { pick } from 'lodash-es'
-import type { InferFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../state/user-schema'
 import type { TupleUnion } from '../types'
 import { createHash } from '../utilities/create-hash'
 
@@ -16,7 +16,7 @@ import { createHash } from '../utilities/create-hash'
 
 const SLUG_PARTS: TupleUnion<
   Exclude<
-    keyof InferFont,
+    keyof ConfigurationFont,
     | 'display'
     | 'format'
     | 'name'
@@ -30,7 +30,7 @@ const SLUG_PARTS: TupleUnion<
   >
 > = ['source', 'unicodeRange', 'layoutFeatures', 'desubroutinize']
 
-export const fontSlug = (value: InferFont): string => {
+export const fontSlug = (value: ConfigurationFont): string => {
   const source = cryptoHash('sha1').update(readFileSync(value.source)).digest('hex')
 
   return createHash(pick({ ...value, source }, SLUG_PARTS))

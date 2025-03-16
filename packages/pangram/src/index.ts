@@ -1,12 +1,18 @@
+import type { UserConfigurationFontInformation } from './types'
+
 export type {
-  InputFont as Font,
-  FontInformation,
-  InputLocale as Locale,
-  InputLocales as Locales,
-  WebFontLocale,
-  WebFontsJson,
+  Locale,
+  Manifest,
+  UserConfigurationFont,
+  UserConfigurationFontInformation,
+  UserConfigurationFontInformationStatic,
+  UserConfigurationFontInformationVariation,
+  UserConfigurationFontProperties,
+  UserConfigurationLocale,
+  UserConfigurationLocales,
 } from './types'
-import type { FontInformation } from './types'
+
+export { defineConfig } from './define-config'
 
 const names = [
   'arial-black.json',
@@ -442,7 +448,7 @@ export const fallback = async (
       : never
   >
 ) => {
-  const result: FontInformation[] = []
+  const result: UserConfigurationFontInformation[] = []
 
   for (const name of values) {
     const file = `${name}.json`
@@ -453,7 +459,7 @@ export const fallback = async (
       })
 
       // eslint-disable-next-line typescript/no-unsafe-member-access
-      result.push((_module?.default ?? _module) as FontInformation)
+      result.push((_module?.default ?? _module) as UserConfigurationFontInformation)
     }
   }
 

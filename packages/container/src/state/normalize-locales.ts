@@ -1,9 +1,9 @@
 import { groupBy, has, map } from 'lodash-es'
 import type { Style } from '../types'
-import type { InferLocales } from './user-schema'
+import type { ConfigurationLocales } from './user-schema'
 
 export const normalizeLocales = (options: {
-  locales: InferLocales
+  locales: ConfigurationLocales
   styles: Style[]
 }): {
   localeFromAlias: Map<string, string[]>

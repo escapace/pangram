@@ -1,4 +1,4 @@
-import type { WebFont } from '@pangram/font-loader'
+import type { Font } from '@pangram/font-loader'
 import type { Properties } from 'csstype'
 import type { z } from 'zod'
 declare const schemaFontInformationVariation: z.ZodObject<
@@ -579,8 +579,10 @@ export declare const schemaFontInformationStatic: z.ZodObject<
     wwsSubFamilyName?: string | null | undefined
   }
 >
-export type FontInformationStatic = z.infer<typeof schemaFontInformationStatic>
-export type FontInformationVariation = z.infer<typeof schemaFontInformationVariation>
+export type UserConfigurationFontInformationStatic = z.infer<typeof schemaFontInformationStatic>
+export type UserConfigurationFontInformationVariation = z.infer<
+  typeof schemaFontInformationVariation
+>
 export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
   'variable',
   [
@@ -1164,19 +1166,19 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
     >,
   ]
 >
-export type FontInformation = z.infer<typeof schemaFontInformation>
-export type InferFont = {
-  prefer?: InferFont[]
+export type ConfigurationFont = {
+  prefer?: ConfigurationFont[]
 } & z.infer<typeof schemaFontPlaceholder>
-export type InferLocale = Record<string, InferRule>
-export type InferLocales = Record<string, string | InferLocale>
-export type InferRule = z.infer<typeof schemaRule>
-export type InputFont = {
-  prefer?: InputFont[]
+export type ConfigurationLocale = Record<string, ConfigurationRule>
+export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
+export type ConfigurationRule = z.infer<typeof schemaRule>
+export type UserConfigurationFont = {
+  prefer?: UserConfigurationFont[]
 } & z.input<typeof schemaFontPlaceholder>
-export type InputLocale = Record<string, InputRule>
-export type InputLocales = Record<string, string | InputLocale>
-export type InputRule = z.input<typeof schemaRule>
+export type UserConfigurationFontInformation = z.infer<typeof schemaFontInformation>
+export type UserConfigurationLocale = Record<string, UserConfigurationRule>
+export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
+export type UserConfigurationRule = z.input<typeof schemaRule>
 export declare const schemaFontPlaceholder: z.ZodObject<
   {
     desubroutinize: z.ZodDefault<z.ZodBoolean>
@@ -1235,14 +1237,14 @@ export declare const schemaFontPlaceholder: z.ZodObject<
 declare const schemaFontFamilyGeneric: z.ZodEnum<
   ['serif', 'sans-serif', 'monospace', 'cursive', 'fantasy', 'system-ui', 'math']
 >
-export type InferFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
+export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
 declare const schemaFontFamily: z.ZodEffects<
   z.ZodArray<
     z.ZodUnion<
       [
         z.ZodUnion<
           [
-            z.ZodType<InferFont, z.ZodTypeDef, InputFont>,
+            z.ZodType<ConfigurationFont, z.ZodTypeDef, UserConfigurationFont>,
             z.ZodDiscriminatedUnion<
               'variable',
               [
@@ -1833,9 +1835,9 @@ declare const schemaFontFamily: z.ZodEffects<
     >
   >,
   {
-    fallbacks: FontInformation[]
-    fallbacksGeneric: InferFontFaimlyGeneric[]
-    fonts: InferFont[]
+    fallbacks: UserConfigurationFontInformation[]
+    fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+    fonts: ConfigurationFont[]
   },
   Array<
     | 'cursive'
@@ -1845,7 +1847,7 @@ declare const schemaFontFamily: z.ZodEffects<
     | 'sans-serif'
     | 'serif'
     | 'system-ui'
-    | InputFont
+    | UserConfigurationFont
     | {
         ascent: number
         capHeight: number
@@ -1960,7 +1962,7 @@ declare const schemaFontFamily: z.ZodEffects<
       }
   >
 >
-export type InferFontFamily = z.infer<typeof schemaFontFamily>
+export type ConfigurationFontFamily = z.infer<typeof schemaFontFamily>
 export declare const schemaFontVariationSettings: z.ZodUnion<
   [z.ZodLiteral<'normal'>, z.ZodRecord<z.ZodString, z.ZodNumber>]
 >
@@ -1976,7 +1978,7 @@ export declare const schemaFontProperties: z.ZodObject<
             [
               z.ZodUnion<
                 [
-                  z.ZodType<InferFont, z.ZodTypeDef, InputFont>,
+                  z.ZodType<ConfigurationFont, z.ZodTypeDef, UserConfigurationFont>,
                   z.ZodDiscriminatedUnion<
                     'variable',
                     [
@@ -2573,9 +2575,9 @@ export declare const schemaFontProperties: z.ZodObject<
           >
         >,
         {
-          fallbacks: FontInformation[]
-          fallbacksGeneric: InferFontFaimlyGeneric[]
-          fonts: InferFont[]
+          fallbacks: UserConfigurationFontInformation[]
+          fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+          fonts: ConfigurationFont[]
         },
         Array<
           | 'cursive'
@@ -2585,7 +2587,7 @@ export declare const schemaFontProperties: z.ZodObject<
           | 'sans-serif'
           | 'serif'
           | 'system-ui'
-          | InputFont
+          | UserConfigurationFont
           | {
               ascent: number
               capHeight: number
@@ -2713,9 +2715,9 @@ export declare const schemaFontProperties: z.ZodObject<
   {
     fontFamily?:
       | {
-          fallbacks: FontInformation[]
-          fallbacksGeneric: InferFontFaimlyGeneric[]
-          fonts: InferFont[]
+          fallbacks: UserConfigurationFontInformation[]
+          fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+          fonts: ConfigurationFont[]
         }
       | undefined
     fontStretch?: number | undefined
@@ -2733,7 +2735,7 @@ export declare const schemaFontProperties: z.ZodObject<
           | 'sans-serif'
           | 'serif'
           | 'system-ui'
-          | InputFont
+          | UserConfigurationFont
           | {
               ascent: number
               capHeight: number
@@ -2861,6 +2863,7 @@ export declare const schemaFontPropertiesKeys: [
   'fontVariationSettings',
   'fontWeight',
 ]
+export type ConfigurationFontProperties = z.infer<typeof schemaFontProperties>
 export type CSSProperties<T extends {}> = {
   [Property in Exclude<keyof CSSTypeProperties, keyof T>]?:
     | Array<CSSTypeProperties[Property]>
@@ -2870,18 +2873,17 @@ export type CSSTypeProperties = Properties<({} & string) | number>
 export interface FeatureQueries<StyleType> {
   '@supports'?: Record<string, StyleType>
 }
-export type InferFontProperties = z.infer<typeof schemaFontProperties>
-export type InputFontProperties = z.input<typeof schemaFontProperties>
 export interface MediaQueries<StyleType> {
   '@media'?: Record<string, StyleType>
 }
 export type StyleRule<T extends {}> = CSSProperties<T> &
   FeatureQueries<CSSProperties<T> & MediaQueries<CSSProperties<T>>> &
   MediaQueries<CSSProperties<T> & FeatureQueries<CSSProperties<T>>>
+export type UserConfigurationFontProperties = z.input<typeof schemaFontProperties>
 declare const schemaRule: z.ZodType<
-  StyleRule<InferFontProperties>,
+  StyleRule<ConfigurationFontProperties>,
   z.ZodTypeDef,
-  StyleRule<InputFontProperties>
+  StyleRule<UserConfigurationFontProperties>
 >
 export declare const schemaLocale: z.ZodObject<
   {},
@@ -2890,9 +2892,9 @@ export declare const schemaLocale: z.ZodObject<
     StyleRule<{
       fontFamily?:
         | {
-            fallbacks: FontInformation[]
-            fallbacksGeneric: InferFontFaimlyGeneric[]
-            fonts: InferFont[]
+            fallbacks: UserConfigurationFontInformation[]
+            fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+            fonts: ConfigurationFont[]
           }
         | undefined
       fontStretch?: number | undefined
@@ -2911,7 +2913,7 @@ export declare const schemaLocale: z.ZodObject<
             | 'sans-serif'
             | 'serif'
             | 'system-ui'
-            | InputFont
+            | UserConfigurationFont
             | {
                 ascent: number
                 capHeight: number
@@ -3048,9 +3050,9 @@ export declare const schemaLocales: z.ZodEffects<
             StyleRule<{
               fontFamily?:
                 | {
-                    fallbacks: FontInformation[]
-                    fallbacksGeneric: InferFontFaimlyGeneric[]
-                    fonts: InferFont[]
+                    fallbacks: UserConfigurationFontInformation[]
+                    fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
+                    fonts: ConfigurationFont[]
                   }
                 | undefined
               fontStretch?: number | undefined
@@ -3069,7 +3071,7 @@ export declare const schemaLocales: z.ZodEffects<
                     | 'sans-serif'
                     | 'serif'
                     | 'system-ui'
-                    | InputFont
+                    | UserConfigurationFont
                     | {
                         ascent: number
                         capHeight: number
@@ -3201,22 +3203,24 @@ export declare const schemaLocales: z.ZodEffects<
   },
   Record<string, string | {}>
 >
-export interface WebFontLocale {
-  font: WebFont[]
+export interface Locale {
+  font: Font[]
   fontFace: string
   noScriptStyle: string
   order: string[] | undefined
   style: string
 }
-export interface WebFontsJson {
+export interface Manifest {
   alias: Record<string, string>
-  font: WebFont[]
-  fontFace: string
-  locale: Record<string, WebFontLocale>
-  noScriptStyle: string
-  order: string[] | undefined
+  locale: Record<string, Locale>
   script: string
-  style: string
+}
+export interface UserConfiguration {
+  locales: UserConfigurationLocales
+  manifest?: ((manifest: Manifest) => Promise<void>) | string
+  outputDirectory?: string
+  publicPath?: string
+  selector?: string
 }
 
 //# sourceMappingURL=user-schema.d.ts.map

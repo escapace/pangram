@@ -4,13 +4,13 @@ import type { AtRule } from '../types'
 import {
   schemaFontPropertiesKeys,
   type CSSProperties,
-  type InferFontProperties,
+  type ConfigurationFontProperties,
   type StyleRule,
 } from './user-schema'
 
 interface StyleRuleFlat {
   atRules: AtRule[]
-  fontProperties: InferFontProperties[]
+  fontProperties: ConfigurationFontProperties[]
   id: string
   properties: CSSProperties<{}>
   parent?: string
@@ -21,7 +21,7 @@ const isEmptyStyleRule = (current: StyleRuleFlat) =>
   isEmpty(pickBy(current.properties, (value) => value !== undefined))
 
 export const normalizeStyleRule = (
-  rule: StyleRule<InferFontProperties>,
+  rule: StyleRule<ConfigurationFontProperties>,
   parent?: StyleRuleFlat,
 ): StyleRuleFlat[] => {
   const currentFontProperties = pick(rule, schemaFontPropertiesKeys)
@@ -31,7 +31,7 @@ export const normalizeStyleRule = (
     ...schemaFontPropertiesKeys,
   ])
 
-  const fontProperties: InferFontProperties[] = [
+  const fontProperties: ConfigurationFontProperties[] = [
     ...(parent?.fontProperties ?? []),
     currentFontProperties,
   ].filter((value) => !isEmpty(value))

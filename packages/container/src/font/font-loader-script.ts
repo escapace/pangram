@@ -1,6 +1,6 @@
 import { build, type OutputFile } from 'esbuild'
 import { TextDecoder } from 'node:util'
-import type { WebFont } from '@pangram/font-loader'
+import type { Font } from '@pangram/font-loader'
 import type { State } from '../types'
 import { resolvePath } from 'mlly'
 
@@ -10,7 +10,7 @@ const buildToString = (value: { outputFiles: OutputFile[] }): string =>
 export const fontLoaderScript = async (
   state: State,
   locales: Array<readonly [string, string | string[]]>,
-  fonts: WebFont[],
+  fonts: Font[],
 ): Promise<string> =>
   buildToString(
     await build({
