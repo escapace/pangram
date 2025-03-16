@@ -111,15 +111,13 @@ export const createConfiguration = async (
   const config = await explorer.search(processDirectory)
   assert(typeof config?.filepath === 'string', 'No config file.')
   assert(config?.isEmpty !== true, 'Empty config.')
-  assert(typeof config.config === 'function', 'Empty config.')
+  assert(config.config !== undefined, 'Empty config.')
 
   const configurationDirectory = path.dirname(config.filepath)
   const configFile = config.filepath
 
   const configuration = normalizeConfiguration(
-    await Promise.resolve(
-      (config.config as (() => Promise<UserConfiguration>) | (() => UserConfiguration))(),
-    ),
+    await Promise.resolve(config.config as Promise<UserConfiguration> | UserConfiguration),
     configurationDirectory,
   )
 

@@ -73,7 +73,7 @@ const RU_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
   unicodeRange: RU_UNICODE_RANGE,
 }
 
-export default (): UserConfiguration => ({
+export default ((): UserConfiguration => ({
   locales: {
     en: {
       'sans-serif': {
@@ -122,4 +122,4 @@ export default (): UserConfiguration => ({
       },
     },
   },
-})
+}))()
