@@ -340,8 +340,8 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
       udhr:
-        specifier: 5.2.0
-        version: 5.2.0
+        specifier: 6.0.0
+        version: 6.0.0
       vitest:
         specifier: 3.0.8
         version: 3.0.8(@types/node@22.13.10)(jiti@2.4.2)(jsdom@26.0.0)(lightningcss@1.29.3)(tsx@4.19.3)(yaml@2.7.1)
@@ -3143,8 +3143,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  udhr@5.2.0:
-    resolution: {integrity: sha512-cWQ4XFKA14Jw0+WYDolf5u1nphf0UZHn8m/glvSK31C85VLP+mkCLnTl9yO8MweogpYLRqgK27uEa3OJCrq39A==}
+  udhr@6.0.0:
+    resolution: {integrity: sha512-WBPHElJCq9m1qzkjIPH1enWi94TRzbm4lIbhvoH2/QzCVUJ6sOkofxuK1DP3n0kk05ypoOgdeckywyFG044MhA==}
 
   ufo@1.6.1:
     resolution: {integrity: sha512-9a4/uxlTWJ4+a5i0ooc1rU7C7YOw3wT+UGqdeNNHWnOF9qcMBgLRS+4IYUqbczewFx4mLEig6gawh7X6mFlEkA==}
@@ -6274,7 +6274,7 @@ snapshots:
 
   typescript@5.8.2: {}
 
-  udhr@5.2.0: {}
+  udhr@6.0.0: {}
 
   ufo@1.6.1: {}
 
