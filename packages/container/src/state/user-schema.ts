@@ -309,8 +309,15 @@ export interface Manifest {
   script: string
 }
 
+import type Lightningcss from 'lightningcss'
+
+export type LightningCSSOptions = Partial<
+  Pick<Lightningcss.TransformOptions<Lightningcss.CustomAtRules>, 'exclude' | 'include' | 'minify'>
+>
+
 export interface UserConfiguration {
   locales: UserConfigurationLocales
+  lightningcss?: LightningCSSOptions
   manifest?: ((manifest: Manifest) => Promise<void>) | string
   outputDirectory?: string
   publicPath?: string

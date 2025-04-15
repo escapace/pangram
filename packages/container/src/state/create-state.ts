@@ -1,4 +1,3 @@
-import { browserslistToTargets } from '@pointe/browserslist-to-targets'
 import { findUp } from 'find-up'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
@@ -30,11 +29,6 @@ export const createState = async (): Promise<State> => {
   const { configuration, configurationDirectory, configurationFile } =
     await createConfiguration(processDirectory)
 
-  const targets = browserslistToTargets({
-    ignoreUnknownVersions: true,
-    path: configurationDirectory,
-  })
-
   return {
     configuration,
     configurationDirectory,
@@ -43,6 +37,5 @@ export const createState = async (): Promise<State> => {
     runtimeDirectory,
     runtimeFontInspectPath,
     runtimeFontStripPath,
-    targets,
   }
 }

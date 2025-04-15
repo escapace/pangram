@@ -240,7 +240,7 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
         ),
       ]),
     ),
-    state.targets.lightningcss,
+    state,
   )
 
   const lookup = compact(
@@ -290,7 +290,7 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
       )
       .map((value) => fontFaceToString(value))
       .join('\n\n'),
-    state.targets.lightningcss,
+    state,
   )
 
   const order = last(

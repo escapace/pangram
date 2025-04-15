@@ -74,6 +74,9 @@ const RU_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
 }
 
 export default ((): UserConfiguration => ({
+  lightningcss: {
+    exclude: 1, // Features.Nesting
+  },
   locales: {
     en: {
       'sans-serif': {

@@ -2,6 +2,7 @@ import type { Targets } from 'lightningcss'
 import type {
   ConfigurationFont,
   ConfigurationFontProperties,
+  LightningCSSOptions,
   Manifest,
   UserConfigurationFontInformation,
 } from './state/user-schema'
@@ -93,6 +94,12 @@ export interface Configuration {
   publicPath: string
   selector: string
   styles: Style[]
+  targets: {
+    browserslist: string[]
+    esbuild: string[]
+    lightningcss: Targets
+  }
+  lightningcss?: LightningCSSOptions
 }
 
 export interface State {
@@ -103,11 +110,6 @@ export interface State {
   runtimeDirectory: string
   runtimeFontInspectPath: string
   runtimeFontStripPath: string
-  targets: {
-    browserslist: string[]
-    esbuild: string[]
-    lightningcss: Targets
-  }
 }
 
 export type StatePartial = Pick<Configuration, 'fallbackFonts' | 'fontProperties' | 'fonts'>

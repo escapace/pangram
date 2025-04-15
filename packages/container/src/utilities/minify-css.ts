@@ -1,19 +1,23 @@
-import { Features, type Targets, transform } from 'lightningcss'
+import { transform } from 'lightningcss'
+import type { State } from '../types'
 
-export const minifyCss = (value: string, targets: Targets) => {
+export const minifyCss = (value: string, state: State) => {
+  const targets = state.configuration.targets.lightningcss
+  const options = state.configuration.lightningcss
+
   const { code: one } = transform({
-    code: Buffer.from(value),
-    exclude: Features.Nesting,
-    filename: 'style.css',
     minify: true,
+    ...options,
+    code: Buffer.from(value),
+    filename: 'style.css',
     targets,
   })
 
   const { code: two } = transform({
-    code: Buffer.from(one),
-    exclude: Features.Nesting,
-    filename: 'style.css',
     minify: true,
+    ...options,
+    code: Buffer.from(one),
+    filename: 'style.css',
     targets,
   })
 
