@@ -7,10 +7,7 @@ import {
   find,
   first,
   forEach,
-  includes,
-  isEmpty,
   isEqual,
-  kebabCase,
   last,
   map,
   mapValues,
@@ -37,8 +34,7 @@ import { fontResourceHint } from './font/font-resource-hint'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
 import { createState } from './state/create-state'
-import type { CSSProperties, Locale, Manifest } from './state/user-schema'
-import { schemaFontPropertiesKeys } from './state/user-schema'
+import type { Locale, Manifest } from './state/user-schema'
 import {
   TypeFontState,
   type FontProperties,
@@ -46,13 +42,44 @@ import {
   type State,
   type Style,
 } from './types'
+import { atRule, context, decl, styleRule, toCss, type AstNode, type AtRule } from './utilities/ast'
 import { combinations } from './utilities/combinations'
 import { createHash } from './utilities/create-hash'
 import { minifyCss } from './utilities/minify-css'
+import { optimizeAst } from './utilities/optimize-ast'
 import { reduceGraph } from './utilities/reduce-graph'
 import { round } from './utilities/round'
-import { iterateProperties } from './utilities/style'
 import { toposort } from './utilities/toposort'
+
+// {
+//   "kind": "at-rule",
+//   "name": "@media",
+//   "params": "(scripting: none)",
+//   "nodes": []
+// },
+
+const findNode = (node: AstNode): AstNode[] => {
+  assert(node.kind === 'at-rule')
+  assert(node.nodes.length === 0 || node.nodes.length === 1)
+
+  return node.nodes.length === 0 ? node.nodes : findNode(node.nodes[0])
+}
+
+const applyStyleAtRules = (style: Style, nodes: AstNode[]): AstNode[] => {
+  if (style.atRules.length === 0) {
+    return nodes
+  }
+
+  const atRules = cloneDeep(style.atRules).reduce((previous, current): AtRule => {
+    findNode(previous).push(current)
+
+    return previous
+  })
+
+  findNode(atRules).push(...nodes)
+
+  return [atRules]
+}
 
 // const selectorFontLocales = (state: State, slug?: string) =>
 //   slug === undefined
@@ -65,38 +92,13 @@ import { toposort } from './utilities/toposort'
 //         )
 //         .filter((value): value is string => value !== undefined)
 
-const toLang = (locale: string, state: State): string =>
-  uniq([locale, ...(state.configuration.localeToAlias.get(locale) ?? [])])
+const toLang = (locale: string, state: State): string => {
+  const value = uniq([locale, ...(state.configuration.localeToAlias.get(locale) ?? [])])
     .sort((a, b) => a.localeCompare(b))
     .map((value) => `"${value}"`)
     .join(', ')
 
-const stylePropertiesToString = (
-  style: Style,
-  selectors: Record<string, CSSProperties<{}> | undefined>,
-  // selector: string,
-  // properties?: CSSProperties<{}>,
-): string | undefined => {
-  const results = Object.entries(selectors)
-    .map(([selector, properties]) => {
-      if (isEmpty(properties)) {
-        return
-      }
-
-      const atRulesOpen = style.atRules.map((value) => `${value.type} ${value.value} { `)
-      const atRulesClose = style.atRules.map(() => `}`)
-
-      return compact([
-        ...atRulesOpen,
-        `${selector} {`,
-        iterateProperties(properties),
-        `}`,
-        ...atRulesClose,
-      ]).join('\n')
-    })
-    .filter((value): value is string => value !== undefined)
-
-  return results.length === 0 ? undefined : results.join('\n')
+  return `:is(:where(&:lang(${value})), & [lang]:lang(${value}))`
 }
 
 const selectorParent = (style: Style, state: State): Style | undefined =>
@@ -106,36 +108,24 @@ const selectorParent = (style: Style, state: State): Style | undefined =>
 
 const selectorStyleProperties = (
   style: Style,
-  type: 'fallbackStyleProperties' | 'noScriptStyleProperties',
+  type: 'fallbackStyleProperties' | 'metrics' | 'scriptingNoneStyleProperties',
   state: State,
-): CSSProperties<{}> | undefined => {
+) => {
   const parent = selectorParent(style, state)
 
   const value = pickBy(style[type], (value, key) => {
-    if (includes(schemaFontPropertiesKeys, key)) {
-      if (parent !== undefined) {
-        const parentValue =
-          parent[type] === undefined ? undefined : parent[type][key as keyof CSSProperties<{}>]
+    if (parent !== undefined) {
+      const parentValue = parent[type] === undefined ? undefined : parent[type][key]
 
-        if (isEqual(value, parentValue)) {
-          return false
-        }
+      if (isEqual(value, parentValue)) {
+        return false
       }
-      // else if (key === 'fontStretch' && value === '100%') {
-      //   return false
-      // } else if (key === 'fontWeight' && value === 400) {
-      //   return false
-      // } else if (key === 'fontStyle' && value === 'normal') {
-      //   return false
-      // } else if (key === 'fontVariationSettings' && value === 'normal') {
-      //   return false
-      // }
     }
 
     return true
   })
 
-  return isEmpty(value) ? undefined : value
+  return Object.entries(value).map(([key, value]) => decl(key, `${value}`))
 }
 
 const selectorFontProperties = (
@@ -196,17 +186,60 @@ const selectorFallbackGenericFontFamilies = (style: Style, state: State): string
   return compact(fontProperties?.fontFamily?.fallbacksGeneric)
 }
 
+// const optimizeCssSort = (ast: AstNode[]): AstNode[] => {
+//   const types = ['fallback', 'metrics', 'combinations', 'scripting-none'] as const
+//   type TypeContext = typeof types extends ArrayLike<infer T> ? T : never
+//
+//   const nodes: Partial<Record<TypeContext, AstNode[]>> = {}
+//
+//   for (const node of ast) {
+//     if (node.kind !== 'context') {
+//       continue
+//     }
+//
+//     const context = node.context
+//
+//     assert(typeof context.type === 'string')
+//     assert(types.includes(context.type as TypeContext))
+//
+//     const type = context.type as TypeContext
+//
+//     // eslint-disable-next-line typescript/prefer-nullish-coalescing
+//     if (nodes[type] === undefined) {
+//       nodes[type] = []
+//     }
+//
+//     const array = nodes[type]
+//
+//     if (node.nodes.length !== 0) {
+//       array.push(...node.nodes)
+//     }
+//   }
+//
+//   // return optimizeAst([
+//   //   ...optimizeAst(
+//   //     [nodes.fallback, nodes.metrics, nodes.combinations]
+//   //       .filter((value) => value !== undefined)
+//   //       .flat(1),
+//   //   ),
+//   //   ...optimizeAst([nodes['scripting-none']].filter((value) => value !== undefined).flat(1)),
+//   // ])
+//
+//   return Object.entries(nodes)
+//     .sort(([a], [b]) => types.indexOf(a as TypeContext) - types.indexOf(b as TypeContext))
+//     .flatMap(([_, nodes]) => nodes)
+// }
+
 const toWebFontLocale = (styles: Style[], state: State): Locale => {
   const style = minifyCss(
-    [
-      ...uniq(compact(styles.map((value) => value.fallbackStyle))),
-      ...uniq(compact(styles.map((value) => value.style))),
-    ].join('\n'),
-    state.targets.lightningcss,
-  )
-
-  const noScriptStyle = minifyCss(
-    uniq(compact(styles.map((value) => value.noScriptStyle))).join('\n'),
+    toCss(
+      optimizeAst([
+        styleRule(
+          state.configuration.selector,
+          styles.flatMap((value) => value.ast),
+        ),
+      ]),
+    ),
     state.targets.lightningcss,
   )
 
@@ -309,7 +342,6 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
   const output: Locale = {
     font: outputFont,
     fontFace,
-    noScriptStyle,
     order,
     style,
   }
@@ -404,27 +436,23 @@ export const build = async () => {
       ].flatMap((value) => state.configuration.localeToAlias.get(value) ?? []),
     )
 
-    const variablePrefix = kebabCase(style.classname)
-
-    Object.assign(style.variables, {
-      [`--${variablePrefix}-ascent`]: round(
+    Object.assign(style.metrics, {
+      [`--${style.prefix}-ascent`]: round(
         primaryFontInformation.ascent / primaryFontInformation.unitsPerEm,
       ),
-      [`--${variablePrefix}-cap-height`]: round(
+      [`--${style.prefix}-cap-height`]: round(
         primaryFontInformation.capHeight / primaryFontInformation.unitsPerEm,
       ),
-      [`--${variablePrefix}-descent`]: round(
+      [`--${style.prefix}-descent`]: round(
         Math.abs(primaryFontInformation.descent / primaryFontInformation.unitsPerEm),
       ),
-      [`--${variablePrefix}-line-gap`]: round(
+      [`--${style.prefix}-line-gap`]: round(
         primaryFontInformation.lineGap / primaryFontInformation.unitsPerEm,
       ),
-      [`--${variablePrefix}-x-height`]: round(
+      [`--${style.prefix}-x-height`]: round(
         Math.abs(primaryFontInformation.xHeight / primaryFontInformation.unitsPerEm),
       ),
-      [`--${variablePrefix}-x-width-average`]: round(
-        xWidthAverage(primaryFontInformation, locales),
-      ),
+      [`--${style.prefix}-x-width-average`]: round(xWidthAverage(primaryFontInformation, locales)),
     })
 
     primaryFont?.fontFaces.set(
@@ -490,85 +518,111 @@ export const build = async () => {
     const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
     const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
 
-    // const isRoot = selectorParent(style, state) === undefined
-
-    const sharedStyleProperties: CSSProperties<{}> = {
-      fontStretch:
-        fontProperties?.fontStretch === undefined ? undefined : `${fontProperties.fontStretch}%`,
-      fontStyle: fontProperties?.fontStyle,
-      fontVariationSettings: selectorFontVariationSettings(style, state),
-      fontWeight: fontProperties?.fontWeight,
-      ...style.properties,
-    }
-
-    style.noScriptStyleProperties = pickBy(
+    style.scriptingNoneStyleProperties = pickBy(
       {
-        ...sharedStyleProperties,
-        fontFamily: fontFamilyJoin([
+        [`--${style.prefix}-font-family`]: fontFamilyJoin([
           ...fontFamilies.map((value) => value.fontFamily),
           ...fallbackFontFamilies,
           ...fallbackGenericFontFamilies,
         ]),
       },
       (value) => value !== undefined,
-    ) as CSSProperties<{}>
+    )
 
     style.fallbackStyleProperties = pickBy(
       {
-        ...sharedStyleProperties,
-        fontFamily: fontFamilyJoin([...fallbackFontFamilies, ...fallbackGenericFontFamilies]),
+        [`--${style.prefix}-font-family`]: fontFamilyJoin([
+          ...fallbackFontFamilies,
+          ...fallbackGenericFontFamilies,
+        ]),
+        [`--${style.prefix}-font-stretch`]:
+          fontProperties?.fontStretch === undefined ? undefined : `${fontProperties.fontStretch}%`,
+        [`--${style.prefix}-font-style`]: fontProperties?.fontStyle,
+        [`--${style.prefix}-font-variation-settings`]: selectorFontVariationSettings(style, state),
+        [`--${style.prefix}-font-weight`]: fontProperties?.fontWeight,
       },
       (value) => value !== undefined,
-    ) as CSSProperties<{}>
+    )
   }
 
   for (const style of state.configuration.styles) {
-    const noScriptStyleProperties = selectorStyleProperties(style, 'noScriptStyleProperties', state)
+    const metrics = selectorStyleProperties(style, 'metrics', state)
+
+    if (metrics.length !== 0) {
+      style.ast.push(
+        context({ order: '0' }, [
+          styleRule(toLang(style.locale, state), applyStyleAtRules(style, metrics)),
+        ]),
+      )
+    }
+
     const fallbackStyleProperties = selectorStyleProperties(style, 'fallbackStyleProperties', state)
 
+    if (fallbackStyleProperties.length !== 0) {
+      style.ast.push(
+        context({ order: '0' }, [
+          styleRule(toLang(style.locale, state), applyStyleAtRules(style, fallbackStyleProperties)),
+        ]),
+      )
+    }
+
     const fontFamilies = selectorFontFamilies(style, state)
-    const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
-    const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
     const fontFamilyCombinations = map(
       combinations(fontFamilies.map((value) => value.slug)),
       (value) => map(value, (value) => find(fontFamilies, ({ slug }) => slug === value)!),
     )
-    const primaryStyles = compact(
-      fontFamilyCombinations.map((fonts): string | undefined => {
-        const selector = `${state.configuration.selector}${map(
-          fonts,
-          ({ slug }) => `[data-fonts-loaded~='${slug}']`,
-        ).join('')}:lang(${toLang(style.locale, state)}) .${style.classname}`
 
-        return stylePropertiesToString(style, {
-          [selector]: pickBy(
-            {
-              fontFamily: fontFamilyJoin([
-                ...fonts.map((value) => value.fontFamily),
-                ...fallbackFontFamilies,
-                ...fallbackGenericFontFamilies,
-              ]),
-            },
-            (value) => value !== undefined,
-          ),
-        })
-      }),
+    if (fontFamilyCombinations.length !== 0) {
+      const fallbackFontFamilies = selectorFallbackFontFamilies(style, state)
+      const fallbackGenericFontFamilies = selectorFallbackGenericFontFamilies(style, state)
+
+      const rules = compact(
+        fontFamilyCombinations.map((fonts) => {
+          const selector = `&${map(fonts, ({ slug }) => `[data-fonts-loaded~="${slug}"]`).join('')}`
+
+          const fontFamily = fontFamilyJoin([
+            ...fonts.map((value) => value.fontFamily),
+            ...fallbackFontFamilies,
+            ...fallbackGenericFontFamilies,
+          ])
+
+          if (fontFamily === undefined) {
+            return
+          }
+
+          return styleRule(selector, [
+            styleRule(
+              toLang(style.locale, state),
+              applyStyleAtRules(style, [decl(`--${style.prefix}-font-family`, fontFamily)]),
+            ),
+          ])
+        }),
+      )
+
+      if (rules.length !== 0) {
+        style.ast.push(context({ order: '1' }, rules))
+      }
+    }
+
+    const scriptingNoneStyleProperties = selectorStyleProperties(
+      style,
+      'scriptingNoneStyleProperties',
+      state,
     )
 
-    style.fallbackStyle = stylePropertiesToString(style, {
-      [`${state.configuration.selector}:lang(${toLang(style.locale, state)})`]: style.variables,
-
-      [`${state.configuration.selector}:lang(${toLang(style.locale, state)}) .${style.classname}`]:
-        fallbackStyleProperties,
-    })
-
-    style.noScriptStyle = stylePropertiesToString(style, {
-      // [`:root:lang(${toLang(style.locale, state)})`]: style.variables,
-      [`${state.configuration.selector}:lang(${toLang(style.locale, state)}) .${style.classname}`]:
-        noScriptStyleProperties,
-    })
-
-    style.style = primaryStyles.length === 0 ? undefined : primaryStyles.join('\n')
+    if (scriptingNoneStyleProperties.length !== 0) {
+      style.ast.push(
+        context({ order: '2' }, [
+          styleRule(toLang(style.locale, state), [
+            atRule(
+              '@media',
+              '(scripting: none)',
+              applyStyleAtRules(style, scriptingNoneStyleProperties),
+            ),
+          ]),
+        ]),
+      )
+    }
   }
 
   const result = await toManifest(state)

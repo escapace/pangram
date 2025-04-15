@@ -23,9 +23,7 @@ export const normalizeConfiguration = (
       : path.resolve(configurationDirectory, userConfiguration.manifest ?? DEFAULT_JSON_FILE)
 
   const locales = schemaLocales.parse(userConfiguration.locales)
-  const selector = normalizeSelector(
-    userConfiguration.selector ?? ':where(:root,:host,::backdrop,::selection)',
-  )
+  const selector = normalizeSelector(userConfiguration.selector ?? ':where(:root,:host)')
 
   const state: StatePartial = {
     fallbackFonts: new Map<string, FontFallback>(),

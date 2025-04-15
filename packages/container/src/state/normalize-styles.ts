@@ -1,5 +1,6 @@
-import { compact, flatMap, uniq } from 'lodash-es'
+import { compact, flatMap, kebabCase, uniq } from 'lodash-es'
 import type { StatePartial, Style } from '../types'
+import { escape } from '../utilities/escape'
 import { toposortReverse } from '../utilities/toposort'
 import { normalizeFontProperties } from './normalize-font-properties'
 import { normalizeStyleRule } from './normalize-style-rule'
@@ -16,12 +17,14 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
         const reducedFontProperties = normalizeFontProperties(value.fontProperties, state)
 
         return {
-          classname,
+          // classname,
           locale,
+          prefix: escape(kebabCase(classname)),
           ...value,
+          ast: [],
           fontProperties: reducedFontProperties?.id,
           graph: reducedFontProperties?.graph,
-          variables: {},
+          metrics: {},
         }
       }),
     )

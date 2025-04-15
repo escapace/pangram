@@ -81,8 +81,13 @@ export default ((): UserConfiguration => ({
           '(min-width: 900px)': {
             '@supports': {
               '(font-variation-settings: "wdth" 115)': {
-                fontStretch: 50,
-                fontWeight: 900,
+                '@media': {
+                  print: {
+                    fontStretch: 100,
+                  },
+                },
+                'fontStretch': 50,
+                'fontWeight': 900,
               },
             },
           },

@@ -1,9 +1,8 @@
-import { flatMap, isEmpty, omit, pick, pickBy } from 'lodash-es'
+import { flatMap, isEmpty, pick, pickBy } from 'lodash-es'
 import { randomUUID } from 'node:crypto'
-import type { AtRule } from '../types'
+import type { AtRule } from '../utilities/ast'
 import {
   schemaFontPropertiesKeys,
-  type CSSProperties,
   type ConfigurationFontProperties,
   type StyleRule,
 } from './user-schema'
@@ -12,38 +11,38 @@ interface StyleRuleFlat {
   atRules: AtRule[]
   fontProperties: ConfigurationFontProperties[]
   id: string
-  properties: CSSProperties<{}>
+  // properties: CSSProperties
   parent?: string
 }
 
 const isEmptyStyleRule = (current: StyleRuleFlat) =>
-  isEmpty(pickBy(current.fontProperties, (value) => value !== undefined)) &&
-  isEmpty(pickBy(current.properties, (value) => value !== undefined))
+  isEmpty(pickBy(current.fontProperties, (value) => value !== undefined)) /* && */
+// isEmpty(pickBy(current.properties, (value) => value !== undefined))
 
 export const normalizeStyleRule = (
   rule: StyleRule<ConfigurationFontProperties>,
   parent?: StyleRuleFlat,
 ): StyleRuleFlat[] => {
   const currentFontProperties = pick(rule, schemaFontPropertiesKeys)
-  const currentProperties: CSSProperties<{}> = omit(rule, [
-    '@supports',
-    '@media',
-    ...schemaFontPropertiesKeys,
-  ])
+  // const currentProperties: CSSProperties = omit(rule, [
+  //   '@supports',
+  //   '@media',
+  //   ...schemaFontPropertiesKeys,
+  // ])
 
   const fontProperties: ConfigurationFontProperties[] = [
     ...(parent?.fontProperties ?? []),
     currentFontProperties,
   ].filter((value) => !isEmpty(value))
 
-  const properties: CSSProperties<{}> = currentProperties
+  // const properties: CSSProperties = currentProperties
 
   const current: StyleRuleFlat = {
     atRules: [...(parent?.atRules ?? [])],
     fontProperties,
     id: randomUUID(),
     parent: parent?.id,
-    properties,
+    // properties,
   }
 
   return [
@@ -59,9 +58,11 @@ export const normalizeStyleRule = (
           atRules: [
             ...current.atRules,
             {
-              type: type as '@media' | '@supports',
-              value,
-            },
+              kind: 'at-rule',
+              name: type as '@media' | '@supports',
+              nodes: [],
+              params: value,
+            } satisfies AtRule,
           ],
         }),
       )

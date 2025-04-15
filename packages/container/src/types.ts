@@ -1,11 +1,11 @@
 import type { Targets } from 'lightningcss'
 import type {
-  CSSProperties,
-  UserConfigurationFontInformation,
   ConfigurationFont,
   ConfigurationFontProperties,
   Manifest,
+  UserConfigurationFontInformation,
 } from './state/user-schema'
+import type { AstNode, AtRule } from './utilities/ast'
 
 export interface FontFallback {
   font: UserConfigurationFontInformation
@@ -50,10 +50,10 @@ export interface FontStateWritten extends Omit<FontStateInitial, 'type'> {
 
 export type FontState = FontStateInitial | FontStateWritten
 
-export interface AtRule {
-  type: '@media' | '@supports'
-  value: string
-}
+// export interface AtRule {
+//   type: '@media' | '@supports'
+//   value: string
+// }
 
 export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontFamily'> {
   fontFamily:
@@ -67,19 +67,18 @@ export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontF
 
 export interface Style {
   atRules: AtRule[]
-  classname: string
+  // classname: string
   id: string
   locale: string
-  properties: CSSProperties<{}>
-  variables: Record<string, number | string>
-  fallbackStyle?: string
-  fallbackStyleProperties?: CSSProperties<{}>
+  prefix: string
+  // properties: CSSProperties
+  ast: AstNode[]
+  metrics: Record<string, number | string>
+  fallbackStyleProperties?: Record<string, number | string>
   fontProperties?: string
   graph?: Map<string, string[]>
-  noScriptStyle?: string
-  noScriptStyleProperties?: CSSProperties<{}>
   parent?: string
-  style?: string
+  scriptingNoneStyleProperties?: Record<string, number | string>
 }
 
 export interface Configuration {

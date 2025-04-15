@@ -17,7 +17,7 @@ export type UDHR = Array<{
   latitude: number
   longitude: number
   name: string
-  ohchr: string | null
+  ohchr?: string
   // script: string
   stage: 1 | 2 | 3 | 4 | 5
 }>

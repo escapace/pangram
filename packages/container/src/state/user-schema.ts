@@ -1,6 +1,5 @@
 import type { Font } from '@pangram/font-loader'
 import { bcp47Normalize } from '@pangram/unicode-tools'
-import type { Properties } from 'csstype'
 import { sortBy, uniq } from 'lodash-es'
 import path from 'node:path'
 import { isNativeError } from 'node:util/types'
@@ -210,60 +209,29 @@ export const schemaFontProperties = z.object({
 export const schemaFontPropertiesKeys = schemaFontProperties.keyof().options
 
 export type ConfigurationFontProperties = z.infer<typeof schemaFontProperties>
-export type CSSTypeProperties = Properties<({} & string) | number>
 export type UserConfigurationFontProperties = z.input<typeof schemaFontProperties>
 
-export type CSSProperties<T extends {}> = {
-  [Property in Exclude<keyof CSSTypeProperties, keyof T>]?:
-    | Array<CSSTypeProperties[Property]>
-    | CSSTypeProperties[Property]
-} & T
-
-export interface FeatureQueries<StyleType> {
-  '@supports'?: Record<string, StyleType>
-}
-
-export interface MediaQueries<StyleType> {
-  '@media'?: Record<string, StyleType>
-}
-
-export type StyleRule<T extends {}> = CSSProperties<T> &
-  FeatureQueries<CSSProperties<T> & MediaQueries<CSSProperties<T>>> &
-  MediaQueries<CSSProperties<T> & FeatureQueries<CSSProperties<T>>>
+export type StyleRule<T extends {}> = {
+  '@media'?: Record<string, StyleRule<T>>
+  '@supports'?: Record<string, StyleRule<T>>
+} & Omit<T, '@media' | '@supports'>
 
 const schemaRule: z.ZodType<
   StyleRule<ConfigurationFontProperties>,
   z.ZodTypeDef,
   StyleRule<UserConfigurationFontProperties>
 > = z.lazy(() => {
-  const schemaCSSProperties = schemaFontProperties.passthrough()
+  const schemaCSSProperties = schemaFontProperties
 
   // @ts-expect-error circular reference
-  const schemaMediaQueries = z
-    .object({
-      // '@media': z.record(
-      //   z.intersection(schemaCSSProperties, schemaFeatureQueries)
-      // )
-      // @ts-expect-error circular reference
-      '@media': z.lazy(() => z.record(schemaCSSProperties.merge(schemaFeatureQueries))),
-    })
-    .partial()
-    .passthrough()
-
-  // @ts-expect-error circular reference
-  const schemaFeatureQueries = z
-    .object({
-      // '@supports': z.record(
-      //   z.intersection(schemaCSSProperties, schemaMediaQueries)
-      // )
-      // @ts-expect-error circular reference
-      '@supports': z.lazy(() => z.record(schemaCSSProperties.merge(schemaMediaQueries))),
-    })
-    .partial()
-    .passthrough()
+  const schemaAtRules = z.object({
+    // @ts-expect-error circular reference
+    '@media': z.lazy(() => z.record(schemaCSSProperties.merge(schemaAtRules))).optional(),
+    '@supports': z.lazy(() => z.record(schemaCSSProperties.merge(schemaAtRules))).optional(),
+  })
 
   // eslint-disable-next-line typescript/no-unsafe-argument
-  return schemaCSSProperties.merge(schemaFeatureQueries).merge(schemaMediaQueries).passthrough()
+  return schemaCSSProperties.merge(schemaAtRules)
 })
 
 export const schemaLocale = z.object({}).catchall(schemaRule)
@@ -331,7 +299,6 @@ export const schemaLocales = z
 export interface Locale {
   font: Font[]
   fontFace: string
-  noScriptStyle: string
   order: string[] | undefined
   style: string
 }

@@ -1,5 +1,4 @@
 import type { Font } from '@pangram/font-loader'
-import type { Properties } from 'csstype'
 import type { z } from 'zod'
 declare const schemaFontInformationVariation: z.ZodObject<
   z.objectUtil.extendShape<
@@ -2864,21 +2863,10 @@ export declare const schemaFontPropertiesKeys: [
   'fontWeight',
 ]
 export type ConfigurationFontProperties = z.infer<typeof schemaFontProperties>
-export type CSSProperties<T extends {}> = {
-  [Property in Exclude<keyof CSSTypeProperties, keyof T>]?:
-    | Array<CSSTypeProperties[Property]>
-    | CSSTypeProperties[Property]
-} & T
-export type CSSTypeProperties = Properties<({} & string) | number>
-export interface FeatureQueries<StyleType> {
-  '@supports'?: Record<string, StyleType>
-}
-export interface MediaQueries<StyleType> {
-  '@media'?: Record<string, StyleType>
-}
-export type StyleRule<T extends {}> = CSSProperties<T> &
-  FeatureQueries<CSSProperties<T> & MediaQueries<CSSProperties<T>>> &
-  MediaQueries<CSSProperties<T> & FeatureQueries<CSSProperties<T>>>
+export type StyleRule<T extends {}> = {
+  '@media'?: Record<string, StyleRule<T>>
+  '@supports'?: Record<string, StyleRule<T>>
+} & Omit<T, '@media' | '@supports'>
 export type UserConfigurationFontProperties = z.input<typeof schemaFontProperties>
 declare const schemaRule: z.ZodType<
   StyleRule<ConfigurationFontProperties>,
@@ -3206,7 +3194,6 @@ export declare const schemaLocales: z.ZodEffects<
 export interface Locale {
   font: Font[]
   fontFace: string
-  noScriptStyle: string
   order: string[] | undefined
   style: string
 }
