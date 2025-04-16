@@ -131,7 +131,7 @@ export const schemaFontPlaceholder = z.object({
 
       return /^[a-z-]+$/i.test(value)
     }),
-  resourceHints: z.optional(z.literal('preload').or(z.literal('prefetch'))),
+  resourceHint: z.optional(z.literal('preload').or(z.literal('prefetch'))),
   source: z.string().transform((value) => path.resolve(value)),
   tech: z.optional(z.array(z.enum(['variations']))),
   unicodeRange: z.optional(

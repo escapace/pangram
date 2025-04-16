@@ -13,13 +13,13 @@ export const fontResourceHints = (slug: string, state: State): ResourceHint[] | 
   const { font } = fontState
 
   const array: ResourceHint[] = compact([
-    font.resourceHints === undefined
+    font.resourceHint === undefined
       ? undefined
       : {
           as: 'font',
           crossorigin: 'anonymous',
           href: urljoin(state.configuration.publicPath, `${font.name ?? slug}.${font.format[0]}`),
-          rel: font.resourceHints,
+          rel: font.resourceHint,
           type: `font/${font.format[0]}`,
         },
   ])

@@ -1203,7 +1203,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     >
     layoutFeatures: z.ZodOptional<z.ZodArray<z.ZodString>>
     name: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>
-    resourceHints: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
+    resourceHint: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
     source: z.ZodEffects<z.ZodString, string, string>
     tech: z.ZodOptional<z.ZodArray<z.ZodEnum<['variations']>>>
     unicodeRange: z.ZodOptional<z.ZodEffects<z.ZodString, string, string>>
@@ -1217,7 +1217,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     display?: 'auto' | 'block' | 'fallback' | 'optional' | 'swap' | undefined
     layoutFeatures?: string[] | undefined
     name?: string | undefined
-    resourceHints?: 'prefetch' | 'preload' | undefined
+    resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
     unicodeRange?: string | undefined
   },
@@ -1228,7 +1228,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     format?: Array<'woff' | 'woff2'> | undefined
     layoutFeatures?: string[] | undefined
     name?: string | undefined
-    resourceHints?: 'prefetch' | 'preload' | undefined
+    resourceHint?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
     unicodeRange?: string | undefined
   }

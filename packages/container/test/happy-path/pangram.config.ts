@@ -21,7 +21,7 @@ const EN_NOTO_SANS: UserConfigurationFont = {
   name: 'en-noto-sans',
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
-  resourceHints: 'preload',
+  resourceHint: 'preload',
   source: './fixtures/NotoSans-Regular.ttf',
   unicodeRange: EN_UNICODE_RANGE,
 }
@@ -49,7 +49,7 @@ const EN_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
 
 const RU_NOTO_SANS: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
-  resourceHints: 'preload',
+  resourceHint: 'preload',
   source: './fixtures/NotoSans-Italic.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }
