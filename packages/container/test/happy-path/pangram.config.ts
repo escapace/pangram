@@ -1,8 +1,7 @@
-import { fallback } from 'pangram'
+import { font } from 'pangram'
 import type { UserConfiguration, UserConfigurationFont } from '../../src/state/user-schema'
 
-const arialBold = (await fallback('arial-bold'))[0]
-const arialRegular = (await fallback('arial'))[0]
+const [arialRegular, arialBold] = await font('arial', 'arial-bold')
 
 const EN_UNICODE_RANGE =
   'U+20-7E,U+A0-BF,U+2BB,U+2BC,U+2C6,U+2DA,U+2DC,U+303,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD'
@@ -22,7 +21,7 @@ const EN_NOTO_SANS: UserConfigurationFont = {
   name: 'en-noto-sans',
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
-  resourceHint: 'preload',
+  resourceHints: 'preload',
   source: './fixtures/NotoSans-Regular.ttf',
   unicodeRange: EN_UNICODE_RANGE,
 }
@@ -50,7 +49,7 @@ const EN_NOTO_SANS_BOLD_ITALIC: UserConfigurationFont = {
 
 const RU_NOTO_SANS: UserConfigurationFont = {
   // family: RU_NOTO_SANS_FAMILY,
-  resourceHint: 'preload',
+  resourceHints: 'preload',
   source: './fixtures/NotoSans-Italic.ttf',
   unicodeRange: RU_UNICODE_RANGE,
 }

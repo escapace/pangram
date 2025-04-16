@@ -1203,7 +1203,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     >
     layoutFeatures: z.ZodOptional<z.ZodArray<z.ZodString>>
     name: z.ZodEffects<z.ZodOptional<z.ZodString>, string | undefined, string | undefined>
-    resourceHint: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
+    resourceHints: z.ZodOptional<z.ZodUnion<[z.ZodLiteral<'preload'>, z.ZodLiteral<'prefetch'>]>>
     source: z.ZodEffects<z.ZodString, string, string>
     tech: z.ZodOptional<z.ZodArray<z.ZodEnum<['variations']>>>
     unicodeRange: z.ZodOptional<z.ZodEffects<z.ZodString, string, string>>
@@ -1217,7 +1217,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     display?: 'auto' | 'block' | 'fallback' | 'optional' | 'swap' | undefined
     layoutFeatures?: string[] | undefined
     name?: string | undefined
-    resourceHint?: 'prefetch' | 'preload' | undefined
+    resourceHints?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
     unicodeRange?: string | undefined
   },
@@ -1228,7 +1228,7 @@ export declare const schemaFontPlaceholder: z.ZodObject<
     format?: Array<'woff' | 'woff2'> | undefined
     layoutFeatures?: string[] | undefined
     name?: string | undefined
-    resourceHint?: 'prefetch' | 'preload' | undefined
+    resourceHints?: 'prefetch' | 'preload' | undefined
     tech?: Array<'variations'> | undefined
     unicodeRange?: string | undefined
   }
@@ -3192,18 +3192,24 @@ export declare const schemaLocales: z.ZodEffects<
   Record<string, string | {}>
 >
 export interface Locale {
-  font: Font[]
   fontFace: string
-  order: string[] | undefined
+  fonts: Font[]
+  prefixes: string[]
   style: string
+  order?: string[]
 }
 export interface Manifest {
-  alias: Record<string, string>
-  locale: Record<string, Locale>
+  aliases: Record<string, string>
+  locales: Record<string, Locale>
   script: string
 }
 export interface UserConfiguration {
   locales: UserConfigurationLocales
+  lightningcss?: {
+    exclude?: number | undefined
+    include?: number | undefined
+    minify?: boolean | undefined
+  }
   manifest?: ((manifest: Manifest) => Promise<void>) | string
   outputDirectory?: string
   publicPath?: string

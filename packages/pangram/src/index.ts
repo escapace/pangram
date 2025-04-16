@@ -13,6 +13,7 @@ export type {
 } from './types'
 
 export { defineConfig } from './define-config'
+export { parseManifest } from './parse-manifest'
 
 const names = [
   'arial-black.json',
@@ -441,7 +442,7 @@ const names = [
   'verdana.json',
 ] as const
 
-export const fallback = async (
+export const font = async (
   ...values: Array<
     (typeof names extends ReadonlyArray<infer U> ? U : never) extends `${infer Prefix}.json`
       ? Prefix

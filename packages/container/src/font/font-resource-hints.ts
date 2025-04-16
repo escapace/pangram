@@ -3,7 +3,7 @@ import urljoin from 'url-join'
 import type { FontStateWritten, State } from '../types'
 import type { ResourceHint } from '@pangram/font-loader'
 
-export const fontResourceHint = (slug: string, state: State): ResourceHint[] | undefined => {
+export const fontResourceHints = (slug: string, state: State): ResourceHint[] | undefined => {
   const fontState = state.configuration.fonts.get(slug) as FontStateWritten | undefined
 
   if (fontState === undefined) {
@@ -13,13 +13,13 @@ export const fontResourceHint = (slug: string, state: State): ResourceHint[] | u
   const { font } = fontState
 
   const array: ResourceHint[] = compact([
-    font.resourceHint === undefined
+    font.resourceHints === undefined
       ? undefined
       : {
           as: 'font',
           crossorigin: 'anonymous',
           href: urljoin(state.configuration.publicPath, `${font.name ?? slug}.${font.format[0]}`),
-          rel: font.resourceHint,
+          rel: font.resourceHints,
           type: `font/${font.format[0]}`,
         },
   ])

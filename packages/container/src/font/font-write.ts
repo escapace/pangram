@@ -97,7 +97,6 @@ export const fontWrite = async (
 
   const testStringCodePoints = orderBy(
     codePointFrequencies(codePoints, locales),
-
     ([_, frequency]) => frequency,
     'desc',
   )
@@ -107,6 +106,8 @@ export const fontWrite = async (
   const testString = String.fromCodePoint(
     ...(testStringCodePoints.length === 10 ? testStringCodePoints : codePoints.slice(0, 10)),
   )
+
+  assert(testString.length !== 0, `${source}: font loader tests string missing`)
 
   return { files, testString }
 }

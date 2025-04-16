@@ -12,14 +12,13 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
       return []
     }
 
-    return flatMap(value, (styleRule, classname) =>
+    return flatMap(value, (styleRule, prefix) =>
       normalizeStyleRule(styleRule).map((value) => {
         const reducedFontProperties = normalizeFontProperties(value.fontProperties, state)
 
         return {
-          // classname,
           locale,
-          prefix: escape(kebabCase(classname)),
+          prefix: escape(kebabCase(prefix)),
           ...value,
           ast: [],
           fontProperties: reducedFontProperties?.id,

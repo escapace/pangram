@@ -2,8 +2,7 @@ import type { Targets } from 'lightningcss'
 import type {
   ConfigurationFont,
   ConfigurationFontProperties,
-  LightningCSSOptions,
-  Manifest,
+  UserConfiguration,
   UserConfigurationFontInformation,
 } from './state/user-schema'
 import type { AstNode, AtRule } from './utilities/ast'
@@ -67,14 +66,12 @@ export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontF
 }
 
 export interface Style {
+  ast: AstNode[]
   atRules: AtRule[]
-  // classname: string
   id: string
   locale: string
-  prefix: string
-  // properties: CSSProperties
-  ast: AstNode[]
   metrics: Record<string, number | string>
+  prefix: string
   fallbackStyleProperties?: Record<string, number | string>
   fontProperties?: string
   graph?: Map<string, string[]>
@@ -82,24 +79,23 @@ export interface Style {
   scriptingNoneStyleProperties?: Record<string, number | string>
 }
 
-export interface Configuration {
+export interface Configuration
+  extends Partial<Pick<UserConfiguration, 'lightningcss'>>,
+    Required<Pick<UserConfiguration, 'manifest' | 'outputDirectory' | 'publicPath' | 'selector'>> {
   fallbackFonts: Map<string, FontFallback>
   fontProperties: Map<string, Required<FontProperties>>
   fonts: Map<string, FontState>
   localeFromAlias: Map<string, string[]>
   locales: Record<string, Style[]>
   localeToAlias: Map<string, string[]>
-  manifest: ((value: Manifest) => Promise<void>) | string
-  outputDirectory: string
-  publicPath: string
-  selector: string
   styles: Style[]
   targets: {
     browserslist: string[]
     esbuild: string[]
     lightningcss: Targets
   }
-  lightningcss?: LightningCSSOptions
+
+  lightningcss?: UserConfiguration['lightningcss']
 }
 
 export interface State {

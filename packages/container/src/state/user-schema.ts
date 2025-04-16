@@ -131,7 +131,7 @@ export const schemaFontPlaceholder = z.object({
 
       return /^[a-z-]+$/i.test(value)
     }),
-  resourceHint: z.optional(z.literal('preload').or(z.literal('prefetch'))),
+  resourceHints: z.optional(z.literal('preload').or(z.literal('prefetch'))),
   source: z.string().transform((value) => path.resolve(value)),
   tech: z.optional(z.array(z.enum(['variations']))),
   unicodeRange: z.optional(
@@ -297,27 +297,26 @@ export const schemaLocales = z
   })
 
 export interface Locale {
-  font: Font[]
   fontFace: string
-  order: string[] | undefined
+  fonts: Font[]
+  prefixes: string[]
   style: string
+  order?: string[]
 }
 
 export interface Manifest {
-  alias: Record<string, string>
-  locale: Record<string, Locale>
+  aliases: Record<string, string>
+  locales: Record<string, Locale>
   script: string
 }
 
-import type Lightningcss from 'lightningcss'
-
-export type LightningCSSOptions = Partial<
-  Pick<Lightningcss.TransformOptions<Lightningcss.CustomAtRules>, 'exclude' | 'include' | 'minify'>
->
-
 export interface UserConfiguration {
   locales: UserConfigurationLocales
-  lightningcss?: LightningCSSOptions
+  lightningcss?: {
+    exclude?: number | undefined
+    include?: number | undefined
+    minify?: boolean | undefined
+  }
   manifest?: ((manifest: Manifest) => Promise<void>) | string
   outputDirectory?: string
   publicPath?: string

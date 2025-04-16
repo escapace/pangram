@@ -19,14 +19,14 @@ export interface ResourceHint {
 
 export interface Font {
   slug: string
-  fontFace?: Array<{
+  fontFaces?: Array<{
     fontFamily: string
     fontStretch?: number | [number, number]
     fontStyle?: 'italic'
     fontWeight?: number | [number, number]
   }>
   prefer?: string[]
-  resourceHint?: ResourceHint[]
+  resourceHints?: ResourceHint[]
   state?: FontState
   tech?: string[]
   testString?: string
@@ -94,7 +94,7 @@ const updateDataFontsLoaded = (value: string) => {
 const createPromise = async (slug: string): Promise<FontState> => {
   const font = FONTS.get(slug)
 
-  if (font?.fontFace === undefined) {
+  if (font?.fontFaces === undefined) {
     return 'font-unknown'
   }
 
@@ -115,7 +115,7 @@ const createPromise = async (slug: string): Promise<FontState> => {
     } else {
       try {
         await Promise.any(
-          font.fontFace!.map(async (fontFace) => {
+          font.fontFaces!.map(async (fontFace) => {
             const weight =
               fontFace.fontWeight === undefined
                 ? undefined

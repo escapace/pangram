@@ -30,7 +30,7 @@ import { fontFaceToString } from './font/font-face-to-string'
 import { fontFamilyJoin } from './font/font-family-join'
 import { fontInspect } from './font/font-inspect'
 import { fontLoaderScript } from './font/font-loader-script'
-import { fontResourceHint } from './font/font-resource-hint'
+import { fontResourceHints } from './font/font-resource-hints'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
 import { createState } from './state/create-state'
@@ -186,51 +186,9 @@ const selectorFallbackGenericFontFamilies = (style: Style, state: State): string
   return compact(fontProperties?.fontFamily?.fallbacksGeneric)
 }
 
-// const optimizeCssSort = (ast: AstNode[]): AstNode[] => {
-//   const types = ['fallback', 'metrics', 'combinations', 'scripting-none'] as const
-//   type TypeContext = typeof types extends ArrayLike<infer T> ? T : never
-//
-//   const nodes: Partial<Record<TypeContext, AstNode[]>> = {}
-//
-//   for (const node of ast) {
-//     if (node.kind !== 'context') {
-//       continue
-//     }
-//
-//     const context = node.context
-//
-//     assert(typeof context.type === 'string')
-//     assert(types.includes(context.type as TypeContext))
-//
-//     const type = context.type as TypeContext
-//
-//     // eslint-disable-next-line typescript/prefer-nullish-coalescing
-//     if (nodes[type] === undefined) {
-//       nodes[type] = []
-//     }
-//
-//     const array = nodes[type]
-//
-//     if (node.nodes.length !== 0) {
-//       array.push(...node.nodes)
-//     }
-//   }
-//
-//   // return optimizeAst([
-//   //   ...optimizeAst(
-//   //     [nodes.fallback, nodes.metrics, nodes.combinations]
-//   //       .filter((value) => value !== undefined)
-//   //       .flat(1),
-//   //   ),
-//   //   ...optimizeAst([nodes['scripting-none']].filter((value) => value !== undefined).flat(1)),
-//   // ])
-//
-//   return Object.entries(nodes)
-//     .sort(([a], [b]) => types.indexOf(a as TypeContext) - types.indexOf(b as TypeContext))
-//     .flatMap(([_, nodes]) => nodes)
-// }
-
 const toWebFontLocale = (styles: Style[], state: State): Locale => {
+  const prefixes = uniq(styles.map((value) => value.prefix))
+
   const style = minifyCss(
     toCss(
       optimizeAst([
@@ -312,7 +270,7 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
     )
 
     const output: Font = {
-      fontFace:
+      fontFaces:
         fontFaces.length === 0
           ? undefined
           : fontFaces.map(
@@ -325,12 +283,12 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
                     fontWeight: value.fontWeight === 400 ? undefined : value.fontWeight,
                   },
                   (value) => value !== undefined,
-                ) as ValuesType<Required<Font>['fontFace']>,
+                ) as ValuesType<Required<Font>['fontFaces']>,
             ),
       prefer: Array.isArray(font.font.prefer)
         ? uniq(fontSort(font.font.prefer).fonts.map((value) => value.slug))
         : undefined,
-      resourceHint: fontResourceHint(font.slug, state),
+      resourceHints: fontResourceHints(font.slug, state),
       slug: font.slug,
       tech: font.font.tech,
       testString: font.testString,
@@ -340,9 +298,10 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
   })
 
   const output: Locale = {
-    font: outputFont,
     fontFace,
+    fonts: outputFont,
     order,
+    prefixes,
     style,
   }
 
@@ -357,7 +316,7 @@ const toManifest = async (state: State): Promise<Manifest> => {
   ).flat()
 
   const locales = [
-    ...map(locale, (value, locale) => [locale, value.font.map((value) => value.slug)] as const),
+    ...map(locale, (value, locale) => [locale, value.fonts.map((value) => value.slug)] as const),
     ...aliasPartial,
   ]
 
@@ -370,13 +329,13 @@ const toManifest = async (state: State): Promise<Manifest> => {
   Object.assign(locale, { '*': wildcard })
 
   return {
-    alias: Object.fromEntries(alias),
-    locale,
+    aliases: Object.fromEntries(alias),
+    locales: locale,
     script: await fontLoaderScript(
       state,
       locales,
       // resourceHint is not useful for the font loader
-      wildcard.font.map((value) => omit(value, ['resourceHint'])),
+      wildcard.fonts.map((value) => omit(value, ['resourceHints'])),
     ),
   }
 }

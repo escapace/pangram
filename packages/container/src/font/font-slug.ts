@@ -21,7 +21,7 @@ const SLUG_PARTS: TupleUnion<
     | 'format'
     | 'name'
     | 'prefer'
-    | 'resourceHint'
+    | 'resourceHints'
     | 'stretch'
     | 'style'
     | 'tech'
