@@ -7340,6 +7340,7 @@
       "yMin": 1242
     }
   ],
+  "consistentMetrics": false,
   "descent": -634,
   "familyName": "Arial",
   "features": [

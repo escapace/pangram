@@ -20166,6 +20166,7 @@
       "yMin": 1222
     }
   ],
+  "consistentMetrics": true,
   "descent": -492,
   "familyName": "Charter",
   "features": [{ "name": "kern", "type": "positioning" }],

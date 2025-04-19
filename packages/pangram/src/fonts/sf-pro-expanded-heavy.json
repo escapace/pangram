@@ -72075,6 +72075,7 @@
       "yMin": 3033
     }
   ],
+  "consistentMetrics": true,
   "descent": -494,
   "familyName": "SF Pro",
   "features": [

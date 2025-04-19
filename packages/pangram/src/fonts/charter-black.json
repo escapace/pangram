@@ -2874,6 +2874,7 @@
       "yMin": 1425
     }
   ],
+  "consistentMetrics": true,
   "descent": -492,
   "familyName": "Charter",
   "features": [],

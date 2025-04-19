@@ -106,6 +106,7 @@ export interface State {
   runtimeDirectory: string
   runtimeFontInspectPath: string
   runtimeFontStripPath: string
+  warnings: Set<string>
 }
 
 export type StatePartial = Pick<Configuration, 'fallbackFonts' | 'fontProperties' | 'fonts'>

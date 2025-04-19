@@ -2775,6 +2775,7 @@
       "yMin": -14
     }
   ],
+  "consistentMetrics": true,
   "descent": -281,
   "familyName": "Bodoni MT Std",
   "features": [

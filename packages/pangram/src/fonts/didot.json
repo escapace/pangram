@@ -4403,6 +4403,7 @@
       "yMin": 567
     }
   ],
+  "consistentMetrics": false,
   "descent": -299,
   "familyName": "Didot",
   "features": [],

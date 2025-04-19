@@ -41473,6 +41473,7 @@
       "yMin": 1989
     }
   ],
+  "consistentMetrics": false,
   "descent": -423,
   "familyName": "Tahoma",
   "features": [

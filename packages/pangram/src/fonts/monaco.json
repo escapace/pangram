@@ -17867,6 +17867,7 @@
       "yMin": 1150
     }
   ],
+  "consistentMetrics": true,
   "descent": -512,
   "familyName": "Monaco",
   "features": [],

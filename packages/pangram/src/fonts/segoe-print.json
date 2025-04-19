@@ -7340,6 +7340,7 @@
       "yMin": 1326
     }
   ],
+  "consistentMetrics": false,
   "descent": -1014,
   "familyName": "Segoe Print",
   "features": [{ "name": "kern", "type": "positioning" }],

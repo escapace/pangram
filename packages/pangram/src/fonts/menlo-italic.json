@@ -27074,6 +27074,7 @@
       "yMin": 1231
     }
   ],
+  "consistentMetrics": false,
   "descent": -483,
   "familyName": "Menlo",
   "features": [],

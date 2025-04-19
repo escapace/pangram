@@ -72075,6 +72075,7 @@
       "yMin": -181.87615743681027
     }
   ],
+  "consistentMetrics": true,
   "descent": -494,
   "familyName": "SF Pro Text",
   "features": [

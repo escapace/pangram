@@ -9859,6 +9859,7 @@
       "yMin": 273
     }
   ],
+  "consistentMetrics": true,
   "descent": -422,
   "familyName": "Bahnschrift",
   "features": [

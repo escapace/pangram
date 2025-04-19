@@ -6592,6 +6592,7 @@
       "yMin": 0
     }
   ],
+  "consistentMetrics": false,
   "descent": -466,
   "familyName": "Arial Nova",
   "features": [

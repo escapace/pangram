@@ -37876,6 +37876,7 @@
       "yMin": 1167
     }
   ],
+  "consistentMetrics": false,
   "descent": -483,
   "familyName": "DejaVu Serif",
   "features": [

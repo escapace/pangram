@@ -30,6 +30,7 @@ import { fontFaceToString } from './font/font-face-to-string'
 import { fontFamilyJoin } from './font/font-family-join'
 import { fontInspect } from './font/font-inspect'
 import { fontLoaderScript } from './font/font-loader-script'
+import { fontNames } from './font/font-names'
 import { fontResourceHints } from './font/font-resource-hints'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
@@ -395,6 +396,15 @@ export const build = async () => {
       ].flatMap((value) => state.configuration.localeToAlias.get(value) ?? []),
     )
 
+    if (!primaryFontInformation.consistentMetrics) {
+      const name =
+        primaryFont === undefined
+          ? fontNames(primaryFontInformation).join(', ')
+          : path.relative(state.configurationDirectory, primaryFont.font.source)
+
+      state.warnings.add(`Inconsistent font metrics for ${name}.`)
+    }
+
     Object.assign(style.metrics, {
       [`--${style.prefix}-ascent`]: round(
         primaryFontInformation.ascent / primaryFontInformation.unitsPerEm,
@@ -429,6 +439,12 @@ export const build = async () => {
 
       const secondaryFontInformation = await fontInspect(secondaryFont.slug, state, fontProperties)
 
+      if (!secondaryFontInformation.consistentMetrics) {
+        state.warnings.add(
+          `Inconsistent font metrics for ${path.relative(state.configurationDirectory, secondaryFont.font.source)}.`,
+        )
+      }
+
       secondaryFont.fontFaces.set(
         style.id,
         fontFace({
@@ -442,6 +458,12 @@ export const build = async () => {
     }
 
     for (const fallbackFont of fallbackFonts) {
+      if (!fallbackFont.font.consistentMetrics) {
+        state.warnings.add(
+          `Inconsistent font metrics for ${fontNames(fallbackFont.font).join(', ')}.`,
+        )
+      }
+
       fallbackFont.fontFaces.set(
         style.id,
         fontFace({
@@ -591,6 +613,10 @@ export const build = async () => {
     await fse.writeFile(state.configuration.manifest, stringify(result, null, 2))
   } else {
     await state.configuration.manifest(result)
+  }
+
+  for (const warning of state.warnings) {
+    console.warn(warning)
   }
 
   return result

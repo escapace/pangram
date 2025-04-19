@@ -4249,6 +4249,7 @@
       "yMin": 535
     }
   ],
+  "consistentMetrics": false,
   "descent": -366,
   "familyName": "Avenir",
   "features": [{ "name": "kern", "type": "positioning" }],

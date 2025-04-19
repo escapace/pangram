@@ -9606,6 +9606,7 @@
       "yMin": 1227
     }
   ],
+  "consistentMetrics": false,
   "descent": -500,
   "familyName": "Droid Sans Mono",
   "features": [],

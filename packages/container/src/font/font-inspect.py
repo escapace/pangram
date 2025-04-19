@@ -7,11 +7,11 @@ import logging
 import os
 from typing import List
 
+from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables import otTables
 from fontTools.ttLib.tables._n_a_m_e import NameRecord
 from fontTools.varLib import instancer
-from fontTools.pens.boundsPen import BoundsPen
 
 
 def hash_dict(d, keys_to_include=None):
@@ -161,6 +161,13 @@ def inspect_features(font):
     return array
 
 
+def is_consistent_metrics(array):
+    metrics = set([abs(value) for value in array if value is not None])
+    length = len(metrics)
+
+    return length == 0 or length == 1
+
+
 def inspect(font, options):
     family_name = getFirstDecodedName(16, font["name"].names)
     subfamily_name = getFirstDecodedName(17, font["name"].names)
@@ -194,16 +201,23 @@ def inspect(font, options):
     typo_descent = getattr(os2_table, "sTypoDescender", None)
     typo_line_gap = getattr(os2_table, "sTypoLineGap", None)
 
-    winAscent = getattr(os2_table, "winAscent", None)
-    winDescent = getattr(os2_table, "winDescent", None)
+    win_ascent = getattr(os2_table, "winAscent", None)
+    win_descent = getattr(os2_table, "winDescent", None)
 
-    ascent = hhea_table.ascent
-    descent = hhea_table.descent
-    line_gap = hhea_table.lineGap
+    hhea_ascent = hhea_table.ascent
+    hhea_descent = hhea_table.descent
+    hhea_line_gap = hhea_table.lineGap
+
+    ascent = hhea_ascent
+    descent = hhea_descent
+    line_gap = hhea_line_gap
 
     fsselection_bit7_mask = 1 << 7
     # USE_TYPO_METRICS bit
     fsselection_bit7_set = (os2_table.fsSelection & fsselection_bit7_mask) != 0
+
+    # hhea, typo, win
+    # typo, hhea, win
 
     osx_line_height = (ascent + descent + line_gap) / units_per_em
     # https://developer.chrome.com/blog/font-fallbacks
@@ -217,8 +231,8 @@ def inspect(font, options):
         # devices and typo metrics on Windows devices.
         win_line_height = (typo_ascent + typo_descent + typo_line_gap) / units_per_em
 
-        if not (osx_line_height == win_line_height):
-            raise ValueError("Inconsistent font font metric")
+        if osx_line_height != win_line_height:
+            raise ValueError("Inconsistent font font metric(s)")
 
         # FIXME: https://www.w3.org/TR/css-inline-3/#ascent-descent
         # It is recommended that implementations that use OpenType or TrueType fonts use the metrics
@@ -231,14 +245,32 @@ def inspect(font, options):
         typo_line_gap = typo_line_gap
 
     if (not fsselection_bit7_set) and (
-        (winAscent is not None) and (winDescent is not None)
+        (win_ascent is not None) and (win_descent is not None)
     ):
         # If USE_TYPO_METRICS is not enabled, the font will be rendered using hhea metrics on OSX
         # devices and win metrics on Windows devices.
-        win_line_height = (winAscent + winDescent) / units_per_em
+        win_line_height = (win_ascent + win_descent) / units_per_em
 
         if not (line_gap == 0 and osx_line_height == win_line_height):
-            raise ValueError("Inconsistent font font metric")
+            raise ValueError("Inconsistent font font metric(s)")
+
+        if (ascent != win_ascent) or (descent != win_descent):
+            raise ValueError("Inconsistent font font metric(s)")
+
+    consistent_metrics = False
+
+    if fsselection_bit7_set:
+        consistent_metrics = (
+            is_consistent_metrics([typo_ascent, hhea_ascent])
+            and is_consistent_metrics([typo_descent, hhea_descent])
+            and is_consistent_metrics([typo_line_gap, hhea_line_gap])
+        )
+    else:
+        consistent_metrics = (
+            is_consistent_metrics([typo_ascent, win_ascent, hhea_ascent])
+            and is_consistent_metrics([typo_descent, win_descent, hhea_descent])
+            and is_consistent_metrics([typo_line_gap, hhea_line_gap])
+        )
 
     # OS/2-based metrics may not always be set, so use getattr with None fallback
     cap_height = getattr(os2_table, "sCapHeight", None)
@@ -265,6 +297,7 @@ def inspect(font, options):
         "xHeight": x_height,
         "xWidthAvg": x_width_avg,
         "unitsPerEm": units_per_em,
+        "consistentMetrics": consistent_metrics,
         # Direct Name IDs
         "familyName": family_name,  # ID 1
         "subfamilyName": subfamily_name,  # ID 2

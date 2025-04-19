@@ -8374,6 +8374,7 @@
       "yMin": 1676
     }
   ],
+  "consistentMetrics": true,
   "descent": -564,
   "familyName": "Candara",
   "features": [

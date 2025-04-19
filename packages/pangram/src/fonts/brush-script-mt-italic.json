@@ -11850,6 +11850,7 @@
       "yMin": 1805
     }
   ],
+  "consistentMetrics": false,
   "descent": -692,
   "familyName": "Brush Script MT",
   "features": [{ "name": "kern", "type": "positioning" }],

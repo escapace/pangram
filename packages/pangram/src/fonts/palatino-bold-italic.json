@@ -15458,6 +15458,7 @@
       "yMin": 2048
     }
   ],
+  "consistentMetrics": true,
   "descent": -568,
   "familyName": "Palatino",
   "features": [],

@@ -16382,6 +16382,7 @@
       "yMin": 110
     }
   ],
+  "consistentMetrics": true,
   "descent": -480,
   "familyName": "Cascadia Code",
   "features": [

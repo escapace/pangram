@@ -37447,6 +37447,7 @@
       "yMin": 2048
     }
   ],
+  "consistentMetrics": false,
   "descent": -434,
   "familyName": "Arial",
   "features": [

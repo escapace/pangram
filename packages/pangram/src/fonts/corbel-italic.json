@@ -9309,6 +9309,7 @@
       "yMin": 1987
     }
   ],
+  "consistentMetrics": true,
   "descent": -525,
   "familyName": "Corbel",
   "features": [

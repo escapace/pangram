@@ -5602,6 +5602,7 @@
       "yMin": 1616
     }
   ],
+  "consistentMetrics": false,
   "descent": -612,
   "familyName": "Gill Sans Nova",
   "features": [],

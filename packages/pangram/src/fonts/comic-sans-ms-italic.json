@@ -6680,6 +6680,7 @@
       "yMin": 1490
     }
   ],
+  "consistentMetrics": false,
   "descent": -597,
   "familyName": "Comic Sans MS",
   "features": [

@@ -49,6 +49,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
           }
         >
       >
+      consistentMetrics: z.ZodBoolean
       descent: z.ZodNumber
       familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
       features: z.ZodArray<
@@ -99,6 +100,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
       yMax: number
       yMin: number
     }>
+    consistentMetrics: boolean
     descent: number
     features: Array<{
       name: string
@@ -135,6 +137,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
       yMax: number
       yMin: number
     }>
+    consistentMetrics: boolean
     descent: number
     features: Array<{
       name: string
@@ -236,6 +239,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
                   }
                 >
               >
+              consistentMetrics: z.ZodBoolean
               descent: z.ZodNumber
               familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
               features: z.ZodArray<
@@ -286,6 +290,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
               yMax: number
               yMin: number
             }>
+            consistentMetrics: boolean
             descent: number
             features: Array<{
               name: string
@@ -322,6 +327,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
               yMax: number
               yMin: number
             }>
+            consistentMetrics: boolean
             descent: number
             features: Array<{
               name: string
@@ -389,6 +395,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
           }
         >
       >
+      consistentMetrics: z.ZodBoolean
       descent: z.ZodNumber
       familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
       features: z.ZodArray<
@@ -439,6 +446,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
       yMax: number
       yMin: number
     }>
+    consistentMetrics: boolean
     descent: number
     features: Array<{
       name: string
@@ -468,6 +476,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
         yMax: number
         yMin: number
       }>
+      consistentMetrics: boolean
       descent: number
       features: Array<{
         name: string
@@ -515,6 +524,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
       yMax: number
       yMin: number
     }>
+    consistentMetrics: boolean
     descent: number
     features: Array<{
       name: string
@@ -544,6 +554,7 @@ export declare const schemaFontInformationStatic: z.ZodObject<
         yMax: number
         yMin: number
       }>
+      consistentMetrics: boolean
       descent: number
       features: Array<{
         name: string
@@ -663,6 +674,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                       }
                     >
                   >
+                  consistentMetrics: z.ZodBoolean
                   descent: z.ZodNumber
                   familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                   features: z.ZodArray<
@@ -713,6 +725,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -749,6 +762,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -816,6 +830,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
               }
             >
           >
+          consistentMetrics: z.ZodBoolean
           descent: z.ZodNumber
           familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
           features: z.ZodArray<
@@ -866,6 +881,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -895,6 +911,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
             yMax: number
             yMin: number
           }>
+          consistentMetrics: boolean
           descent: number
           features: Array<{
             name: string
@@ -942,6 +959,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -971,6 +989,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
             yMax: number
             yMin: number
           }>
+          consistentMetrics: boolean
           descent: number
           features: Array<{
             name: string
@@ -1054,6 +1073,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
               }
             >
           >
+          consistentMetrics: z.ZodBoolean
           descent: z.ZodNumber
           familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
           features: z.ZodArray<
@@ -1104,6 +1124,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -1140,6 +1161,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -1325,6 +1347,7 @@ declare const schemaFontFamily: z.ZodEffects<
                                   }
                                 >
                               >
+                              consistentMetrics: z.ZodBoolean
                               descent: z.ZodNumber
                               familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                               features: z.ZodArray<
@@ -1375,6 +1398,7 @@ declare const schemaFontFamily: z.ZodEffects<
                               yMax: number
                               yMin: number
                             }>
+                            consistentMetrics: boolean
                             descent: number
                             features: Array<{
                               name: string
@@ -1411,6 +1435,7 @@ declare const schemaFontFamily: z.ZodEffects<
                               yMax: number
                               yMin: number
                             }>
+                            consistentMetrics: boolean
                             descent: number
                             features: Array<{
                               name: string
@@ -1478,6 +1503,7 @@ declare const schemaFontFamily: z.ZodEffects<
                           }
                         >
                       >
+                      consistentMetrics: z.ZodBoolean
                       descent: z.ZodNumber
                       familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                       features: z.ZodArray<
@@ -1528,6 +1554,7 @@ declare const schemaFontFamily: z.ZodEffects<
                       yMax: number
                       yMin: number
                     }>
+                    consistentMetrics: boolean
                     descent: number
                     features: Array<{
                       name: string
@@ -1557,6 +1584,7 @@ declare const schemaFontFamily: z.ZodEffects<
                         yMax: number
                         yMin: number
                       }>
+                      consistentMetrics: boolean
                       descent: number
                       features: Array<{
                         name: string
@@ -1604,6 +1632,7 @@ declare const schemaFontFamily: z.ZodEffects<
                       yMax: number
                       yMin: number
                     }>
+                    consistentMetrics: boolean
                     descent: number
                     features: Array<{
                       name: string
@@ -1633,6 +1662,7 @@ declare const schemaFontFamily: z.ZodEffects<
                         yMax: number
                         yMin: number
                       }>
+                      consistentMetrics: boolean
                       descent: number
                       features: Array<{
                         name: string
@@ -1716,6 +1746,7 @@ declare const schemaFontFamily: z.ZodEffects<
                           }
                         >
                       >
+                      consistentMetrics: z.ZodBoolean
                       descent: z.ZodNumber
                       familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                       features: z.ZodArray<
@@ -1766,6 +1797,7 @@ declare const schemaFontFamily: z.ZodEffects<
                       yMax: number
                       yMin: number
                     }>
+                    consistentMetrics: boolean
                     descent: number
                     features: Array<{
                       name: string
@@ -1802,6 +1834,7 @@ declare const schemaFontFamily: z.ZodEffects<
                       yMax: number
                       yMin: number
                     }>
+                    consistentMetrics: boolean
                     descent: number
                     features: Array<{
                       name: string
@@ -1861,6 +1894,7 @@ declare const schemaFontFamily: z.ZodEffects<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -1897,6 +1931,7 @@ declare const schemaFontFamily: z.ZodEffects<
           yMax: number
           yMin: number
         }>
+        consistentMetrics: boolean
         descent: number
         features: Array<{
           name: string
@@ -1926,6 +1961,7 @@ declare const schemaFontFamily: z.ZodEffects<
             yMax: number
             yMin: number
           }>
+          consistentMetrics: boolean
           descent: number
           features: Array<{
             name: string
@@ -2061,6 +2097,7 @@ export declare const schemaFontProperties: z.ZodObject<
                                         }
                                       >
                                     >
+                                    consistentMetrics: z.ZodBoolean
                                     descent: z.ZodNumber
                                     familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                                     features: z.ZodArray<
@@ -2113,6 +2150,7 @@ export declare const schemaFontProperties: z.ZodObject<
                                     yMax: number
                                     yMin: number
                                   }>
+                                  consistentMetrics: boolean
                                   descent: number
                                   features: Array<{
                                     name: string
@@ -2149,6 +2187,7 @@ export declare const schemaFontProperties: z.ZodObject<
                                     yMax: number
                                     yMin: number
                                   }>
+                                  consistentMetrics: boolean
                                   descent: number
                                   features: Array<{
                                     name: string
@@ -2216,6 +2255,7 @@ export declare const schemaFontProperties: z.ZodObject<
                                 }
                               >
                             >
+                            consistentMetrics: z.ZodBoolean
                             descent: z.ZodNumber
                             familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                             features: z.ZodArray<
@@ -2266,6 +2306,7 @@ export declare const schemaFontProperties: z.ZodObject<
                             yMax: number
                             yMin: number
                           }>
+                          consistentMetrics: boolean
                           descent: number
                           features: Array<{
                             name: string
@@ -2295,6 +2336,7 @@ export declare const schemaFontProperties: z.ZodObject<
                               yMax: number
                               yMin: number
                             }>
+                            consistentMetrics: boolean
                             descent: number
                             features: Array<{
                               name: string
@@ -2342,6 +2384,7 @@ export declare const schemaFontProperties: z.ZodObject<
                             yMax: number
                             yMin: number
                           }>
+                          consistentMetrics: boolean
                           descent: number
                           features: Array<{
                             name: string
@@ -2371,6 +2414,7 @@ export declare const schemaFontProperties: z.ZodObject<
                               yMax: number
                               yMin: number
                             }>
+                            consistentMetrics: boolean
                             descent: number
                             features: Array<{
                               name: string
@@ -2454,6 +2498,7 @@ export declare const schemaFontProperties: z.ZodObject<
                                 }
                               >
                             >
+                            consistentMetrics: z.ZodBoolean
                             descent: z.ZodNumber
                             familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
                             features: z.ZodArray<
@@ -2504,6 +2549,7 @@ export declare const schemaFontProperties: z.ZodObject<
                             yMax: number
                             yMin: number
                           }>
+                          consistentMetrics: boolean
                           descent: number
                           features: Array<{
                             name: string
@@ -2540,6 +2586,7 @@ export declare const schemaFontProperties: z.ZodObject<
                             yMax: number
                             yMin: number
                           }>
+                          consistentMetrics: boolean
                           descent: number
                           features: Array<{
                             name: string
@@ -2601,6 +2648,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 yMax: number
                 yMin: number
               }>
+              consistentMetrics: boolean
               descent: number
               features: Array<{
                 name: string
@@ -2637,6 +2685,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 yMax: number
                 yMin: number
               }>
+              consistentMetrics: boolean
               descent: number
               features: Array<{
                 name: string
@@ -2666,6 +2715,7 @@ export declare const schemaFontProperties: z.ZodObject<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -2749,6 +2799,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 yMax: number
                 yMin: number
               }>
+              consistentMetrics: boolean
               descent: number
               features: Array<{
                 name: string
@@ -2785,6 +2836,7 @@ export declare const schemaFontProperties: z.ZodObject<
                 yMax: number
                 yMin: number
               }>
+              consistentMetrics: boolean
               descent: number
               features: Array<{
                 name: string
@@ -2814,6 +2866,7 @@ export declare const schemaFontProperties: z.ZodObject<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -2916,6 +2969,7 @@ export declare const schemaLocale: z.ZodObject<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -2952,6 +3006,7 @@ export declare const schemaLocale: z.ZodObject<
                   yMax: number
                   yMin: number
                 }>
+                consistentMetrics: boolean
                 descent: number
                 features: Array<{
                   name: string
@@ -2981,6 +3036,7 @@ export declare const schemaLocale: z.ZodObject<
                     yMax: number
                     yMin: number
                   }>
+                  consistentMetrics: boolean
                   descent: number
                   features: Array<{
                     name: string
@@ -3074,6 +3130,7 @@ export declare const schemaLocales: z.ZodEffects<
                           yMax: number
                           yMin: number
                         }>
+                        consistentMetrics: boolean
                         descent: number
                         features: Array<{
                           name: string
@@ -3110,6 +3167,7 @@ export declare const schemaLocales: z.ZodEffects<
                           yMax: number
                           yMin: number
                         }>
+                        consistentMetrics: boolean
                         descent: number
                         features: Array<{
                           name: string
@@ -3139,6 +3197,7 @@ export declare const schemaLocales: z.ZodEffects<
                             yMax: number
                             yMin: number
                           }>
+                          consistentMetrics: boolean
                           descent: number
                           features: Array<{
                             name: string

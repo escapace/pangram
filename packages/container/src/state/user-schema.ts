@@ -22,6 +22,7 @@ const schemaFontInformationShared = z.object({
       yMin: z.number(),
     }),
   ),
+  consistentMetrics: z.boolean(),
   descent: z.number(),
   features: z.array(
     z.object({

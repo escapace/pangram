@@ -12004,6 +12004,7 @@
       "yMin": 577
     }
   ],
+  "consistentMetrics": true,
   "descent": -213,
   "familyName": "Helvetica Neue",
   "features": [],

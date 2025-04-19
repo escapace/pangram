@@ -14457,6 +14457,7 @@
       "yMin": 0
     }
   ],
+  "consistentMetrics": true,
   "descent": -494,
   "familyName": "SF Mono",
   "features": [

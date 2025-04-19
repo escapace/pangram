@@ -41242,6 +41242,7 @@
       "yMin": 957
     }
   ],
+  "consistentMetrics": true,
   "descent": -512,
   "familyName": "Calibri",
   "features": [

@@ -4326,6 +4326,7 @@
       "yMin": 1175
     }
   ],
+  "consistentMetrics": false,
   "descent": -553,
   "familyName": "Futura",
   "features": [{ "name": "kern", "type": "positioning" }],

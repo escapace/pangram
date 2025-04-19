@@ -6823,6 +6823,7 @@
       "yMin": 2089
     }
   ],
+  "consistentMetrics": false,
   "descent": -449,
   "familyName": "Georgia",
   "features": [

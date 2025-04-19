@@ -21849,6 +21849,7 @@
       "yMin": 2070
     }
   ],
+  "consistentMetrics": false,
   "descent": -483,
   "familyName": "DejaVu Sans",
   "features": [

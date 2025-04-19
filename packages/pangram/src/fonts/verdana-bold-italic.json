@@ -9903,6 +9903,7 @@
       "yMin": 1779
     }
   ],
+  "consistentMetrics": false,
   "descent": -430,
   "familyName": "Verdana",
   "features": [

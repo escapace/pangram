@@ -10387,6 +10387,7 @@
       "yMin": 1117
     }
   ],
+  "consistentMetrics": false,
   "descent": -463,
   "familyName": "DIN Alternate",
   "features": [{ "name": "kern", "type": "positioning" }],

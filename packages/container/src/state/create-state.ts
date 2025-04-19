@@ -37,5 +37,6 @@ export const createState = async (): Promise<State> => {
     runtimeDirectory,
     runtimeFontInspectPath,
     runtimeFontStripPath,
+    warnings: new Set<string>(),
   }
 }

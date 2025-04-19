@@ -7516,6 +7516,7 @@
       "yMin": 1671
     }
   ],
+  "consistentMetrics": false,
   "descent": -432,
   "familyName": "Impact",
   "features": [

@@ -23752,6 +23752,7 @@
       "yMin": 2048
     }
   ],
+  "consistentMetrics": false,
   "descent": -432,
   "familyName": "Lucida Grande",
   "features": [],

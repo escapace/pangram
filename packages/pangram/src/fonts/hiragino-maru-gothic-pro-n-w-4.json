@@ -152474,6 +152474,7 @@
       "yMin": -84
     }
   ],
+  "consistentMetrics": true,
   "descent": -120,
   "familyName": "Hiragino Maru Gothic ProN",
   "features": [

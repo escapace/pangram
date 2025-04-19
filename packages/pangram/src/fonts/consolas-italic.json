@@ -27371,6 +27371,7 @@
       "yMin": 1126
     }
   ],
+  "consistentMetrics": true,
   "descent": -527,
   "familyName": "Consolas",
   "features": [

@@ -7186,6 +7186,7 @@
       "yMin": 1111
     }
   ],
+  "consistentMetrics": false,
   "descent": -445,
   "familyName": "Franklin Gothic Medium",
   "features": [],

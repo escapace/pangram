@@ -25534,6 +25534,7 @@
       "yMin": 2775
     }
   ],
+  "consistentMetrics": false,
   "descent": -455,
   "familyName": "Cambria",
   "features": [

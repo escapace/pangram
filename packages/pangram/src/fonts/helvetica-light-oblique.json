@@ -14776,6 +14776,7 @@
       "yMin": 688
     }
   ],
+  "consistentMetrics": false,
   "descent": -230,
   "familyName": "Helvetica",
   "features": [],

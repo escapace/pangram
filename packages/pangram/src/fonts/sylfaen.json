@@ -8814,6 +8814,7 @@
       "yMin": 2048
     }
   ],
+  "consistentMetrics": true,
   "descent": -576,
   "familyName": "Sylfaen",
   "features": [

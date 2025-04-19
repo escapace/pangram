@@ -7692,6 +7692,7 @@
       "yMin": 2791
     }
   ],
+  "consistentMetrics": false,
   "descent": -455,
   "familyName": "Trebuchet MS",
   "features": [

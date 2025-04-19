@@ -35874,6 +35874,7 @@
       "yMin": 1165
     }
   ],
+  "consistentMetrics": false,
   "descent": -483,
   "familyName": "DejaVu Sans Mono",
   "features": [
