@@ -38,10 +38,10 @@ const schemaFontInformationShared = z.object({
 
   familyName: z.string().optional().nullable(),
   fullName: z.string().optional().nullable(),
+  legacyFamilyName: z.string().optional().nullable(),
+  legacySubfamilyName: z.string().optional().nullable(),
   postScriptName: z.string().optional().nullable(),
   subfamilyName: z.string().optional().nullable(),
-  typographicFamilyName: z.string().optional().nullable(),
-  typographicSubfamilyName: z.string().optional().nullable(),
   wwsFamilyName: z.string().optional().nullable(),
   wwsSubFamilyName: z.string().optional().nullable(),
 })

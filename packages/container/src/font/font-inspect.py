@@ -180,8 +180,8 @@ def inspect(font, options):
     if subfamily_name is None:
         subfamily_name = getFirstDecodedName(2, font["name"].names)
 
-    typographic_family_name = getFirstDecodedName(1, font["name"].names)
-    typographic_subfamily_name = getFirstDecodedName(2, font["name"].names)
+    legacy_family_name = getFirstDecodedName(1, font["name"].names)
+    legacy_subfamily_name = getFirstDecodedName(2, font["name"].names)
 
     wwsFamilyName = getFirstDecodedName(21, font["name"].names)
     wwsSubFamilyName = getFirstDecodedName(22, font["name"].names)
@@ -299,12 +299,12 @@ def inspect(font, options):
         "unitsPerEm": units_per_em,
         "consistentMetrics": consistent_metrics,
         # Direct Name IDs
-        "familyName": family_name,  # ID 1
-        "subfamilyName": subfamily_name,  # ID 2
+        "familyName": family_name,  #  ID 16, ID 1
+        "subfamilyName": subfamily_name,  # ID 17, ID 2
         "fullName": full_name,  # ID 4
         "postScriptName": post_script_name,  # ID 6
-        "typographicFamilyName": typographic_family_name,  # ID 16
-        "typographicSubfamilyName": typographic_subfamily_name,  # ID 17
+        "legacyFamilyName": legacy_family_name,  # ID 1
+        "legacySubfamilyName": legacy_subfamily_name,  # ID 2
         "wwsFamilyName": wwsFamilyName,  # ID 21
         "wwsSubFamilyName": wwsSubFamilyName,  # ID 22
     }
@@ -359,19 +359,68 @@ def createId(font_info):
     return hash_dict(
         font_info,
         [
-            "family_name",
-            "subfamily_name",
-            "full_name",
-            "post_script_name",
-            "typographic_family_name",
-            "typographic_subfamily_name",
+            "familyName",
+            "subfamilyName",
+            "fullName",
+            "postScriptName",
+            "legacyFamilyName",
+            "legacySubfamilyName",
             "wwsFamilyName",
             "wwsSubFamilyName",
             "namedInstance",
-            "variationSettings",
+            "namedInstancePostScriptName",
             "variable",
+            "variationSettings",
         ],
     )
+
+
+def _sanitize_ps_name_component(s: str) -> str:
+    """Remove characters outside ASCII letters and digits."""
+    if s is None:
+        return ""
+    return "".join(ch for ch in s if ch.isascii() and ch.isalnum())
+
+
+def generate_named_instance_postscript_name(font: TTFont, instance):
+    """Generate a PostScript name for a named variable font instance following
+    Adobe Technical Note #5902 (section on named instances).
+
+    The algorithm implemented here intentionally omits the logic for arbitrary
+    instances (axis descriptors).
+    """
+
+    names = font["name"].names
+
+    # 1. Determine family prefix.
+    #    Prefer Variations PostScript Name Prefix (name ID 25), then typographic
+    #    family name (ID 16), then legacy family name (ID 1).
+    family_prefix = getFirstDecodedName(25, names)
+
+    if family_prefix is None:
+        if family_prefix is None:
+            family_prefix = getFirstDecodedName(16, names)
+        if family_prefix is None:
+            family_prefix = getFirstDecodedName(1, names)
+        if family_prefix is None:
+            return None
+
+        family_prefix = _sanitize_ps_name_component(family_prefix)
+
+    # 2. Append style information for the named instance.
+    named_instance = getFirstDecodedName(instance.subfamilyNameID, names)
+    if named_instance is None:
+        return None
+
+    named_instance = _sanitize_ps_name_component(named_instance)
+
+    ps_name = f"{family_prefix}-{named_instance}"
+
+    # 3. Ensure the name does not exceed 127 characters (PostScript limit).
+    if len(ps_name) > 127:
+        ps_name = ps_name[:124] + "..."
+
+    return ps_name
 
 
 def main(args=None):
@@ -441,6 +490,11 @@ def main(args=None):
                 namedInstancePostScriptName = getFirstDecodedName(
                     instance.postscriptNameID, font["name"].names
                 )
+
+                if namedInstancePostScriptName is None:
+                    namedInstancePostScriptName = (
+                        generate_named_instance_postscript_name(font, instance)
+                    )
 
                 coordinates = instance.coordinates
 
