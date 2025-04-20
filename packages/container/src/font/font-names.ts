@@ -35,7 +35,7 @@ import type { UserConfigurationFontInformation } from '../state/user-schema'
 //   return psName
 // }
 
-export const fontNames = (font: UserConfigurationFontInformation) => {
+export const fontNames = (font: UserConfigurationFontInformation, friendly = false) => {
   const namedInstance = (font.variable ? undefined : font.namedInstance) ?? undefined
   const namedInstancePostScriptName =
     (font.variable ? undefined : font.namedInstancePostScriptName) ?? undefined
@@ -54,13 +54,22 @@ export const fontNames = (font: UserConfigurationFontInformation) => {
   } else {
     names.push(
       ...uniq(
-        [
-          [font.familyName, font.subfamilyName], // 0
-          [font.wwsFamilyName, font.wwsSubFamilyName], // 1
-          [font.legacyFamilyName, font.legacySubfamilyName], // 2
-          [font.fullName], // 3
-          [font.postScriptName], // 4
-        ]
+        (friendly
+          ? [
+              [font.familyName, font.subfamilyName],
+              [font.wwsFamilyName, font.wwsSubFamilyName],
+              [font.legacyFamilyName, font.legacySubfamilyName],
+              [font.fullName],
+              [font.postScriptName],
+            ]
+          : [
+              [font.postScriptName],
+              [font.fullName],
+              [font.familyName, font.subfamilyName],
+              [font.legacyFamilyName, font.legacySubfamilyName],
+              [font.wwsFamilyName, font.wwsSubFamilyName],
+            ]
+        )
           .flatMap((value): string | string[] | undefined => {
             const { length } = value
 

@@ -399,7 +399,7 @@ export const build = async () => {
     if (!primaryFontInformation.consistentMetrics) {
       const name =
         primaryFont === undefined
-          ? fontNames(primaryFontInformation).join(', ')
+          ? fontNames(primaryFontInformation, true).join(', ')
           : path.relative(state.configurationDirectory, primaryFont.font.source)
 
       state.warnings.add(`Inconsistent font metrics for ${name}.`)
@@ -460,7 +460,7 @@ export const build = async () => {
     for (const fallbackFont of fallbackFonts) {
       if (!fallbackFont.font.consistentMetrics) {
         state.warnings.add(
-          `Inconsistent font metrics for ${fontNames(fallbackFont.font).join(', ')}.`,
+          `Inconsistent font metrics for ${fontNames(fallbackFont.font, true).join(', ')}.`,
         )
       }
 

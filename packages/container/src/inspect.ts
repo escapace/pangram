@@ -48,14 +48,14 @@ export const inspect = async (options: { font: string }): Promise<void> => {
 
   if (result.variable) {
     for (const variation of result.variations) {
-      const names = fontNames(variation)
+      const names = fontNames(variation, true)
       const name = first(names)
       const result = { ...variation, id: name === undefined ? variation.id : kebabCase(name) }
 
       await writeFile(path.join(directory, `${result.id}.json`), stringify(result))
     }
   } else {
-    const name = first(fontNames(result))
+    const name = first(fontNames(result, true))
 
     result.id =
       name === undefined
