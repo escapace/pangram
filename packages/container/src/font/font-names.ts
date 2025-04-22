@@ -43,13 +43,17 @@ export const fontNames = (font: UserConfigurationFontInformation, friendly = fal
   const names: string[] = []
 
   if (namedInstance !== undefined || namedInstancePostScriptName !== undefined) {
+    if (namedInstancePostScriptName !== undefined) {
+      names.push(namedInstancePostScriptName)
+    }
+
     if (namedInstance !== undefined) {
       assert(typeof font.familyName === 'string')
       names.push(`${font.familyName} ${namedInstance}`)
     }
 
-    if (namedInstancePostScriptName !== undefined) {
-      names.push(namedInstancePostScriptName)
+    if (friendly) {
+      names.reverse()
     }
   } else {
     names.push(
