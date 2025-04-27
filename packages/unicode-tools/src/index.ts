@@ -70,13 +70,25 @@ function combineCodepointFrequencies(
 }
 
 export const codePointFrequencies = (
-  codePoints: number[],
   locales: string[] = [],
-  exclude: number[] = [],
+  includeCodePoints?: ((value: number) => boolean) | number[],
+  excludeCodePoints?: ((value: number) => boolean) | number[],
 ) => {
   const tags = locales
     .map((value) => bcp47Normalize(value, { forgiving: false }))
     .filter((value) => value !== undefined)
+
+  const includes = (codePoint: number) =>
+    (includeCodePoints === undefined
+      ? true
+      : typeof includeCodePoints === 'function'
+        ? includeCodePoints(codePoint)
+        : includeCodePoints.includes(codePoint)) &&
+    !(excludeCodePoints === undefined
+      ? false
+      : typeof excludeCodePoints === 'function'
+        ? excludeCodePoints(codePoint)
+        : excludeCodePoints.includes(codePoint))
 
   return normalizeFrequencies(
     combineCodepointFrequencies(
@@ -88,8 +100,8 @@ export const codePointFrequencies = (
 
           const exemplarCodePoints = document.exemplarCodePoints
 
-          const codePointFrequencies = document.codePointFrequencies.filter(
-            ([codePoint]) => codePoints.includes(codePoint) && !exclude.includes(codePoint),
+          const codePointFrequencies = document.codePointFrequencies.filter(([codePoint]) =>
+            includes(codePoint),
           )
 
           if (exemplarCodePoints.length === 0) {
@@ -101,7 +113,7 @@ export const codePointFrequencies = (
           }
 
           const exemplarCodePointsIncluded = exemplarCodePoints.filter((value) =>
-            codePoints.includes(value),
+            includes(value),
           ).length
 
           const exemplarCodePointsWeight = exemplarCodePointsIncluded / exemplarCodePoints.length
@@ -128,13 +140,14 @@ export const codePointFrequencies = (
 }
 
 // const testData = `
-// A aB bC cD dE eF fG gH hI iJ jK kL lM mN nO oP pQ qR rS sT tU uV vW wX xY yZ z
+// !"#$%&'()*+,-./0123456789:;<=>?@[\\]^_\`{|}~ႠႡႢႣႤႥႦႧႨႩႪႫႬႭႮႯႰႱႲႳႴႵႶႷႸႹႺႻႼႽႾႿჀჁჂჃჄჅჇჍაბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰჱჲჳჴჵჶჷჸჹჺ჻ჼჽჾჿ
 // `
 //
 // // eslint-disable-next-line typescript/no-non-null-assertion
 // const testCodepoints = Array.from(testData, (char) => char.codePointAt(0)!)
+// console.log(testCodepoints)
 //
-// const test = codePointFrequencies(testCodepoints, ['en'], [32])
+// const test = codePointFrequencies(['ka'], testCodepoints)
 //
 // console.log(
 //   JSON.stringify(

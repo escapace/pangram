@@ -29,7 +29,7 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
     )
   })
 
-  return compact(
+  const value = compact(
     uniq(
       toposortReverse(
         new Map(
@@ -40,4 +40,6 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
       ).flatMap((value) => Array.from(value)),
     ).map((id) => styles.find((value) => value.id === id)),
   )
+
+  return value
 }

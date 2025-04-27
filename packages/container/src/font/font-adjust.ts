@@ -5,30 +5,60 @@ import type { UserConfigurationFontInformation } from '../state/user-schema'
 import type { FontFaceAdjustments } from '../types'
 import { round } from '../utilities/round'
 
-type RequiredFontInformation = Required<
+export type RequiredFontInformation = Required<
   Pick<
     UserConfigurationFontInformation,
     'ascent' | 'codePoints' | 'descent' | 'lineGap' | 'unitsPerEm' | 'xWidthAvg'
   >
 >
 
-export const xWidthAverage = (data: RequiredFontInformation, locales: string[]) => {
-  assert(data.codePoints.length !== 0)
+type CodePointInformation =
+  RequiredFontInformation['codePoints'] extends Array<infer T> ? T : unknown
+
+const combineCodepoints = (arrays: CodePointInformation[][]): CodePointInformation[] => {
+  if (arrays.length === 1) {
+    return arrays[0]
+  }
+
+  const codePoints = new Map<number, CodePointInformation>()
+
+  for (const array of arrays) {
+    for (const value of array) {
+      if (codePoints.has(value.codePoint)) {
+        continue
+      }
+
+      codePoints.set(value.codePoint, value)
+    }
+  }
+
+  return Array.from(codePoints.values())
+}
+
+export const xWidthAverage = (locales: string[], ...fonts: RequiredFontInformation[]) => {
+  assert(fonts.length !== 0)
+
+  const { unitsPerEm } = fonts[0]
+
+  const codePoints = combineCodepoints(fonts.map((value) => value.codePoints))
+
+  assert(codePoints.length !== 0)
 
   const frequencies = codePointFrequencies(
-    data.codePoints.map((value) => value.codePoint),
     locales,
-    [32],
+    codePoints.map((value) => value.codePoint),
+    // [32],
   )
 
-  return (
+  const value =
     frequencies.reduce((sum, [codePoint, frequency]) => {
       // eslint-disable-next-line typescript/no-non-null-assertion
-      const { advanceWidth } = data.codePoints.find((value) => value.codePoint === codePoint)!
+      const { advanceWidth } = codePoints.find((value) => value.codePoint === codePoint)!
 
       return sum + advanceWidth * frequency
-    }, 0) / data.unitsPerEm
-  )
+    }, 0) / unitsPerEm
+
+  return value
 }
 
 const toPercentString = (value: number) => `${round(value * 100)}%`
@@ -39,8 +69,8 @@ export const fontAdjust = (
   secondary: RequiredFontInformation,
   locales: string[],
 ): FontFaceAdjustments => {
-  const primaryXWidthAverage = xWidthAverage(primary, locales)
-  const secondaryXWidthAverage = xWidthAverage(secondary, locales)
+  const primaryXWidthAverage = xWidthAverage(locales, primary)
+  const secondaryXWidthAverage = xWidthAverage(locales, secondary)
 
   const sizeAdjust =
     primaryXWidthAverage && secondaryXWidthAverage

@@ -23,7 +23,7 @@ import assert from 'node:assert'
 import path from 'node:path'
 import stringify from 'safe-stable-stringify'
 import type { ValuesType } from 'utility-types'
-import { fontAdjust, xWidthAverage } from './font/font-adjust'
+import { fontAdjust, xWidthAverage, type RequiredFontInformation } from './font/font-adjust'
 import { fontFace } from './font/font-face'
 import { fontFaceCompact } from './font/font-face-compact'
 import { fontFaceToString } from './font/font-face-to-string'
@@ -388,13 +388,11 @@ export const build = async () => {
         ? undefined
         : await fontInspect(primaryFont.slug, state, fontProperties)) ?? fallbackFonts[0].font
 
-    const locales = uniq(
-      [
-        style.locale,
-        // TODO: is this appropriate?
-        // ...(primaryFont?.slug === undefined ? [] : selectorFontLocales(state, primaryFont.slug)),
-      ].flatMap((value) => state.configuration.localeToAlias.get(value) ?? []),
-    )
+    const locales = uniq([
+      style.locale,
+      ...(state.configuration.localeToAlias.get(style.locale) ?? []),
+      // ...(state.configuration.localeFromAlias.get(style.locale) ?? []),
+    ])
 
     if (!primaryFontInformation.consistentMetrics) {
       const name =
@@ -404,25 +402,6 @@ export const build = async () => {
 
       state.warnings.add(`Inconsistent font metrics for ${name}.`)
     }
-
-    Object.assign(style.metrics, {
-      [`--${style.prefix}-ascent`]: round(
-        primaryFontInformation.ascent / primaryFontInformation.unitsPerEm,
-      ),
-      [`--${style.prefix}-cap-height`]: round(
-        primaryFontInformation.capHeight / primaryFontInformation.unitsPerEm,
-      ),
-      [`--${style.prefix}-descent`]: round(
-        Math.abs(primaryFontInformation.descent / primaryFontInformation.unitsPerEm),
-      ),
-      [`--${style.prefix}-line-gap`]: round(
-        primaryFontInformation.lineGap / primaryFontInformation.unitsPerEm,
-      ),
-      [`--${style.prefix}-x-height`]: round(
-        Math.abs(primaryFontInformation.xHeight / primaryFontInformation.unitsPerEm),
-      ),
-      [`--${style.prefix}-x-width-average`]: round(xWidthAverage(primaryFontInformation, locales)),
-    })
 
     primaryFont?.fontFaces.set(
       style.id,
@@ -434,6 +413,8 @@ export const build = async () => {
       }),
     )
 
+    const requiredFontInformation: RequiredFontInformation[] = [primaryFontInformation]
+
     for (const secondaryFont of secondaryFonts) {
       assert(primaryFont !== undefined)
 
@@ -444,6 +425,8 @@ export const build = async () => {
           `Inconsistent font metrics for ${path.relative(state.configurationDirectory, secondaryFont.font.source)}.`,
         )
       }
+
+      requiredFontInformation.push(secondaryFontInformation)
 
       secondaryFont.fontFaces.set(
         style.id,
@@ -464,6 +447,8 @@ export const build = async () => {
         )
       }
 
+      requiredFontInformation.push(fallbackFont.font)
+
       fallbackFont.fontFaces.set(
         style.id,
         fontFace({
@@ -475,6 +460,27 @@ export const build = async () => {
         }),
       )
     }
+
+    Object.assign(style.metrics, {
+      [`--${style.prefix}-ascent`]: round(
+        primaryFontInformation.ascent / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${style.prefix}-cap-height`]: round(
+        primaryFontInformation.capHeight / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${style.prefix}-descent`]: round(
+        Math.abs(primaryFontInformation.descent / primaryFontInformation.unitsPerEm),
+      ),
+      [`--${style.prefix}-line-gap`]: round(
+        primaryFontInformation.lineGap / primaryFontInformation.unitsPerEm,
+      ),
+      [`--${style.prefix}-x-height`]: round(
+        Math.abs(primaryFontInformation.xHeight / primaryFontInformation.unitsPerEm),
+      ),
+      [`--${style.prefix}-x-width-average`]: round(
+        xWidthAverage(locales, ...requiredFontInformation),
+      ),
+    })
   }
 
   for (const slug of state.configuration.fonts.keys()) {

@@ -82,26 +82,31 @@ export const fontWrite = async (
   assert(typeof file === 'string')
 
   const { codePoints: _codePoints } = await fontInspectCommand(state.runtimeFontInspectPath, file)
-  const codePoints = _codePoints
-    .map((value) => value.codePoint)
-    .filter((value) => !/\p{White_Space}/u.test(String.fromCodePoint(value)))
+  const codePoints = _codePoints.map((value) => value.codePoint)
+  // .filter((value) => )
 
-  assert(codePoints.length !== 0)
-
-  const locales = uniq(
-    [
-      ...state.configuration.localeToAlias.keys(),
-      ...state.configuration.localeToAlias.values(),
-    ].flat(),
-  )
+  // const locales = uniq(
+  //   [
+  //     ...state.configuration.localeToAlias.keys(),
+  //     ...state.configuration.localeToAlias.values(),
+  //   ].flat(),
+  // )
+  //
+  // console.log(locales, selectorFontLocales(state, slug))
 
   const testStringCodePoints = orderBy(
-    codePointFrequencies(codePoints, locales),
+    codePointFrequencies([], codePoints, (value) =>
+      /[\p{White_Space}\p{Symbol}\p{Number}\p{Punctuation}\p{Other}]/u.test(
+        String.fromCodePoint(value),
+      ),
+    ),
     ([_, frequency]) => frequency,
     'desc',
   )
     .map(([codePoint]) => codePoint)
     .slice(0, 10)
+
+  assert(testStringCodePoints.length !== 0)
 
   const testString = String.fromCodePoint(
     ...(testStringCodePoints.length === 10 ? testStringCodePoints : codePoints.slice(0, 10)),
