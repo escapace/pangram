@@ -1,4 +1,4 @@
-import type { State, FontFallback, FontProperties, FontState, StatePartial } from '../types'
+import type { FontLocal, FontProperties, FontState, State, StatePartial } from '../types'
 import { assertFonts } from './assert-fonts'
 import { normalizeLocales } from './normalize-locales'
 import { normalizeStyles } from './normalize-styles'
@@ -8,20 +8,20 @@ export const normalizeState = (userConfiguration: UserConfiguration): State => {
   const locales = schemaLocales.parse(userConfiguration.locales)
 
   const state: StatePartial = {
-    fallbackFonts: new Map<string, FontFallback>(),
     fontProperties: new Map<string, Required<FontProperties>>(),
-    fonts: new Map<string, FontState>(),
+    localFonts: new Map<string, FontLocal>(),
+    userFonts: new Map<string, FontState>(),
   }
 
   const styles = normalizeStyles(locales, state)
 
-  assertFonts(state.fonts)
+  assertFonts(state.userFonts)
 
   return {
-    fallbackFonts: state.fallbackFonts,
     fontProperties: state.fontProperties,
-    fonts: state.fonts,
+    localFonts: state.localFonts,
     styles,
+    userFonts: state.userFonts,
     warnings: new Set<string>(),
     ...normalizeLocales({ locales, styles }),
   }

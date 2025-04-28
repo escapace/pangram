@@ -167,8 +167,8 @@ const selectorFontFamilies = (
   slug: string
 }> =>
   compact(
-    selectorFontProperties(style, configuration)?.fontFamily?.fonts.map((slug) => {
-      const value = configuration.state.fonts.get(slug)?.fontFaces.get(style.id)
+    selectorFontProperties(style, configuration)?.fontFamily?.user.map((slug) => {
+      const value = configuration.state.userFonts.get(slug)?.fontFaces.get(style.id)
 
       if (value !== undefined) {
         return { fontFamily: value.fontFamily, slug }
@@ -182,8 +182,8 @@ const selectorFallbackFontFamilies = (style: Style, configuration: Configuration
   const fontProperties = selectorFontProperties(style, configuration)
 
   return compact(
-    fontProperties?.fontFamily?.fallbacks.map((slug) =>
-      configuration.state.fallbackFonts.get(slug)?.fontFaces.get(style.id),
+    fontProperties?.fontFamily?.local.map((slug) =>
+      configuration.state.localFonts.get(slug)?.fontFaces.get(style.id),
     ),
   ).map((value) => value.fontFamily)
 }
@@ -191,7 +191,7 @@ const selectorFallbackFontFamilies = (style: Style, configuration: Configuration
 const selectorGenericFontFamilies = (style: Style, configuration: Configuration): string[] => {
   const fontProperties = selectorFontProperties(style, configuration)
 
-  return compact(fontProperties?.fontFamily?.fallbacksGeneric)
+  return compact(fontProperties?.fontFamily?.generic)
 }
 
 const selectorFontFaces = (styles: Style[], configuration: Configuration) => {
@@ -202,13 +202,11 @@ const selectorFontFaces = (styles: Style[], configuration: Configuration) => {
           ? undefined
           : configuration.state.fontProperties.get(style.fontProperties)?.fontFamily
 
-      const fonts = reference?.fonts.map(
-        (slug) => configuration.state.fonts.get(slug)! as FontStateWritten,
+      const fonts = reference?.user.map(
+        (slug) => configuration.state.userFonts.get(slug)! as FontStateWritten,
       )
 
-      const fallbackFonts = reference?.fallbacks.map(
-        (id) => configuration.state.fallbackFonts.get(id)!,
-      )
+      const fallbackFonts = reference?.local.map((id) => configuration.state.localFonts.get(id)!)
 
       if (fonts === undefined && fallbackFonts === undefined) {
         return
@@ -376,12 +374,12 @@ const toManifest = async (configuration: Configuration): Promise<Manifest> => {
 export const build = async () => {
   const configuration = await createConfiguration()
 
-  for (const slug of configuration.state.fonts.keys()) {
+  for (const slug of configuration.state.userFonts.keys()) {
     const { codePoints, files } = await fontWrite(slug, configuration)
     const testString = fontTestString(codePoints)
-    const fontState = configuration.state.fonts.get(slug)!
+    const fontState = configuration.state.userFonts.get(slug)!
 
-    configuration.state.fonts.set(slug, {
+    configuration.state.userFonts.set(slug, {
       ...fontState,
       codePoints,
       files,
@@ -405,12 +403,12 @@ export const build = async () => {
       continue
     }
 
-    const fonts = fontProperties.fontFamily.fonts.map(
-      (slug) => configuration.state.fonts.get(slug)!,
+    const fonts = fontProperties.fontFamily.user.map(
+      (slug) => configuration.state.userFonts.get(slug)!,
     ) as FontStateWritten[]
 
-    const fallbackFonts = fontProperties.fontFamily.fallbacks.map(
-      (slug) => configuration.state.fallbackFonts.get(slug)!,
+    const fallbackFonts = fontProperties.fontFamily.local.map(
+      (slug) => configuration.state.localFonts.get(slug)!,
     )
 
     const primaryFont = first(fonts)
@@ -441,7 +439,7 @@ export const build = async () => {
       style.id,
       fontFace({
         font: primaryFont,
-        fontProperties,
+        properties: fontProperties,
         publicPath: configuration.publicPath,
         type: 'font',
       }),
@@ -473,8 +471,8 @@ export const build = async () => {
             ? fontAdjust(primaryFontInformation, secondaryFontInformation, locales)
             : undefined,
           font: secondaryFont,
-          fontProperties,
           primaryFont,
+          properties: fontProperties,
           publicPath: configuration.publicPath,
           type: 'font',
         }),
@@ -497,8 +495,8 @@ export const build = async () => {
             ? fontAdjust(primaryFontInformation, fallbackFont.configuration, locales)
             : undefined,
           font: fallbackFont,
-          fontProperties,
-          type: 'fallback',
+          properties: fontProperties,
+          type: 'local',
         }),
       )
     }
@@ -525,8 +523,8 @@ export const build = async () => {
     })
   }
 
-  for (const slug of configuration.state.fonts.keys()) {
-    const fontState = configuration.state.fonts.get(slug) as FontStateWritten
+  for (const slug of configuration.state.userFonts.keys()) {
+    const fontState = configuration.state.userFonts.get(slug) as FontStateWritten
 
     fontState.fontFaces = new Map(
       fontFaceCompact(cloneDeep(Object.fromEntries(fontState.fontFaces.entries())), {
@@ -537,8 +535,8 @@ export const build = async () => {
     )
   }
 
-  for (const slug of configuration.state.fallbackFonts.keys()) {
-    const fontState = configuration.state.fallbackFonts.get(slug)!
+  for (const slug of configuration.state.localFonts.keys()) {
+    const fontState = configuration.state.localFonts.get(slug)!
 
     fontState.fontFaces = new Map(
       fontFaceCompact(cloneDeep(Object.fromEntries(fontState.fontFaces.entries())), {
@@ -550,15 +548,15 @@ export const build = async () => {
   for (const style of configuration.state.styles) {
     const fontProperties = selectorFontProperties(style, configuration)
     const fontFamilies = selectorFontFamilies(style, configuration)
-    const fallbackFontFamilies = selectorFallbackFontFamilies(style, configuration)
-    const fallbackGenericFontFamilies = selectorGenericFontFamilies(style, configuration)
+    const fontFamiliesLocal = selectorFallbackFontFamilies(style, configuration)
+    const fontFamiliesGeneric = selectorGenericFontFamilies(style, configuration)
 
     style.scriptingNoneStyleProperties = pickBy(
       {
         [`--${style.prefix}-font-family`]: fontFamilyJoin([
           ...fontFamilies.map((value) => value.fontFamily),
-          ...fallbackFontFamilies,
-          ...fallbackGenericFontFamilies,
+          ...fontFamiliesLocal,
+          ...fontFamiliesGeneric,
         ]),
       },
       (value) => value !== undefined,
@@ -567,8 +565,8 @@ export const build = async () => {
     style.fallbackStyleProperties = pickBy(
       {
         [`--${style.prefix}-font-family`]: fontFamilyJoin([
-          ...fallbackFontFamilies,
-          ...fallbackGenericFontFamilies,
+          ...fontFamiliesLocal,
+          ...fontFamiliesGeneric,
         ]),
         [`--${style.prefix}-font-stretch`]:
           fontProperties?.fontStretch === undefined ? undefined : `${fontProperties.fontStretch}%`,

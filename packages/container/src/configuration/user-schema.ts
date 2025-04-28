@@ -61,7 +61,7 @@ const schemaFontInformationVariation = z
   })
   .extend(schemaFontInformationShared.shape)
 
-export const schemaFontInformationStatic = z
+const schemaFontInformationStatic = z
   .object({
     variable: z.literal(true),
     variationAxes: z.array(schemaFontInspectVariationAxis),
@@ -94,11 +94,11 @@ export type UserConfigurationFont = {
   prefer?: UserConfigurationFont[]
 } & z.input<typeof schemaFontPlaceholder>
 
-export type ConfigurationRule = z.infer<typeof schemaRule>
 export type UserConfigurationRule = z.input<typeof schemaRule>
+type ConfigurationRule = z.infer<typeof schemaRule>
 
-export type ConfigurationLocale = Record<string, ConfigurationRule>
 export type UserConfigurationLocale = Record<string, UserConfigurationRule>
+type ConfigurationLocale = Record<string, ConfigurationRule>
 
 export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
 export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
@@ -123,9 +123,9 @@ const schemaFontFamilyGeneric = z.enum([
   'ui-serif',
 ])
 
-export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
+type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
 
-export const schemaFontPlaceholder = z.object({
+const schemaFontPlaceholder = z.object({
   desubroutinize: z.boolean().default(false),
   display: z.optional(
     z
@@ -184,23 +184,23 @@ const schemaFontFamily = z
     (
       values,
     ): {
-      family: ConfigurationFont[]
-      generics: ConfigurationFontFaimlyGeneric[]
+      generic: ConfigurationFontFaimlyGeneric[]
       local: UserConfigurationFontInformation[]
+      user: ConfigurationFont[]
     } => {
-      const generics = values.filter((value) => typeof value === 'string')
+      const generic = values.filter((value) => typeof value === 'string')
       const local = values.filter(
         (value): value is UserConfigurationFontInformation =>
           schemaFontInformation.safeParse(value).success,
       )
-      const family = values.filter(
+      const user = values.filter(
         (value): value is ConfigurationFont => schemaFont.safeParse(value).success,
       )
 
       return {
-        family,
-        generics,
+        generic,
         local,
+        user,
       }
     },
   )
@@ -208,14 +208,14 @@ const schemaFontFamily = z
 export type ConfigurationFontFamily = z.infer<typeof schemaFontFamily>
 
 // TODO: support css variables
-export const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number()))
-export const schemaFontWeight = z.number().min(1).max(1000).default(400)
-export const schemaFontStretch = z.number().min(50).max(200).default(100)
-export const schemaFontStyle = z.enum(['normal', 'italic']).default('normal')
+const schemaFontVariationSettings = z.literal('normal').or(z.record(z.number()))
+const schemaFontWeight = z.number().min(1).max(1000).default(400)
+const schemaFontStretch = z.number().min(50).max(200).default(100)
+const schemaFontStyle = z.enum(['normal', 'italic']).default('normal')
 
 // 'fontOpticalSizing'
 // 'fontVariationSetting'
-export const schemaFontProperties = z.object({
+const schemaFontProperties = z.object({
   fontFamily: schemaFontFamily.optional(),
   fontStretch: schemaFontStretch.optional(),
   fontStyle: schemaFontStyle.optional(),

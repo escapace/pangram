@@ -14,7 +14,7 @@ export const fontWrite = async (
   files: string[]
 }> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
-  const fontState = configuration.state.fonts.get(slug)!
+  const fontState = configuration.state.userFonts.get(slug)!
   const font = fontState.configuration
   const source = path.resolve(configuration.configurationDirectory, font.source)
 

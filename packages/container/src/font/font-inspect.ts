@@ -169,7 +169,7 @@ export const fontInspect = async (
   properties: Omit<FontProperties, 'fontFamily'> = {},
 ): Promise<UserConfigurationFontInformation> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
-  const fontState = configuration.state.fonts.get(slug)!
+  const fontState = configuration.state.userFonts.get(slug)!
   // const font = fontState
   assert(fontState.type === TypeFontState.Written)
 

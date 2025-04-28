@@ -7,7 +7,7 @@ export const fontResourceHints = (
   slug: string,
   configuration: Configuration,
 ): ResourceHint[] | undefined => {
-  const font = configuration.state.fonts.get(slug) as FontStateWritten | undefined
+  const font = configuration.state.userFonts.get(slug) as FontStateWritten | undefined
 
   if (font === undefined) {
     return undefined

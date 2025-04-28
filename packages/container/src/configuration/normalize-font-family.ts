@@ -1,5 +1,5 @@
 import { fontSort } from '../font/font-sort'
-import type { StatePartial } from '../types'
+import type { FontProperties, StatePartial } from '../types'
 import type { ConfigurationFontFamily } from './user-schema'
 
 export const normalizeFontFamily = (
@@ -10,23 +10,23 @@ export const normalizeFontFamily = (
     return
   }
 
-  const { generics: fallbacksGeneric } = fontFamily
+  const { generic } = fontFamily
 
-  const fallbacks = fontFamily.local.map((configuration) => {
-    if (!state.fallbackFonts.has(configuration.id)) {
-      state.fallbackFonts.set(configuration.id, { configuration, fontFaces: new Map() })
+  const local = fontFamily.local.map((configuration) => {
+    if (!state.localFonts.has(configuration.id)) {
+      state.localFonts.set(configuration.id, { configuration, fontFaces: new Map() })
     }
 
     return configuration.id
   })
 
-  const { fonts: fontStates, graph } = fontSort(fontFamily.family)
+  const { fonts: fontStates, graph } = fontSort(fontFamily.user)
 
-  const fonts = fontStates.map((value): string => {
+  const user = fontStates.map((value): string => {
     const slug = value.slug
 
-    if (!state.fonts.has(slug)) {
-      state.fonts.set(slug, value)
+    if (!state.userFonts.has(slug)) {
+      state.userFonts.set(slug, value)
     }
 
     return slug
@@ -34,10 +34,10 @@ export const normalizeFontFamily = (
 
   return {
     fontFamily: {
-      fallbacks,
-      fallbacksGeneric,
-      fonts,
-    },
+      generic,
+      local,
+      user,
+    } satisfies FontProperties['fontFamily'],
     graph,
   }
 }

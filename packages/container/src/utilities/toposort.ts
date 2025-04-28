@@ -1,8 +1,8 @@
 /* eslint-disable typescript/no-non-null-assertion */
-export type DependencyGraph = DirectedAcyclicGraph
-export type DirectedAcyclicGraph = Map<string, Iterable<string>>
+type DependencyGraph = DirectedAcyclicGraph
+type DirectedAcyclicGraph = Map<string, Iterable<string>>
 
-export type TaskList = Array<Set<string>>
+type TaskList = Array<Set<string>>
 
 export const toposort = (dag: DirectedAcyclicGraph): TaskList => {
   const inDegrees = countInDegrees(dag)

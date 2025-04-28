@@ -7,7 +7,7 @@ import type {
 } from './configuration/user-schema'
 import type { AstNode, AtRule } from './utilities/ast'
 
-export interface FontFallback {
+export interface FontLocal {
   configuration: UserConfigurationFontInformation
   fontFaces: Map<string, FontFace>
 }
@@ -59,9 +59,9 @@ export type FontState = FontStateInitial | FontStateWritten
 export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontFamily'> {
   fontFamily:
     | {
-        fallbacks: string[]
-        fallbacksGeneric: string[]
-        fonts: string[]
+        generic: string[]
+        local: string[]
+        user: string[]
       }
     | undefined
 }
@@ -73,17 +73,19 @@ export interface Style {
   locale: string
   metrics: Record<string, number | string>
   prefix: string
-  fallbackStyleProperties?: Record<string, number | string>
-  fontProperties?: string
   graph?: Map<string, string[]>
   parent?: string
+
+  fallbackStyleProperties?: Record<string, number | string>
+  fontProperties?: string
   scriptingNoneStyleProperties?: Record<string, number | string>
 }
 
 export interface State {
-  fallbackFonts: Map<string, FontFallback>
   fontProperties: Map<string, Required<FontProperties>>
-  fonts: Map<string, FontState>
+  localFonts: Map<string, FontLocal>
+  userFonts: Map<string, FontState>
+
   localeFromAlias: Map<string, string[]>
   locales: Record<string, Style[]>
   localeToAlias: Map<string, string[]>
@@ -114,7 +116,7 @@ export interface Configuration
   lightningcss?: UserConfiguration['lightningcss']
 }
 
-export type StatePartial = Pick<State, 'fallbackFonts' | 'fontProperties' | 'fonts'>
+export type StatePartial = Pick<State, 'fontProperties' | 'localFonts' | 'userFonts'>
 
 // eslint-disable-next-line typescript/no-explicit-any
 export type TupleUnion<U extends string, R extends any[] = []> = {

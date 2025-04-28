@@ -161,7 +161,7 @@ declare const schemaFontInformationVariation: z.ZodObject<
     wwsSubFamilyName?: string | null | undefined
   }
 >
-export declare const schemaFontInformationStatic: z.ZodObject<
+declare const schemaFontInformationStatic: z.ZodObject<
   z.objectUtil.extendShape<
     {
       variable: z.ZodLiteral<true>
@@ -1190,9 +1190,7 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
 export type ConfigurationFont = {
   prefer?: ConfigurationFont[]
 } & z.infer<typeof schemaFontPlaceholder>
-export type ConfigurationLocale = Record<string, ConfigurationRule>
 export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
-export type ConfigurationRule = z.infer<typeof schemaRule>
 export type UserConfigurationFont = {
   prefer?: UserConfigurationFont[]
 } & z.input<typeof schemaFontPlaceholder>
@@ -1200,6 +1198,8 @@ export type UserConfigurationFontInformation = z.infer<typeof schemaFontInformat
 export type UserConfigurationLocale = Record<string, UserConfigurationRule>
 export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
 export type UserConfigurationRule = z.input<typeof schemaRule>
+type ConfigurationLocale = Record<string, ConfigurationRule>
+type ConfigurationRule = z.infer<typeof schemaRule>
 declare const schemaFontFamilyGeneric: z.ZodEnum<
   [
     'caption ',
@@ -1221,8 +1221,8 @@ declare const schemaFontFamilyGeneric: z.ZodEnum<
     'ui-serif',
   ]
 >
-export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
-export declare const schemaFontPlaceholder: z.ZodObject<
+type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
+declare const schemaFontPlaceholder: z.ZodObject<
   {
     desubroutinize: z.ZodDefault<z.ZodBoolean>
     display: z.ZodOptional<
@@ -1905,9 +1905,9 @@ declare const schemaFontFamily: z.ZodEffects<
     >
   >,
   {
-    fallbacks: UserConfigurationFontInformation[]
-    fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-    fonts: ConfigurationFont[]
+    generic: ConfigurationFontFaimlyGeneric[]
+    local: UserConfigurationFontInformation[]
+    user: ConfigurationFont[]
   },
   Array<
     | 'caption '
@@ -2046,13 +2046,7 @@ declare const schemaFontFamily: z.ZodEffects<
   >
 >
 export type ConfigurationFontFamily = z.infer<typeof schemaFontFamily>
-export declare const schemaFontVariationSettings: z.ZodUnion<
-  [z.ZodLiteral<'normal'>, z.ZodRecord<z.ZodString, z.ZodNumber>]
->
-export declare const schemaFontWeight: z.ZodDefault<z.ZodNumber>
-export declare const schemaFontStretch: z.ZodDefault<z.ZodNumber>
-export declare const schemaFontStyle: z.ZodDefault<z.ZodEnum<['normal', 'italic']>>
-export declare const schemaFontProperties: z.ZodObject<
+declare const schemaFontProperties: z.ZodObject<
   {
     fontFamily: z.ZodOptional<
       z.ZodEffects<
@@ -2685,9 +2679,9 @@ export declare const schemaFontProperties: z.ZodObject<
           >
         >,
         {
-          fallbacks: UserConfigurationFontInformation[]
-          fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-          fonts: ConfigurationFont[]
+          generic: ConfigurationFontFaimlyGeneric[]
+          local: UserConfigurationFontInformation[]
+          user: ConfigurationFont[]
         },
         Array<
           | 'caption '
@@ -2838,9 +2832,9 @@ export declare const schemaFontProperties: z.ZodObject<
   {
     fontFamily?:
       | {
-          fallbacks: UserConfigurationFontInformation[]
-          fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-          fonts: ConfigurationFont[]
+          generic: ConfigurationFontFaimlyGeneric[]
+          local: UserConfigurationFontInformation[]
+          user: ConfigurationFont[]
         }
       | undefined
     fontStretch?: number | undefined
@@ -3017,9 +3011,9 @@ export declare const schemaLocale: z.ZodObject<
     StyleRule<{
       fontFamily?:
         | {
-            fallbacks: UserConfigurationFontInformation[]
-            fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-            fonts: ConfigurationFont[]
+            generic: ConfigurationFontFaimlyGeneric[]
+            local: UserConfigurationFontInformation[]
+            user: ConfigurationFont[]
           }
         | undefined
       fontStretch?: number | undefined
@@ -3188,9 +3182,9 @@ export declare const schemaLocales: z.ZodEffects<
             StyleRule<{
               fontFamily?:
                 | {
-                    fallbacks: UserConfigurationFontInformation[]
-                    fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-                    fonts: ConfigurationFont[]
+                    generic: ConfigurationFontFaimlyGeneric[]
+                    local: UserConfigurationFontInformation[]
+                    user: ConfigurationFont[]
                   }
                 | undefined
               fontStretch?: number | undefined
