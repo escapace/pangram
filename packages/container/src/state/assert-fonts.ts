@@ -4,7 +4,7 @@ import type { FontState } from '../types'
 export const assertFonts = (fonts: Map<string, FontState>) => {
   const values = Array.from(fonts.values()).map((value): [string, string] => [
     value.slug,
-    value.font.name ?? value.slug,
+    value.slug,
   ])
 
   if (

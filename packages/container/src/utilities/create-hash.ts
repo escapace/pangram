@@ -3,7 +3,8 @@ import Hashids from 'hashids'
 import { configure } from 'safe-stable-stringify'
 
 const HASHS_LENGHT = 7
-const HASH_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+const HASH_ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
+// const HASH_ALPHABET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 const stringify = configure({
   bigint: false,

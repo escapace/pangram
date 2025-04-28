@@ -12,6 +12,7 @@ import {
   map,
   mapValues,
   omit,
+  omitBy,
   pick,
   pickBy,
   reduce,
@@ -25,6 +26,7 @@ import stringify from 'safe-stable-stringify'
 import type { ValuesType } from 'utility-types'
 import { fontAdjust, xWidthAverage, type RequiredFontInformation } from './font/font-adjust'
 import { fontFace } from './font/font-face'
+import { fontFaceChecks } from './font/font-face-checks'
 import { fontFaceCompact } from './font/font-face-compact'
 import { fontFaceToString } from './font/font-face-to-string'
 import { fontFamilyJoin } from './font/font-family-join'
@@ -38,6 +40,7 @@ import { createState } from './state/create-state'
 import type { Locale, Manifest } from './state/user-schema'
 import {
   TypeFontState,
+  type FontFace,
   type FontProperties,
   type FontStateWritten,
   type State,
@@ -187,21 +190,7 @@ const selectorFallbackGenericFontFamilies = (style: Style, state: State): string
   return compact(fontProperties?.fontFamily?.fallbacksGeneric)
 }
 
-const toWebFontLocale = (styles: Style[], state: State): Locale => {
-  const prefixes = uniq(styles.map((value) => value.prefix))
-
-  const style = minifyCss(
-    toCss(
-      optimizeAst([
-        styleRule(
-          state.configuration.selector,
-          styles.flatMap((value) => value.ast),
-        ),
-      ]),
-    ),
-    state,
-  )
-
+const selectorFontFaces = (styles: Style[], state: State) => {
   const lookup = compact(
     styles.flatMap((style) => {
       const reference =
@@ -232,15 +221,52 @@ const toWebFontLocale = (styles: Style[], state: State): Locale => {
     (value) => value.font.id,
   )
 
-  const fontFace = minifyCss(
-    uniqBy(
-      compact(
-        [...fonts, ...fallbackFonts].flatMap((value) =>
-          styles.map(({ id }) => value.fontFaces.get(id)),
-        ),
+  const fontFaces = uniqBy(
+    compact([
+      ...fonts.flatMap((font) =>
+        styles.map(({ id }): ({ codePoints?: number[] } & FontFace) | undefined => {
+          const value = font.fontFaces.get(id)
+          if (value === undefined) {
+            return undefined
+          }
+
+          return { codePoints: font.codePoints, ...value }
+        }),
       ),
-      (value) => createHash(pickBy(value, (value) => value !== undefined)),
-    )
+      ...fallbackFonts.flatMap((font) => styles.map(({ id }) => font.fontFaces.get(id))),
+    ]) as Array<{ codePoints?: number[] } & FontFace>,
+    (value) =>
+      createHash(omitBy(value, (value, key) => key === 'codePoinst' || value === undefined)),
+  )
+
+  fontFaceChecks(fontFaces)
+
+  return {
+    fallbackFonts,
+    fontFaces: fontFaces.map((value): FontFace => omit(value, 'codePoints')),
+    fonts,
+  }
+}
+
+const toWebFontLocale = (styles: Style[], state: State): Locale => {
+  const prefixes = uniq(styles.map((value) => value.prefix))
+
+  const style = minifyCss(
+    toCss(
+      optimizeAst([
+        styleRule(
+          state.configuration.selector,
+          styles.flatMap((value) => value.ast),
+        ),
+      ]),
+    ),
+    state,
+  )
+
+  const { fontFaces, fonts } = selectorFontFaces(styles, state)
+
+  const fontFace = minifyCss(
+    fontFaces
       .sort((a, b) =>
         a.fontFamily.localeCompare(b.fontFamily, 'en-us', {
           sensitivity: 'variant',
@@ -345,12 +371,13 @@ export const build = async () => {
   const state = await createState()
 
   for (const slug of state.configuration.fonts.keys()) {
-    const { files, testString } = await fontWrite(slug, state)
+    const { codePoints, files, testString } = await fontWrite(slug, state)
 
     const fontState = state.configuration.fonts.get(slug)!
 
     state.configuration.fonts.set(slug, {
       ...fontState,
+      codePoints,
       files,
       testString,
       type: TypeFontState.Written,
@@ -431,9 +458,12 @@ export const build = async () => {
       secondaryFont.fontFaces.set(
         style.id,
         fontFace({
-          adjustments: fontAdjust(primaryFontInformation, secondaryFontInformation, locales),
+          adjustments: state.configuration.adjustFontMetrics
+            ? fontAdjust(primaryFontInformation, secondaryFontInformation, locales)
+            : undefined,
           font: secondaryFont,
           fontProperties,
+          primaryFont,
           publicPath: state.configuration.publicPath,
           type: 'font',
         }),
@@ -452,10 +482,11 @@ export const build = async () => {
       fallbackFont.fontFaces.set(
         style.id,
         fontFace({
-          adjustments: fontAdjust(primaryFontInformation, fallbackFont.font, locales),
+          adjustments: state.configuration.adjustFontMetrics
+            ? fontAdjust(primaryFontInformation, fallbackFont.font, locales)
+            : undefined,
           font: fallbackFont,
           fontProperties,
-          publicPath: state.configuration.publicPath,
           type: 'fallback',
         }),
       )
@@ -487,15 +518,21 @@ export const build = async () => {
     const fontState = state.configuration.fonts.get(slug) as FontStateWritten
 
     fontState.fontFaces = new Map(
-      fontFaceCompact(cloneDeep(Object.fromEntries(fontState.fontFaces.entries())), false),
+      fontFaceCompact(cloneDeep(Object.fromEntries(fontState.fontFaces.entries())), {
+        codePoints: fontState.codePoints,
+        fontFamily: fontState.font.family,
+        isFallback: false,
+      }),
     )
   }
 
   for (const slug of state.configuration.fallbackFonts.keys()) {
-    const fallbackFontState = state.configuration.fallbackFonts.get(slug)!
+    const fontState = state.configuration.fallbackFonts.get(slug)!
 
-    fallbackFontState.fontFaces = new Map(
-      fontFaceCompact(cloneDeep(Object.fromEntries(fallbackFontState.fontFaces.entries())), true),
+    fontState.fontFaces = new Map(
+      fontFaceCompact(cloneDeep(Object.fromEntries(fontState.fontFaces.entries())), {
+        isFallback: true,
+      }),
     )
   }
 

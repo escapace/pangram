@@ -4,7 +4,7 @@ import { sortBy, uniq } from 'lodash-es'
 import path from 'node:path'
 import { isNativeError } from 'node:util/types'
 import { z } from 'zod'
-import { fontUnicodeRange } from '../font/font-unicode-range'
+import { parseUnicodeRange } from '../font/font-unicode-range'
 
 const schemaFontInformationShared = z.object({
   ascent: z.number(),
@@ -103,6 +103,28 @@ export type UserConfigurationLocale = Record<string, UserConfigurationRule>
 export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
 export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
 
+const schemaFontFamilyGeneric = z.enum([
+  'caption ',
+  'cursive',
+  'fantasy',
+  'icon ',
+  'math',
+  'menu ',
+  'message-box ',
+  'monospace',
+  'sans-serif',
+  'serif',
+  'small-caption ',
+  'status-bar',
+  'system-ui',
+  'ui-monospace',
+  'ui-rounded',
+  'ui-sans-serif',
+  'ui-serif',
+])
+
+export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
+
 export const schemaFontPlaceholder = z.object({
   desubroutinize: z.boolean().default(false),
   display: z.optional(
@@ -113,6 +135,22 @@ export const schemaFontPlaceholder = z.object({
       .or(z.literal('fallback'))
       .or(z.literal('optional')),
   ),
+  family: z
+    .string()
+    .optional()
+    .refine((value) => {
+      if (value === undefined) {
+        return true
+      }
+
+      const { success } = schemaFontFamilyGeneric.safeParse(value)
+
+      if (success) {
+        return false
+      }
+
+      return /^[a-z]+$/.test(value)
+    }),
   format: z
     .optional(z.array(z.literal('woff').or(z.literal('woff2'))))
     .transform(
@@ -122,16 +160,6 @@ export const schemaFontPlaceholder = z.object({
         ),
     ),
   layoutFeatures: z.array(z.string().regex(/^[\p{L}\p{N}]+$/u)).optional(),
-  name: z
-    .string()
-    .optional()
-    .refine((value) => {
-      if (value === undefined) {
-        return true
-      }
-
-      return /^[a-z-]+$/i.test(value)
-    }),
   resourceHint: z.optional(z.literal('preload').or(z.literal('prefetch'))),
   source: z.string().transform((value) => path.resolve(value)),
   tech: z.optional(z.array(z.enum(['variations']))),
@@ -139,7 +167,7 @@ export const schemaFontPlaceholder = z.object({
     z
       .string()
       .min(1)
-      .transform((value): string => fontUnicodeRange(value).toHexRangeString()),
+      .transform((value): string => parseUnicodeRange(value).toHexRangeString()),
   ),
 })
 
@@ -149,18 +177,6 @@ const schemaFont: z.ZodType<ConfigurationFont, z.ZodTypeDef, UserConfigurationFo
       prefer: z.lazy(() => z.optional(z.array(schemaFont).min(1))),
     })
     .strict()
-
-const schemaFontFamilyGeneric = z.enum([
-  'serif',
-  'sans-serif',
-  'monospace',
-  'cursive',
-  'fantasy',
-  'system-ui',
-  'math',
-])
-
-export type ConfigurationFontFaimlyGeneric = z.infer<typeof schemaFontFamilyGeneric>
 
 const schemaFontFamily = z
   .array(schemaFont.or(schemaFontInformation).or(schemaFontFamilyGeneric))
@@ -313,6 +329,7 @@ export interface Manifest {
 
 export interface UserConfiguration {
   locales: UserConfigurationLocales
+  adjustFontMetrics?: boolean
   lightningcss?: {
     exclude?: number | undefined
     include?: number | undefined

@@ -1,20 +1,17 @@
 import { groupBy, omit, uniq } from 'lodash-es'
+import assert from 'node:assert'
 import type { ConfigurationFont } from '../state/user-schema'
 import type { FontFace, TupleUnion } from '../types'
 import { createHash } from '../utilities/create-hash'
-import { type CharacterSet, fontUnicodeRange } from './font-unicode-range'
+import { CharacterSet, parseUnicodeRange } from './font-unicode-range'
 
-const fontDisplayCompact = (value: ConfigurationFont['display']) => {
-  const priority: TupleUnion<Exclude<ConfigurationFont['display'], undefined>> = [
-    'block',
-    'auto',
-    'swap',
-    'fallback',
-    'optional',
-  ]
-
-  return priority.indexOf(value ?? 'auto')
-}
+const FONT_DISPLAY_PRIORITY: TupleUnion<Exclude<ConfigurationFont['display'], undefined>> = [
+  'block',
+  'auto',
+  'swap',
+  'fallback',
+  'optional',
+]
 
 const reduceFontFaceWeightStretch = (
   value: Array<number | [number, number]>,
@@ -24,22 +21,49 @@ const reduceFontFaceWeightStretch = (
   return array.length === 1 ? array[0] : [array[0], array[1]]
 }
 
-const reduceUnicodeRange = (value: Array<string | undefined>) => {
-  const characcterSet = value
-    .map((value) => (typeof value === 'string' ? fontUnicodeRange(value) : undefined))
-    .filter((value): value is CharacterSet => value !== undefined)
-    .reduce((accumulator, value) => accumulator.union(value))
-
-  if (characcterSet.size === 0) {
+const reduceUnicodeRange = (value: Array<string | undefined>, codePoints: number[]) => {
+  if (value.every((value) => value === undefined)) {
     return undefined
   }
+
+  const characcterSet = value
+    .map((value) => {
+      if (value !== undefined) {
+        return parseUnicodeRange(value)
+      }
+      const characterSet = new CharacterSet()
+      characterSet.add(...codePoints)
+      return characterSet
+    })
+    .reduce((accumulator, value) => accumulator.union(value))
+
+  assert(characcterSet.size !== 0)
 
   return characcterSet.toHexRangeString()
 }
 
+const reduceFontDisplay = (values: Array<FontFace['fontDisplay']>): FontFace['fontDisplay'] => {
+  if (values.every((value) => value === undefined)) {
+    return undefined
+  }
+
+  return values.sort(
+    (a, b) =>
+      FONT_DISPLAY_PRIORITY.indexOf(a ?? 'auto') - FONT_DISPLAY_PRIORITY.indexOf(b ?? 'auto'),
+  )[0]
+}
+
 export const fontFaceCompact = (
   fontFaces: { [k: string]: FontFace },
-  isFallback: boolean,
+  options:
+    | {
+        codePoints: number[]
+        isFallback: false
+        fontFamily?: string
+      }
+    | {
+        isFallback: true
+      },
 ): Array<[string, FontFace]> =>
   Object.values(
     groupBy(Object.entries(fontFaces), ([, fontFace]) =>
@@ -57,22 +81,25 @@ export const fontFaceCompact = (
 
       const fontFace: FontFace = {
         ...current,
-        fontDisplay: isFallback
+        fontDisplay: options.isFallback
           ? undefined
-          : relevant.map((value) => value.fontDisplay).sort(fontDisplayCompact)[0],
-        // fontStretch: 100,
-        // fontStyle: 'normal',
-        // fontWeight: 400,
+          : reduceFontDisplay(relevant.map((value) => value.fontDisplay)),
         fontStretch: reduceFontFaceWeightStretch(relevant.map((value) => value.fontStretch)),
         fontWeight: reduceFontFaceWeightStretch(relevant.map((value) => value.fontWeight)),
         // fontNamedInstance: isFallback ? current.fontNamedInstance : undefined,
-        unicodeRange: isFallback
+        unicodeRange: options.isFallback
           ? undefined
-          : reduceUnicodeRange(relevant.map((value) => value.unicodeRange)),
+          : reduceUnicodeRange(
+              relevant.map((value) => value.unicodeRange),
+              options.codePoints,
+            ),
       }
 
       const hash = createHash(fontFace)
-      const result = { ...fontFace, fontFamily: `${current.fontFamily}-${hash}` }
+      const result = {
+        ...fontFace,
+        fontFamily: options.isFallback ? hash : fontFace.fontFamily,
+      }
 
       return keys.map((key) => [key, result] as [string, FontFace])
     })

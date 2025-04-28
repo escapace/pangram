@@ -11,6 +11,7 @@ export const fontWrite = async (
   slug: string,
   state: State,
 ): Promise<{
+  codePoints: number[]
   files: string[]
   testString: string
 }> => {
@@ -41,10 +42,7 @@ export const fontWrite = async (
 
   const files = await Promise.all(
     map(font.format, async (format): Promise<string> => {
-      const outputFile = path.join(
-        state.configuration.outputDirectory,
-        `${font.name ?? slug}.${format}`,
-      )
+      const outputFile = path.join(state.configuration.outputDirectory, `${slug}.${format}`)
 
       const fonttools = await execa(
         'pyftsubset',
@@ -114,7 +112,7 @@ export const fontWrite = async (
 
   assert(testString.length !== 0, `${source}: font loader tests string missing`)
 
-  return { files, testString }
+  return { codePoints, files, testString }
 }
 
 // --layout-features=

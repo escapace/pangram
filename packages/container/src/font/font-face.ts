@@ -7,13 +7,15 @@ import type {
   FontState,
 } from '../types'
 import { fontNames } from './font-names'
+import { createHash } from '../utilities/create-hash'
+import assert from 'node:assert'
 
 const fontSource = ({ font, slug }: FontState, publicPath: string): string =>
   font.format
     .map((format) => ({
       ...font,
       format,
-      url: urljoin(publicPath, `${font.name ?? slug}.${format}`),
+      url: urljoin(publicPath, `${slug}.${format}`),
     }))
     .flatMap(({ format, tech, url }) =>
       (tech ?? []).includes('variations')
@@ -28,7 +30,6 @@ const fontSource = ({ font, slug }: FontState, publicPath: string): string =>
 interface FontFaceOptionsFallback {
   font: FontFallback
   fontProperties: Omit<Required<FontProperties>, 'fontFamily'>
-  publicPath: string
   type: 'fallback'
   adjustments?: FontFaceAdjustments
 }
@@ -39,6 +40,7 @@ interface FontFaceOptionsFont {
   publicPath: string
   type: 'font'
   adjustments?: FontFaceAdjustments
+  primaryFont?: FontState
 }
 
 export const fontFace = (options: FontFaceOptionsFallback | FontFaceOptionsFont): FontFace => {
@@ -46,9 +48,16 @@ export const fontFace = (options: FontFaceOptionsFallback | FontFaceOptionsFont)
     const { font } = options.font
     const { fontStretch, fontStyle, fontWeight } = options.fontProperties
 
+    const fontFamily = [
+      options.primaryFont?.font.family ?? options.primaryFont?.slug,
+      options.font?.font.family ?? options.font?.slug,
+    ].filter((value) => value !== undefined)
+
+    assert(fontFamily.length === 1 || fontFamily.length === 2)
+
     return {
       fontDisplay: font.display,
-      fontFamily: font.name ?? options.font.slug,
+      fontFamily: fontFamily.length === 1 ? fontFamily[0] : createHash(fontFamily),
       fontStretch,
       fontStyle,
       fontWeight,

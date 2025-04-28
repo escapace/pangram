@@ -11,14 +11,12 @@ const RU_UNICODE_RANGE = 'U+400-45F,U+490,U+491,U+4B0,U+4B1,U+2116'
 // const RU_NOTO_SANS_FAMILY = 'RU Noto Sans'
 
 const robotoFlex: UserConfigurationFont = {
-  name: 'roboto-flex',
   source: './fixtures/roboto-flex.ttf',
   tech: ['variations'],
   unicodeRange: EN_UNICODE_RANGE,
 }
 
 const EN_NOTO_SANS: UserConfigurationFont = {
-  name: 'en-noto-sans',
   // family: EN_NOTO_SANS_FAMILY,
   prefer: [robotoFlex],
   resourceHint: 'preload',

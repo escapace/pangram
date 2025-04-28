@@ -34,6 +34,7 @@ export const normalizeConfiguration = (
     })
     .optional()
     .parse(userConfiguration.lightningcss)
+  const adjustFontMetrics = userConfiguration.adjustFontMetrics ?? true
 
   const targets = browserslistToTargets({
     ignoreUnknownVersions: true,
@@ -51,6 +52,7 @@ export const normalizeConfiguration = (
   assertFonts(state.fonts)
 
   return {
+    adjustFontMetrics,
     fallbackFonts: state.fallbackFonts,
     fontProperties: state.fontProperties,
     fonts: state.fonts,

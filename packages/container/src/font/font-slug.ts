@@ -18,8 +18,8 @@ const SLUG_PARTS: TupleUnion<
   Exclude<
     keyof ConfigurationFont,
     | 'display'
+    | 'family'
     | 'format'
-    | 'name'
     | 'prefer'
     | 'resourceHint'
     | 'stretch'

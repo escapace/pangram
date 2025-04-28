@@ -24,6 +24,8 @@ OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
 EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+// https://github.com/bramstein/characterset/blob/master/lib/characterset.js
+
 /* eslint-disable typescript/prefer-for-of */
 /* eslint-disable typescript/strict-boolean-expressions */
 export class CharacterSet {
@@ -60,6 +62,23 @@ export class CharacterSet {
 
   union(other: CharacterSet) {
     return new CharacterSet(this.toArray().concat(other.toArray()))
+  }
+
+  contains(codePoint: number) {
+    return this.data[codePoint]
+  }
+
+  intersect(other: CharacterSet) {
+    const codePoints = this.toArray()
+    const result = new CharacterSet()
+
+    for (let index = 0; index < codePoints.length; index += 1) {
+      if (other.contains(codePoints[index])) {
+        result.add(codePoints[index])
+      }
+    }
+
+    return result
   }
 
   add(...arguments_: number[]) {
@@ -168,7 +187,7 @@ export class CharacterSet {
   }
 }
 
-export const fontUnicodeRange = (input: string): CharacterSet => {
+export const parseUnicodeRange = (input: string): CharacterSet => {
   const ranges = input.split(/\s*,\s*/)
   const result = new CharacterSet()
 

@@ -26,8 +26,8 @@ export interface FontFace extends FontFaceAdjustments {
   fontWeight: number | [number, number]
   src: string
   fontDisplay?: ConfigurationFont['display']
-  // fontNamedInstance?: string
   unicodeRange?: ConfigurationFont['unicodeRange']
+  // fontNamedInstance?: string
 }
 
 export const enum TypeFontState {
@@ -43,6 +43,7 @@ export interface FontStateInitial {
 }
 
 export interface FontStateWritten extends Omit<FontStateInitial, 'type'> {
+  codePoints: number[]
   files: string[]
   testString: string
   type: TypeFontState.Written
@@ -81,7 +82,12 @@ export interface Style {
 
 export interface Configuration
   extends Partial<Pick<UserConfiguration, 'lightningcss'>>,
-    Required<Pick<UserConfiguration, 'manifest' | 'outputDirectory' | 'publicPath' | 'selector'>> {
+    Required<
+      Pick<
+        UserConfiguration,
+        'adjustFontMetrics' | 'manifest' | 'outputDirectory' | 'publicPath' | 'selector'
+      >
+    > {
   fallbackFonts: Map<string, FontFallback>
   fontProperties: Map<string, Required<FontProperties>>
   fonts: Map<string, FontState>
@@ -94,7 +100,6 @@ export interface Configuration
     esbuild: string[]
     lightningcss: Targets
   }
-
   lightningcss?: UserConfiguration['lightningcss']
 }
 
