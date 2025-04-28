@@ -2,19 +2,19 @@ import type { Font } from '@pangram/font-loader'
 import { build, type OutputFile } from 'esbuild'
 import { resolvePath } from 'mlly'
 import { TextDecoder } from 'node:util'
-import type { State } from '../types'
+import type { Configuration } from '../types'
 
 const buildToString = (value: { outputFiles: OutputFile[] }): string =>
   new TextDecoder('utf-8').decode(value.outputFiles[0].contents).replace(/\n$/, '')
 
 export const fontLoaderScript = async (
-  state: State,
+  configuration: Configuration,
   locales: Array<readonly [string, string | string[]]>,
   fonts: Font[],
 ): Promise<string> =>
   buildToString(
     await build({
-      absWorkingDir: state.runtimeDirectory,
+      absWorkingDir: configuration.runtimeDirectory,
       bundle: true,
       define: {
         __DATA_FONTS__: JSON.stringify(fonts),
@@ -24,7 +24,7 @@ export const fontLoaderScript = async (
       format: 'iife',
       minify: true,
       platform: 'browser',
-      target: state.configuration.targets.esbuild,
+      target: configuration.state.targets.esbuild,
       write: false,
     }),
   )

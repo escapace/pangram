@@ -1,9 +1,9 @@
 import { transform } from 'lightningcss'
-import type { State } from '../types'
+import type { Configuration } from '../types'
 
-export const minifyCss = (value: string, state: State) => {
-  const targets = state.configuration.targets.lightningcss
-  const options = state.configuration.lightningcss
+export const minifyCss = (value: string, configuration: Configuration) => {
+  const targets = configuration.state.targets.lightningcss
+  const options = configuration.state.lightningcss
 
   const { code: one } = transform({
     minify: true,

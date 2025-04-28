@@ -8,7 +8,7 @@ import {
   type UserConfigurationFontInformation,
   type UserConfigurationFontInformationStatic,
 } from '../state/user-schema'
-import { TypeFontState, type FontProperties, type State } from '../types'
+import { TypeFontState, type FontProperties, type Configuration } from '../types'
 import { createHash } from '../utilities/create-hash'
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
@@ -165,11 +165,11 @@ export const fontInspectCommand = memoize(
 
 export const fontInspect = async (
   slug: string,
-  state: State,
+  configuration: Configuration,
   properties: Omit<FontProperties, 'fontFamily'> = {},
 ): Promise<UserConfigurationFontInformation> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
-  const fontState = state.configuration.fonts.get(slug)!
+  const fontState = configuration.state.fonts.get(slug)!
   // const font = fontState
   assert(fontState.type === TypeFontState.Written)
 
@@ -180,7 +180,7 @@ export const fontInspect = async (
   assert(typeof file === 'string' && (await pathExists(file)), `${file}: no such file`)
 
   const result = await fontInspectCommand(
-    state.runtimeFontInspectPath,
+    configuration.runtimeFontInspectPath,
     file,
     omit(properties, ['fontFamily']),
   )

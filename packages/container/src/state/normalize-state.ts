@@ -2,17 +2,17 @@ import { browserslistToTargets } from '@pointe/browserslist-to-targets'
 import path from 'node:path'
 import { z } from 'zod'
 import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from '../constants'
-import type { Configuration, FontFallback, FontProperties, FontState, StatePartial } from '../types'
+import type { State, FontFallback, FontProperties, FontState, StatePartial } from '../types'
 import { assertFonts } from './assert-fonts'
 import { normalizeLocales } from './normalize-locales'
 import { normalizeSelector } from './normalize-selector'
 import { normalizeStyles } from './normalize-styles'
 import { schemaLocales, type UserConfiguration } from './user-schema'
 
-export const normalizeConfiguration = (
+export const normalizeState = (
   userConfiguration: UserConfiguration,
   configurationDirectory: string,
-): Configuration => {
+): State => {
   const outputDirectory = path.resolve(
     configurationDirectory,
     userConfiguration.outputDirectory ?? DEFAULT_OUTPUT_DIR,

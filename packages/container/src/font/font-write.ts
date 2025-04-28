@@ -4,21 +4,21 @@ import { mkdirp, pathExists } from 'fs-extra'
 import { compact, includes, map, orderBy, uniq } from 'lodash-es'
 import assert from 'node:assert'
 import path from 'node:path'
-import type { State } from '../types'
+import type { Configuration } from '../types'
 import { fontInspectCommand } from './font-inspect'
 
 export const fontWrite = async (
   slug: string,
-  state: State,
+  configuration: Configuration,
 ): Promise<{
   codePoints: number[]
   files: string[]
   testString: string
 }> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
-  const fontState = state.configuration.fonts.get(slug)!
+  const fontState = configuration.state.fonts.get(slug)!
   const font = fontState.font
-  const source = path.resolve(state.configurationDirectory, font.source)
+  const source = path.resolve(configuration.configurationDirectory, font.source)
 
   if (!(await pathExists(source))) {
     throw new Error(`${font.source}: no such file`)
@@ -38,11 +38,11 @@ export const fontWrite = async (
         ? undefined
         : `--layout-features+=${uniq(font.layoutFeatures).sort().join(',')}`
 
-  await mkdirp(state.configuration.outputDirectory)
+  await mkdirp(configuration.state.outputDirectory)
 
   const files = await Promise.all(
     map(font.format, async (format): Promise<string> => {
-      const outputFile = path.join(state.configuration.outputDirectory, `${slug}.${format}`)
+      const outputFile = path.join(configuration.state.outputDirectory, `${slug}.${format}`)
 
       const fonttools = await execa(
         'pyftsubset',
@@ -63,7 +63,11 @@ export const fontWrite = async (
         ]),
       )
 
-      const fontStrip = await execa('python3', [state.runtimeFontStripPath, '-f', outputFile])
+      const fontStrip = await execa('python3', [
+        configuration.runtimeFontStripPath,
+        '-f',
+        outputFile,
+      ])
 
       if (!(await pathExists(outputFile)) || fonttools.exitCode !== 0 || fontStrip.exitCode !== 0) {
         throw new Error(`${font.source}: fonttools error`)
@@ -79,7 +83,10 @@ export const fontWrite = async (
 
   assert(typeof file === 'string')
 
-  const { codePoints: _codePoints } = await fontInspectCommand(state.runtimeFontInspectPath, file)
+  const { codePoints: _codePoints } = await fontInspectCommand(
+    configuration.runtimeFontInspectPath,
+    file,
+  )
   const codePoints = _codePoints.map((value) => value.codePoint)
   // .filter((value) => )
 

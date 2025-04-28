@@ -1,10 +1,13 @@
 import { compact } from 'lodash-es'
 import urljoin from 'url-join'
-import type { FontStateWritten, State } from '../types'
+import type { FontStateWritten, Configuration } from '../types'
 import type { ResourceHint } from '@pangram/font-loader'
 
-export const fontResourceHints = (slug: string, state: State): ResourceHint[] | undefined => {
-  const fontState = state.configuration.fonts.get(slug) as FontStateWritten | undefined
+export const fontResourceHints = (
+  slug: string,
+  configuration: Configuration,
+): ResourceHint[] | undefined => {
+  const fontState = configuration.state.fonts.get(slug) as FontStateWritten | undefined
 
   if (fontState === undefined) {
     return undefined
@@ -18,7 +21,7 @@ export const fontResourceHints = (slug: string, state: State): ResourceHint[] | 
       : {
           as: 'font',
           crossorigin: 'anonymous',
-          href: urljoin(state.configuration.publicPath, `${slug}.${font.format[0]}`),
+          href: urljoin(configuration.state.publicPath, `${slug}.${font.format[0]}`),
           rel: font.resourceHint,
           type: `font/${font.format[0]}`,
         },

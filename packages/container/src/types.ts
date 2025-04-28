@@ -80,7 +80,7 @@ export interface Style {
   scriptingNoneStyleProperties?: Record<string, number | string>
 }
 
-export interface Configuration
+export interface State
   extends Partial<Pick<UserConfiguration, 'lightningcss'>>,
     Required<
       Pick<
@@ -103,18 +103,18 @@ export interface Configuration
   lightningcss?: UserConfiguration['lightningcss']
 }
 
-export interface State {
-  configuration: Configuration
+export interface Configuration {
   configurationDirectory: string
   configurationFile: string
   processDirectory: string
   runtimeDirectory: string
   runtimeFontInspectPath: string
   runtimeFontStripPath: string
+  state: State
   warnings: Set<string>
 }
 
-export type StatePartial = Pick<Configuration, 'fallbackFonts' | 'fontProperties' | 'fonts'>
+export type StatePartial = Pick<State, 'fallbackFonts' | 'fontProperties' | 'fonts'>
 
 // eslint-disable-next-line typescript/no-explicit-any
 export type TupleUnion<U extends string, R extends any[] = []> = {
