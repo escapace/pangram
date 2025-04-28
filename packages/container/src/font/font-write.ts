@@ -1,7 +1,6 @@
-import { codePointFrequencies } from '@pangram/unicode-tools'
 import { execa } from 'execa'
 import { mkdirp, pathExists } from 'fs-extra'
-import { compact, includes, map, orderBy, uniq } from 'lodash-es'
+import { compact, includes, map, uniq } from 'lodash-es'
 import assert from 'node:assert'
 import path from 'node:path'
 import type { Configuration } from '../types'
@@ -13,11 +12,10 @@ export const fontWrite = async (
 ): Promise<{
   codePoints: number[]
   files: string[]
-  testString: string
 }> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
   const fontState = configuration.state.fonts.get(slug)!
-  const font = fontState.font
+  const font = fontState.configuration
   const source = path.resolve(configuration.configurationDirectory, font.source)
 
   if (!(await pathExists(source))) {
@@ -77,7 +75,7 @@ export const fontWrite = async (
     }),
   )
 
-  const file = fontState.font.format.includes('woff2')
+  const file = fontState.configuration.format.includes('woff2')
     ? files.find((value) => value.endsWith('.woff2'))
     : files.find((value) => value.endsWith('.woff'))
 
@@ -88,38 +86,8 @@ export const fontWrite = async (
     file,
   )
   const codePoints = _codePoints.map((value) => value.codePoint)
-  // .filter((value) => )
 
-  // const locales = uniq(
-  //   [
-  //     ...state.configuration.localeToAlias.keys(),
-  //     ...state.configuration.localeToAlias.values(),
-  //   ].flat(),
-  // )
-  //
-  // console.log(locales, selectorFontLocales(state, slug))
-
-  const testStringCodePoints = orderBy(
-    codePointFrequencies([], codePoints, (value) =>
-      /[\p{White_Space}\p{Symbol}\p{Number}\p{Punctuation}\p{Other}]/u.test(
-        String.fromCodePoint(value),
-      ),
-    ),
-    ([_, frequency]) => frequency,
-    'desc',
-  )
-    .map(([codePoint]) => codePoint)
-    .slice(0, 10)
-
-  assert(testStringCodePoints.length !== 0)
-
-  const testString = String.fromCodePoint(
-    ...(testStringCodePoints.length === 10 ? testStringCodePoints : codePoints.slice(0, 10)),
-  )
-
-  assert(testString.length !== 0, `${source}: font loader tests string missing`)
-
-  return { codePoints, files, testString }
+  return { codePoints, files }
 }
 
 // --layout-features=

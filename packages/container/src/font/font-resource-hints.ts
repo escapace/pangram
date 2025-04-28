@@ -1,29 +1,29 @@
+import type { ResourceHint } from '@pangram/font-loader'
 import { compact } from 'lodash-es'
 import urljoin from 'url-join'
-import type { FontStateWritten, Configuration } from '../types'
-import type { ResourceHint } from '@pangram/font-loader'
+import type { Configuration, FontStateWritten } from '../types'
 
 export const fontResourceHints = (
   slug: string,
   configuration: Configuration,
 ): ResourceHint[] | undefined => {
-  const fontState = configuration.state.fonts.get(slug) as FontStateWritten | undefined
+  const font = configuration.state.fonts.get(slug) as FontStateWritten | undefined
 
-  if (fontState === undefined) {
+  if (font === undefined) {
     return undefined
   }
 
-  const { font } = fontState
+  const { format, resourceHint } = font.configuration
 
   const array: ResourceHint[] = compact([
-    font.resourceHint === undefined
+    resourceHint === undefined
       ? undefined
       : {
           as: 'font',
           crossorigin: 'anonymous',
-          href: urljoin(configuration.publicPath, `${slug}.${font.format[0]}`),
-          rel: font.resourceHint,
-          type: `font/${font.format[0]}`,
+          href: urljoin(configuration.publicPath, `${slug}.${format[0]}`),
+          rel: resourceHint,
+          type: `font/${format[0]}`,
         },
   ])
 

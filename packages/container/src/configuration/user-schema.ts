@@ -184,23 +184,23 @@ const schemaFontFamily = z
     (
       values,
     ): {
-      fallbacks: UserConfigurationFontInformation[]
-      fallbacksGeneric: ConfigurationFontFaimlyGeneric[]
-      fonts: ConfigurationFont[]
+      family: ConfigurationFont[]
+      generics: ConfigurationFontFaimlyGeneric[]
+      local: UserConfigurationFontInformation[]
     } => {
-      const fallbacksGeneric = values.filter((value) => typeof value === 'string')
-      const fallbacks = values.filter(
+      const generics = values.filter((value) => typeof value === 'string')
+      const local = values.filter(
         (value): value is UserConfigurationFontInformation =>
           schemaFontInformation.safeParse(value).success,
       )
-      const fonts = values.filter(
+      const family = values.filter(
         (value): value is ConfigurationFont => schemaFont.safeParse(value).success,
       )
 
       return {
-        fallbacks,
-        fallbacksGeneric,
-        fonts,
+        family,
+        generics,
+        local,
       }
     },
   )

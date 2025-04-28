@@ -40,12 +40,12 @@ export const fontSort = (
   }
 
   const next = (values: ConfigurationFont[], parent?: string) => {
-    values.forEach((font) => {
-      const slug = fontSlug(font)
+    values.forEach((configuration) => {
+      const slug = fontSlug(configuration)
 
       if (!fontStates.has(slug)) {
         fontStates.set(slug, {
-          font,
+          configuration,
           fontFaces: new Map(),
           slug,
           type: TypeFontState.Initial,
@@ -54,7 +54,7 @@ export const fontSort = (
 
       add(slug, parent)
 
-      next(font.prefer ?? [], slug)
+      next(configuration.prefer ?? [], slug)
     })
   }
 

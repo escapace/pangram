@@ -10,17 +10,17 @@ export const normalizeFontFamily = (
     return
   }
 
-  const { fallbacksGeneric } = fontFamily
+  const { generics: fallbacksGeneric } = fontFamily
 
-  const fallbacks = fontFamily.fallbacks.map((value) => {
-    if (!state.fallbackFonts.has(value.id)) {
-      state.fallbackFonts.set(value.id, { font: value, fontFaces: new Map() })
+  const fallbacks = fontFamily.local.map((configuration) => {
+    if (!state.fallbackFonts.has(configuration.id)) {
+      state.fallbackFonts.set(configuration.id, { configuration, fontFaces: new Map() })
     }
 
-    return value.id
+    return configuration.id
   })
 
-  const { fonts: fontStates, graph } = fontSort(fontFamily.fonts)
+  const { fonts: fontStates, graph } = fontSort(fontFamily.family)
 
   const fonts = fontStates.map((value): string => {
     const slug = value.slug

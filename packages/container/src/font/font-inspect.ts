@@ -125,7 +125,7 @@ export const fontInspectCommand = memoize(
     runtimeFontInspectPath: string,
     file: string,
     properties: Omit<FontProperties, 'fontFamily'> = {},
-  ) => {
+  ): Promise<UserConfigurationFontInformation> => {
     const data = schemaFontInformation.parse(
       JSON.parse(
         (
@@ -173,7 +173,7 @@ export const fontInspect = async (
   // const font = fontState
   assert(fontState.type === TypeFontState.Written)
 
-  const file = fontState.font.format.includes('woff2')
+  const file = fontState.configuration.format.includes('woff2')
     ? fontState.files.find((value) => value.endsWith('.woff2'))
     : fontState.files.find((value) => value.endsWith('.woff'))
 
@@ -185,7 +185,7 @@ export const fontInspect = async (
     omit(properties, ['fontFamily']),
   )
 
-  assert((fontState.font.tech?.includes('variations') === true) === result.variable)
+  assert((fontState.configuration.tech?.includes('variations') === true) === result.variable)
 
   if (result.variable) {
     assert(result.variations.length === 1)

@@ -8,7 +8,7 @@ import type {
 import type { AstNode, AtRule } from './utilities/ast'
 
 export interface FontFallback {
-  font: UserConfigurationFontInformation
+  configuration: UserConfigurationFontInformation
   fontFaces: Map<string, FontFace>
 }
 
@@ -36,7 +36,7 @@ export const enum TypeFontState {
 }
 
 export interface FontStateInitial {
-  font: ConfigurationFont
+  configuration: ConfigurationFont
   fontFaces: Map<string, FontFace>
   slug: string
   type: TypeFontState.Initial

@@ -1,3 +1,4 @@
+import assert from 'node:assert'
 import urljoin from 'url-join'
 import type {
   FontFace,
@@ -6,14 +7,13 @@ import type {
   FontProperties,
   FontState,
 } from '../types'
-import { fontNames } from './font-names'
 import { createHash } from '../utilities/create-hash'
-import assert from 'node:assert'
+import { fontNames } from './font-names'
 
-const fontSource = ({ font, slug }: FontState, publicPath: string): string =>
-  font.format
+const fontSource = ({ configuration, slug }: FontState, publicPath: string): string =>
+  configuration.format
     .map((format) => ({
-      ...font,
+      ...configuration,
       format,
       url: urljoin(publicPath, `${slug}.${format}`),
     }))
@@ -45,34 +45,34 @@ interface FontFaceOptionsFont {
 
 export const fontFace = (options: FontFaceOptionsFallback | FontFaceOptionsFont): FontFace => {
   if (options.type === 'font') {
-    const { font } = options.font
+    const { configuration } = options.font
     const { fontStretch, fontStyle, fontWeight } = options.fontProperties
 
     const fontFamily = [
-      options.primaryFont?.font.family ?? options.primaryFont?.slug,
-      options.font?.font.family ?? options.font?.slug,
+      options.primaryFont?.configuration.family ?? options.primaryFont?.slug,
+      options.font?.configuration.family ?? options.font?.slug,
     ].filter((value) => value !== undefined)
 
     assert(fontFamily.length === 1 || fontFamily.length === 2)
 
     return {
-      fontDisplay: font.display,
+      fontDisplay: configuration.display,
       fontFamily: fontFamily.length === 1 ? fontFamily[0] : createHash(fontFamily),
       fontStretch,
       fontStyle,
       fontWeight,
       src: fontSource(options.font, options.publicPath),
-      unicodeRange: font.unicodeRange,
+      unicodeRange: configuration.unicodeRange,
       ...options.adjustments,
     }
   } else {
-    const { font } = options.font
+    const { configuration } = options.font
     const { fontStretch, fontStyle, fontWeight } = options.fontProperties
 
-    const names = fontNames(font)
+    const names = fontNames(configuration)
 
     return {
-      fontFamily: font.id,
+      fontFamily: configuration.id,
       fontStretch,
       fontStyle,
       fontWeight,
