@@ -1,6 +1,6 @@
 import { uniq } from 'lodash-es'
 import assert from 'node:assert'
-import type { UserConfigurationFontInformation } from '../state/user-schema'
+import type { UserConfigurationFontInformation } from '../configuration/user-schema'
 
 // function sanitizePSNameComponent(input?: string): string {
 //   return Array.from(input)

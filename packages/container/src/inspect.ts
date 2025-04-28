@@ -8,7 +8,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { configure } from 'safe-stable-stringify'
 import { fontNames } from './font/font-names'
-import { schemaFontInformation } from './state/user-schema'
+import { schemaFontInformation } from './configuration/user-schema'
 
 const stringify = configure({
   bigint: false,

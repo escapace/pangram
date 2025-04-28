@@ -4,7 +4,7 @@ import type {
   ConfigurationFontProperties,
   UserConfiguration,
   UserConfigurationFontInformation,
-} from './state/user-schema'
+} from './configuration/user-schema'
 import type { AstNode, AtRule } from './utilities/ast'
 
 export interface FontFallback {

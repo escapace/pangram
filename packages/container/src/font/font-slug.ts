@@ -1,7 +1,7 @@
 import { createHash as cryptoHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { pick } from 'lodash-es'
-import type { ConfigurationFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../configuration/user-schema'
 import type { TupleUnion } from '../types'
 import { createHash } from '../utilities/create-hash'
 

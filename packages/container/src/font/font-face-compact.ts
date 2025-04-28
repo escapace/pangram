@@ -1,6 +1,6 @@
 import { groupBy, omit, uniq } from 'lodash-es'
 import assert from 'node:assert'
-import type { ConfigurationFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../configuration/user-schema'
 import type { FontFace, TupleUnion } from '../types'
 import { createHash } from '../utilities/create-hash'
 import { CharacterSet, parseUnicodeRange } from './font-unicode-range'

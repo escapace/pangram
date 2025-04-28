@@ -1,5 +1,5 @@
 import { font } from 'pangram'
-import type { UserConfiguration, UserConfigurationFont } from '../../src/state/user-schema'
+import type { UserConfiguration, UserConfigurationFont } from '../../src/configuration/user-schema'
 
 const [arialRegular, arialBold] = await font('arial', 'arial-bold')
 

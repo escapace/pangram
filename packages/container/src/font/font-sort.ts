@@ -1,5 +1,5 @@
 import { uniq, uniqBy } from 'lodash-es'
-import type { ConfigurationFont } from '../state/user-schema'
+import type { ConfigurationFont } from '../configuration/user-schema'
 import { type FontStateInitial, TypeFontState } from '../types'
 import { toposort } from '../utilities/toposort'
 import { fontSlug } from './font-slug'

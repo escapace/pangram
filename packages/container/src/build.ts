@@ -36,8 +36,8 @@ import { fontNames } from './font/font-names'
 import { fontResourceHints } from './font/font-resource-hints'
 import { fontSort } from './font/font-sort'
 import { fontWrite } from './font/font-write'
-import { createConfiguration } from './state/create-configuration'
-import type { Locale, Manifest } from './state/user-schema'
+import { createConfiguration } from './configuration/create-configuration'
+import type { Locale, Manifest } from './configuration/user-schema'
 import {
   TypeFontState,
   type Configuration,

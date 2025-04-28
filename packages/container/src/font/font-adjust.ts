@@ -1,7 +1,7 @@
 /* eslint-disable typescript/strict-boolean-expressions */
 import { codePointFrequencies } from '@pangram/unicode-tools'
 import assert from 'node:assert'
-import type { UserConfigurationFontInformation } from '../state/user-schema'
+import type { UserConfigurationFontInformation } from '../configuration/user-schema'
 import type { FontFaceAdjustments } from '../types'
 import { round } from '../utilities/round'
 

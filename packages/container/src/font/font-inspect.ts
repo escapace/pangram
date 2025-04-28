@@ -7,7 +7,7 @@ import {
   schemaFontInformation,
   type UserConfigurationFontInformation,
   type UserConfigurationFontInformationStatic,
-} from '../state/user-schema'
+} from '../configuration/user-schema'
 import { TypeFontState, type FontProperties, type Configuration } from '../types'
 import { createHash } from '../utilities/create-hash'
 
