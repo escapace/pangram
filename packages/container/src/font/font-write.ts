@@ -38,11 +38,11 @@ export const fontWrite = async (
         ? undefined
         : `--layout-features+=${uniq(font.layoutFeatures).sort().join(',')}`
 
-  await mkdirp(configuration.state.outputDirectory)
+  await mkdirp(configuration.outputDirectory)
 
   const files = await Promise.all(
     map(font.format, async (format): Promise<string> => {
-      const outputFile = path.join(configuration.state.outputDirectory, `${slug}.${format}`)
+      const outputFile = path.join(configuration.outputDirectory, `${slug}.${format}`)
 
       const fonttools = await execa(
         'pyftsubset',

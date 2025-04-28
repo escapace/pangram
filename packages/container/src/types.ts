@@ -80,14 +80,7 @@ export interface Style {
   scriptingNoneStyleProperties?: Record<string, number | string>
 }
 
-export interface State
-  extends Partial<Pick<UserConfiguration, 'lightningcss'>>,
-    Required<
-      Pick<
-        UserConfiguration,
-        'adjustFontMetrics' | 'manifest' | 'outputDirectory' | 'publicPath' | 'selector'
-      >
-    > {
+export interface State {
   fallbackFonts: Map<string, FontFallback>
   fontProperties: Map<string, Required<FontProperties>>
   fonts: Map<string, FontState>
@@ -95,15 +88,17 @@ export interface State
   locales: Record<string, Style[]>
   localeToAlias: Map<string, string[]>
   styles: Style[]
-  targets: {
-    browserslist: string[]
-    esbuild: string[]
-    lightningcss: Targets
-  }
-  lightningcss?: UserConfiguration['lightningcss']
+  warnings: Set<string>
 }
 
-export interface Configuration {
+export interface Configuration
+  extends Partial<Pick<UserConfiguration, 'lightningcss'>>,
+    Required<
+      Pick<
+        UserConfiguration,
+        'adjustFontMetrics' | 'manifest' | 'outputDirectory' | 'publicPath' | 'selector'
+      >
+    > {
   configurationDirectory: string
   configurationFile: string
   processDirectory: string
@@ -111,7 +106,12 @@ export interface Configuration {
   runtimeFontInspectPath: string
   runtimeFontStripPath: string
   state: State
-  warnings: Set<string>
+  targets: {
+    browserslist: string[]
+    esbuild: string[]
+    lightningcss: Targets
+  }
+  lightningcss?: UserConfiguration['lightningcss']
 }
 
 export type StatePartial = Pick<State, 'fallbackFonts' | 'fontProperties' | 'fonts'>

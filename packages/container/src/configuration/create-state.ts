@@ -91,6 +91,7 @@ export const createState = async (
   configurationDirectory: string
   configurationFile: string
   state: State
+  userConfiguration: UserConfiguration
 }> => {
   const explorer = cosmiconfig('pangram', {
     loaders: {
@@ -116,14 +117,14 @@ export const createState = async (
   const configurationDirectory = path.dirname(config.filepath)
   const configFile = config.filepath
 
-  const state = normalizeState(
-    await Promise.resolve(config.config as Promise<UserConfiguration> | UserConfiguration),
-    configurationDirectory,
-  )
+  const userConfiguration = await (config.config as Promise<UserConfiguration> | UserConfiguration)
+
+  const state = normalizeState(await Promise.resolve(userConfiguration))
 
   return {
     configurationDirectory,
     configurationFile: path.relative(processDirectory, configFile),
     state,
+    userConfiguration,
   }
 }

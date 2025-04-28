@@ -1,9 +1,13 @@
+import { browserslistToTargets } from '@pointe/browserslist-to-targets'
 import { findUp } from 'find-up'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { z } from 'zod'
+import { DEFAULT_JSON_FILE, DEFAULT_OUTPUT_DIR, DEFAULT_PUBLIC_PATH } from '../constants'
 import type { Configuration } from '../types'
 import { createState } from './create-state'
+import { normalizeSelector } from './normalize-selector'
 
 export const createConfiguration = async (): Promise<Configuration> => {
   const __filename = fileURLToPath(import.meta.url)
@@ -26,16 +30,52 @@ export const createConfiguration = async (): Promise<Configuration> => {
   }
 
   const processDirectory = process.cwd()
-  const { configurationDirectory, configurationFile, state } = await createState(processDirectory)
+  const { configurationDirectory, configurationFile, state, userConfiguration } =
+    await createState(processDirectory)
+
+  const outputDirectory = path.resolve(
+    configurationDirectory,
+    userConfiguration.outputDirectory ?? DEFAULT_OUTPUT_DIR,
+  )
+
+  const selector = normalizeSelector(userConfiguration.selector ?? ':where(:root,:host)')
+  const lightningcss = z
+    .object({
+      exclude: z.number().optional(),
+      include: z.number().optional(),
+      minify: z.boolean().optional(),
+    })
+    .optional()
+    .parse(userConfiguration.lightningcss)
+
+  const adjustFontMetrics = userConfiguration.adjustFontMetrics ?? true
+
+  const targets = browserslistToTargets({
+    ignoreUnknownVersions: true,
+    path: configurationDirectory,
+  })
+
+  const publicPath = userConfiguration.publicPath ?? DEFAULT_PUBLIC_PATH
+
+  const manifest =
+    typeof userConfiguration.manifest === 'function'
+      ? userConfiguration.manifest
+      : path.resolve(configurationDirectory, userConfiguration.manifest ?? DEFAULT_JSON_FILE)
 
   return {
+    adjustFontMetrics,
     configurationDirectory,
     configurationFile,
+    lightningcss,
+    manifest,
+    outputDirectory,
     processDirectory,
+    publicPath,
     runtimeDirectory,
     runtimeFontInspectPath,
     runtimeFontStripPath,
+    selector,
     state,
-    warnings: new Set<string>(),
+    targets,
   }
 }

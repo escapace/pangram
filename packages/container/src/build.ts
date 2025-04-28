@@ -261,7 +261,7 @@ const toWebFontLocale = (styles: Style[], configuration: Configuration): Locale 
     toCss(
       optimizeAst([
         styleRule(
-          configuration.state.selector,
+          configuration.selector,
           styles.flatMap((value) => value.ast),
         ),
       ]),
@@ -436,7 +436,7 @@ export const build = async () => {
           ? fontNames(primaryFontInformation, true).join(', ')
           : path.relative(configuration.configurationDirectory, primaryFont.font.source)
 
-      configuration.warnings.add(`Inconsistent font metrics for ${name}.`)
+      configuration.state.warnings.add(`Inconsistent font metrics for ${name}.`)
     }
 
     primaryFont?.fontFaces.set(
@@ -444,7 +444,7 @@ export const build = async () => {
       fontFace({
         font: primaryFont,
         fontProperties,
-        publicPath: configuration.state.publicPath,
+        publicPath: configuration.publicPath,
         type: 'font',
       }),
     )
@@ -461,7 +461,7 @@ export const build = async () => {
       )
 
       if (!secondaryFontInformation.consistentMetrics) {
-        configuration.warnings.add(
+        configuration.state.warnings.add(
           `Inconsistent font metrics for ${path.relative(configuration.configurationDirectory, secondaryFont.font.source)}.`,
         )
       }
@@ -471,13 +471,13 @@ export const build = async () => {
       secondaryFont.fontFaces.set(
         style.id,
         fontFace({
-          adjustments: configuration.state.adjustFontMetrics
+          adjustments: configuration.adjustFontMetrics
             ? fontAdjust(primaryFontInformation, secondaryFontInformation, locales)
             : undefined,
           font: secondaryFont,
           fontProperties,
           primaryFont,
-          publicPath: configuration.state.publicPath,
+          publicPath: configuration.publicPath,
           type: 'font',
         }),
       )
@@ -485,7 +485,7 @@ export const build = async () => {
 
     for (const fallbackFont of fallbackFonts) {
       if (!fallbackFont.font.consistentMetrics) {
-        configuration.warnings.add(
+        configuration.state.warnings.add(
           `Inconsistent font metrics for ${fontNames(fallbackFont.font, true).join(', ')}.`,
         )
       }
@@ -495,7 +495,7 @@ export const build = async () => {
       fallbackFont.fontFaces.set(
         style.id,
         fontFace({
-          adjustments: configuration.state.adjustFontMetrics
+          adjustments: configuration.adjustFontMetrics
             ? fontAdjust(primaryFontInformation, fallbackFont.font, locales)
             : undefined,
           font: fallbackFont,
@@ -674,14 +674,14 @@ export const build = async () => {
 
   const result = await toManifest(configuration)
 
-  if (typeof configuration.state.manifest === 'string') {
-    await fse.mkdirp(path.dirname(configuration.state.manifest))
-    await fse.writeFile(configuration.state.manifest, stringify(result, null, 2))
+  if (typeof configuration.manifest === 'string') {
+    await fse.mkdirp(path.dirname(configuration.manifest))
+    await fse.writeFile(configuration.manifest, stringify(result, null, 2))
   } else {
-    await configuration.state.manifest(result)
+    await configuration.manifest(result)
   }
 
-  for (const warning of configuration.warnings) {
+  for (const warning of configuration.state.warnings) {
     console.warn(warning)
   }
 

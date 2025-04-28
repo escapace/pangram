@@ -2,8 +2,8 @@ import { transform } from 'lightningcss'
 import type { Configuration } from '../types'
 
 export const minifyCss = (value: string, configuration: Configuration) => {
-  const targets = configuration.state.targets.lightningcss
-  const options = configuration.state.lightningcss
+  const targets = configuration.targets.lightningcss
+  const options = configuration.lightningcss
 
   const { code: one } = transform({
     minify: true,

@@ -21,7 +21,7 @@ export const fontResourceHints = (
       : {
           as: 'font',
           crossorigin: 'anonymous',
-          href: urljoin(configuration.state.publicPath, `${slug}.${font.format[0]}`),
+          href: urljoin(configuration.publicPath, `${slug}.${font.format[0]}`),
           rel: font.resourceHint,
           type: `font/${font.format[0]}`,
         },

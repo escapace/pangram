@@ -24,7 +24,7 @@ export const fontLoaderScript = async (
       format: 'iife',
       minify: true,
       platform: 'browser',
-      target: configuration.state.targets.esbuild,
+      target: configuration.targets.esbuild,
       write: false,
     }),
   )
