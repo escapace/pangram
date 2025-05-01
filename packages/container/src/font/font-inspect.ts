@@ -8,7 +8,7 @@ import {
   type UserConfigurationFontInformation,
   type UserConfigurationFontInformationStatic,
 } from '../configuration/user-schema'
-import { TypeFontState, type FontProperties, type Configuration } from '../types'
+import { FontType, type Properties, type Configuration } from '../types'
 import { createHash } from '../utilities/create-hash'
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
@@ -23,7 +23,7 @@ const clamp = (value: number, min: number, max: number) => Math.min(Math.max(val
 
 function createVariationSettings(
   selectedFont: UserConfigurationFontInformationStatic,
-  computedStyle: Omit<FontProperties, 'fontFamily'>,
+  computedStyle: Omit<Properties, 'fontFamily'>,
 ): Record<string, number> {
   // Initialize final axis map from the font's default axis values.
   const finalAxes = new Map<string, number>()
@@ -124,7 +124,7 @@ export const fontInspectCommand = memoize(
   async (
     runtimeFontInspectPath: string,
     file: string,
-    properties: Omit<FontProperties, 'fontFamily'> = {},
+    properties: Omit<Properties, 'fontFamily'> = {},
   ): Promise<UserConfigurationFontInformation> => {
     const data = schemaFontInformation.parse(
       JSON.parse(
@@ -166,12 +166,12 @@ export const fontInspectCommand = memoize(
 export const fontInspect = async (
   slug: string,
   configuration: Configuration,
-  properties: Omit<FontProperties, 'fontFamily'> = {},
+  properties: Omit<Properties, 'fontFamily'> = {},
 ): Promise<UserConfigurationFontInformation> => {
   // eslint-disable-next-line typescript/no-non-null-assertion
   const fontState = configuration.state.userFonts.get(slug)!
   // const font = fontState
-  assert(fontState.type === TypeFontState.Written)
+  assert(fontState.type === FontType.UserComplete)
 
   const file = fontState.configuration.format.includes('woff2')
     ? fontState.files.find((value) => value.endsWith('.woff2'))

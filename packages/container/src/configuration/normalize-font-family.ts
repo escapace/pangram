@@ -1,5 +1,5 @@
 import { fontSort } from '../font/font-sort'
-import type { FontProperties, StatePartial } from '../types'
+import { FontType, type Properties, type StatePartial } from '../types'
 import type { ConfigurationFontFamily } from './user-schema'
 
 export const normalizeFontFamily = (
@@ -14,7 +14,11 @@ export const normalizeFontFamily = (
 
   const local = fontFamily.local.map((configuration) => {
     if (!state.localFonts.has(configuration.id)) {
-      state.localFonts.set(configuration.id, { configuration, fontFaces: new Map() })
+      state.localFonts.set(configuration.id, {
+        configuration,
+        fontFaces: new Map(),
+        type: FontType.Local,
+      })
     }
 
     return configuration.id
@@ -37,7 +41,7 @@ export const normalizeFontFamily = (
       generic,
       local,
       user,
-    } satisfies FontProperties['fontFamily'],
+    } satisfies Properties['fontFamily'],
     graph,
   }
 }

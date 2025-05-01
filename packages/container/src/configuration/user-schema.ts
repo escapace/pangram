@@ -149,7 +149,7 @@ const schemaFontPlaceholder = z.object({
         return false
       }
 
-      return /^[a-z]+$/.test(value)
+      return /^[a-z-]+$/.test(value)
     }),
   format: z
     .optional(z.array(z.literal('woff').or(z.literal('woff2'))))
@@ -238,17 +238,15 @@ const schemaRule: z.ZodType<
   z.ZodTypeDef,
   StyleRule<UserConfigurationFontProperties>
 > = z.lazy(() => {
-  const schemaCSSProperties = schemaFontProperties
-
   // @ts-expect-error circular reference
   const schemaAtRules = z.object({
     // @ts-expect-error circular reference
-    '@media': z.lazy(() => z.record(schemaCSSProperties.merge(schemaAtRules))).optional(),
-    '@supports': z.lazy(() => z.record(schemaCSSProperties.merge(schemaAtRules))).optional(),
+    '@media': z.lazy(() => z.record(schemaFontProperties.merge(schemaAtRules))).optional(),
+    '@supports': z.lazy(() => z.record(schemaFontProperties.merge(schemaAtRules))).optional(),
   })
 
   // eslint-disable-next-line typescript/no-unsafe-argument
-  return schemaCSSProperties.merge(schemaAtRules)
+  return schemaFontProperties.merge(schemaAtRules)
 })
 
 export const schemaLocale = z.object({}).catchall(schemaRule)

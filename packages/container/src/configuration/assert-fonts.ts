@@ -1,7 +1,7 @@
 import { flatMap, uniq } from 'lodash-es'
-import type { FontState } from '../types'
+import type { UserFont } from '../types'
 
-export const assertFonts = (fonts: Map<string, FontState>) => {
+export const assertFonts = (fonts: Map<string, UserFont>) => {
   const values = Array.from(fonts.values()).map((value): [string, string] => [
     value.slug,
     value.slug,

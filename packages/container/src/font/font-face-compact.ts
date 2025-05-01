@@ -1,7 +1,13 @@
-import { groupBy, omit, uniq } from 'lodash-es'
+import { cloneDeep, groupBy, omit, uniq, uniqBy } from 'lodash-es'
 import assert from 'node:assert'
 import type { ConfigurationFont } from '../configuration/user-schema'
-import type { FontFace, TupleUnion } from '../types'
+import {
+  FontType,
+  type FontFace,
+  type LocalFont,
+  type TupleUnion,
+  type UserFontComplete,
+} from '../types'
 import { createHash } from '../utilities/create-hash'
 import { CharacterSet, parseUnicodeRange } from './font-unicode-range'
 
@@ -53,54 +59,89 @@ const reduceFontDisplay = (values: Array<FontFace['fontDisplay']>): FontFace['fo
   )[0]
 }
 
-export const fontFaceCompact = (
-  fontFaces: { [k: string]: FontFace },
-  options:
-    | {
-        codePoints: number[]
-        isFallback: false
-        fontFamily?: string
-      }
-    | {
-        isFallback: true
-      },
-): Array<[string, FontFace]> =>
-  Object.values(
-    groupBy(Object.entries(fontFaces), ([, fontFace]) =>
-      createHash(
-        omit(fontFace, ['fontDisplay', 'fontStretch', 'fontWeight', 'unicodeRange'] satisfies Array<
-          keyof FontFace
-        >),
-      ),
+export function fontFaceCompact(
+  inputs: Array<[LocalFont | UserFontComplete, FontFace, string]>,
+): Array<[LocalFont | UserFontComplete, FontFace, string]>
+export function fontFaceCompact(
+  inputs: Array<[LocalFont | UserFontComplete, FontFace]>,
+): Array<[LocalFont | UserFontComplete, FontFace]>
+export function fontFaceCompact(
+  inputs:
+    | Array<[LocalFont | UserFontComplete, FontFace, string]>
+    | Array<[LocalFont | UserFontComplete, FontFace]>,
+):
+  | Array<[LocalFont | UserFontComplete, FontFace, string]>
+  | Array<[LocalFont | UserFontComplete, FontFace]> {
+  const copy = cloneDeep(inputs)
+
+  const grouped = Object.values(
+    groupBy(
+      copy as Array<[LocalFont | UserFontComplete, FontFace, string | undefined]>,
+      ([_, fontFace]) =>
+        createHash(
+          omit(fontFace, [
+            'fontDisplay',
+            'fontStretch',
+            'fontWeight',
+            'unicodeRange',
+          ] satisfies Array<keyof FontFace>),
+        ),
     ),
   )
+
+  const entries = grouped
     .map((value) => {
-      const relevant = value.map((value) => value[1])
-      const current = value[0][1]
-      const keys = value.map((value) => value[0])
+      const fontFaces = value.map((value) => value[1])
+
+      const fonts = uniqBy(
+        value.map((value) => value[0]),
+        (value) => (value.type === FontType.UserComplete ? value.slug : value.configuration.id),
+      )
+      assert(fonts.length === 1)
+      const font = fonts[0]
+
+      const keys = value.map((value) => value[2]).filter((value) => value !== undefined)
+
+      const base = value[0][1]
 
       const fontFace: FontFace = {
-        ...current,
-        fontDisplay: options.isFallback
-          ? undefined
-          : reduceFontDisplay(relevant.map((value) => value.fontDisplay)),
-        fontStretch: reduceFontFaceWeightStretch(relevant.map((value) => value.fontStretch)),
-        fontWeight: reduceFontFaceWeightStretch(relevant.map((value) => value.fontWeight)),
-        // fontNamedInstance: isFallback ? current.fontNamedInstance : undefined,
-        unicodeRange: options.isFallback
-          ? undefined
-          : reduceUnicodeRange(
-              relevant.map((value) => value.unicodeRange),
-              options.codePoints,
-            ),
+        ...base,
+        fontDisplay:
+          font.type === FontType.Local
+            ? undefined
+            : reduceFontDisplay(fontFaces.map((value) => value.fontDisplay)),
+        fontStretch: reduceFontFaceWeightStretch(fontFaces.map((value) => value.fontStretch)),
+        fontWeight: reduceFontFaceWeightStretch(fontFaces.map((value) => value.fontWeight)),
+        // fontNamedInstance: isLocal ? current.fontNamedInstance : undefined,
+        unicodeRange:
+          font.type === FontType.Local
+            ? undefined
+            : reduceUnicodeRange(
+                fontFaces.map((value) => value.unicodeRange),
+                font.codePoints,
+              ),
       }
 
-      const hash = createHash(fontFace)
-      const result = {
-        ...fontFace,
-        fontFamily: options.isFallback ? hash : fontFace.fontFamily,
-      }
-
-      return keys.map((key) => [key, result] as [string, FontFace])
+      return keys.length === 0
+        ? [[font, fontFace] as [LocalFont | UserFontComplete, FontFace]]
+        : keys.map((key): [LocalFont | UserFontComplete, FontFace, string] => [font, fontFace, key])
     })
     .flat()
+
+  return entries as
+    | Array<[LocalFont | UserFontComplete, FontFace, string]>
+    | Array<[LocalFont | UserFontComplete, FontFace]>
+}
+
+export const fontFaceCompactMap = (
+  font: LocalFont | UserFontComplete,
+  map: Map<string, FontFace>,
+) => {
+  const result = fontFaceCompact(
+    Array.from(map.entries()).map(
+      ([key, fontFace]): [LocalFont | UserFontComplete, FontFace, string] => [font, fontFace, key],
+    ),
+  )
+
+  return new Map(result.map(([_, fontFace, key]): [string, FontFace] => [key, fontFace]))
+}

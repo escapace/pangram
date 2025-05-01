@@ -2,7 +2,7 @@ import { compact, flatMap, kebabCase, uniq } from 'lodash-es'
 import type { StatePartial, Style } from '../types'
 import { escape } from '../utilities/escape'
 import { toposortReverse } from '../utilities/toposort'
-import { normalizeFontProperties } from './normalize-font-properties'
+import { normalizeProperties } from './normalize-properties'
 import { normalizeStyleRule } from './normalize-style-rule'
 import type { ConfigurationLocales } from './user-schema'
 
@@ -13,18 +13,20 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
     }
 
     return flatMap(value, (styleRule, prefix) =>
-      normalizeStyleRule(styleRule).map((value) => {
-        const reducedFontProperties = normalizeFontProperties(value.fontProperties, state)
+      normalizeStyleRule(styleRule).map((value): Style => {
+        const properties = normalizeProperties(value.properties, state)
 
         return {
-          locale,
-          prefix: escape(kebabCase(prefix)),
-          ...value,
           ast: [],
-          fontProperties: reducedFontProperties?.id,
-          graph: reducedFontProperties?.graph,
-          metrics: {},
-        }
+          atRules: value.atRules,
+          graph: properties?.graph,
+          id: value.id,
+          locale,
+          parent: value.parent,
+          prefix: escape(kebabCase(prefix)),
+          properties:
+            properties?.id === undefined ? undefined : state.properties.get(properties.id),
+        } satisfies Style
       }),
     )
   })

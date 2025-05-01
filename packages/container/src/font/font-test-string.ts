@@ -2,9 +2,9 @@ import { codePointFrequencies } from '@pangram/unicode-tools'
 import { orderBy } from 'lodash-es'
 import assert from 'node:assert'
 
-export const fontTestString = (codePoints: number[]) => {
+export const fontTestString = (codePoints: number[], locales: string[] = []) => {
   const testStringCodePoints = orderBy(
-    codePointFrequencies([], codePoints, (value) =>
+    codePointFrequencies(locales, codePoints, (value) =>
       /[\p{White_Space}\p{Symbol}\p{Number}\p{Punctuation}\p{Other}]/u.test(
         String.fromCodePoint(value),
       ),

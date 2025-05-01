@@ -1,9 +1,9 @@
 import { assert, describe, it } from 'vitest'
-import { combinations } from './combinations'
+import { createCombinations } from './combinations'
 
 describe('src/utilities/combinations.spec.ts', () => {
   it('combinations', () => {
-    assert.deepEqual(combinations(['a', 'b', 'c', 'd']), [
+    assert.deepEqual(createCombinations(['a', 'b', 'c', 'd']), [
       ['a'],
       ['b'],
       ['c'],

@@ -1,4 +1,12 @@
-import type { FontFace } from '../types'
+import { uniq } from 'lodash-es'
+import {
+  FontType,
+  type Configuration,
+  type FontFace,
+  type LocalFont,
+  type UserFontComplete,
+} from '../types'
+import { fontName } from './font-name'
 import { CharacterSet, parseUnicodeRange } from './font-unicode-range'
 
 function toTuple(v: number | [number, number]): [number, number] {
@@ -9,57 +17,60 @@ function rangesOverlap([minA, maxA]: [number, number], [minB, maxB]: [number, nu
   return maxA >= minB && maxB >= minA
 }
 
-type FontFaceWithCodepoints = { codePoints?: number[] } & FontFace
-
 /**
  * Returns *true* when at least one pair of faces can match the same character.
- * Assumes an external helper  isUnicodeRangeOverlap(a?:string,b?:string):boolean
  */
-
-const unicodeRange = (value: FontFaceWithCodepoints) => {
-  if (value.unicodeRange !== undefined) {
-    return parseUnicodeRange(value.unicodeRange)
+const unicodeRange = (font: LocalFont | UserFontComplete, fontFace: FontFace) => {
+  if (fontFace.unicodeRange !== undefined) {
+    return parseUnicodeRange(fontFace.unicodeRange)
   }
 
-  if (value.codePoints !== undefined) {
+  if (font.type === FontType.UserComplete) {
     const characterSet = new CharacterSet()
-    characterSet.add(...value.codePoints)
+    characterSet.add(...font.codePoints)
     return characterSet
   }
+
+  // we assume full unicode range for local fonts
 
   return parseUnicodeRange('U+0-10FFFF') // when unicodeRange is omitted
 }
 
-export function fontFaceChecks(faces: FontFaceWithCodepoints[]) {
-  const issues: Array<[FontFaceWithCodepoints, FontFaceWithCodepoints]> = []
+type FontFaceWithCodepoints = [LocalFont | UserFontComplete, FontFace]
+
+export function fontFaceChecks(faces: FontFaceWithCodepoints[], configuration: Configuration) {
+  const issues: Array<[LocalFont | UserFontComplete, LocalFont | UserFontComplete]> = []
 
   for (let index = 0; index < faces.length - 1; index++) {
-    const a = faces[index]
+    const [fontX, fontFaceX] = faces[index]
     for (let index_ = index + 1; index_ < faces.length; index_++) {
-      const b = faces[index_]
+      const [fontY, fontFaceY] = faces[index_]
 
       /* Different families never clash: CSS only compares faces *within* a family */
-      if (a.fontFamily !== b.fontFamily) continue
+      if (fontFaceX.fontFamily !== fontFaceY.fontFamily) continue
 
       /* font-style must be identical (CSS never mixes italic+normal for one run) */
-      if (a.fontStyle !== b.fontStyle) continue
+      if (fontFaceX.fontStyle !== fontFaceY.fontStyle) continue
 
       /* Ranges for weight & stretch must overlap (numeric or tuple)  */
-      if (!rangesOverlap(toTuple(a.fontWeight), toTuple(b.fontWeight))) continue
-      if (!rangesOverlap(toTuple(a.fontStretch), toTuple(b.fontStretch))) continue
+      if (!rangesOverlap(toTuple(fontFaceX.fontWeight), toTuple(fontFaceY.fontWeight))) continue
+      if (!rangesOverlap(toTuple(fontFaceX.fontStretch), toTuple(fontFaceY.fontStretch))) continue
 
       /* Unicode-range overlap ⇒ two faces could both serve the same code point */
-      const urA = unicodeRange(a)
-      const urB = unicodeRange(b)
+      const unicodeRangeX = unicodeRange(fontX, fontFaceX)
+      const unicodeRangeY = unicodeRange(fontY, fontFaceY)
 
-      if (urA.intersect(urB).size !== 0) {
-        issues.push([a, b])
+      if (unicodeRangeX.intersect(unicodeRangeY).size !== 0) {
+        issues.push([fontX, fontY])
       }
     }
   }
 
-  // TODO: better error messages
   if (issues.length !== 0) {
-    throw new Error(`Font face matching issue`)
+    throw new Error(
+      `Conflicting @font-face at-rules for ${uniq(
+        issues.flat().map((value) => fontName(value, configuration)),
+      ).join(', ')}`,
+    )
   }
 }

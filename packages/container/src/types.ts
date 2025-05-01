@@ -1,16 +1,11 @@
 import type { Targets } from 'lightningcss'
 import type {
   ConfigurationFont,
-  ConfigurationFontProperties,
+  ConfigurationFontProperties as ConfigurationProperties,
   UserConfiguration,
   UserConfigurationFontInformation,
 } from './configuration/user-schema'
 import type { AstNode, AtRule } from './utilities/ast'
-
-export interface FontLocal {
-  configuration: UserConfigurationFontInformation
-  fontFaces: Map<string, FontFace>
-}
 
 export interface FontFaceAdjustments {
   ascentOverride?: string
@@ -30,33 +25,35 @@ export interface FontFace extends FontFaceAdjustments {
   // fontNamedInstance?: string
 }
 
-export const enum TypeFontState {
-  Initial,
-  Written,
+export const enum FontType {
+  UserPending,
+  UserComplete,
+  Local,
 }
 
-export interface FontStateInitial {
+export interface UserFontPending {
   configuration: ConfigurationFont
   fontFaces: Map<string, FontFace>
   slug: string
-  type: TypeFontState.Initial
+  type: FontType.UserPending
 }
 
-export interface FontStateWritten extends Omit<FontStateInitial, 'type'> {
+export interface UserFontComplete extends Omit<UserFontPending, 'type'> {
   codePoints: number[]
   files: string[]
   testString: string
-  type: TypeFontState.Written
+  type: FontType.UserComplete
 }
 
-export type FontState = FontStateInitial | FontStateWritten
+export type UserFont = UserFontComplete | UserFontPending
 
-// export interface AtRule {
-//   type: '@media' | '@supports'
-//   value: string
-// }
+export interface LocalFont {
+  configuration: UserConfigurationFontInformation
+  fontFaces: Map<string, FontFace>
+  type: FontType.Local
+}
 
-export interface FontProperties extends Omit<ConfigurationFontProperties, 'fontFamily'> {
+export interface Properties extends Omit<ConfigurationProperties, 'fontFamily'> {
   fontFamily:
     | {
         generic: string[]
@@ -71,20 +68,19 @@ export interface Style {
   atRules: AtRule[]
   id: string
   locale: string
-  metrics: Record<string, number | string>
   prefix: string
   graph?: Map<string, string[]>
   parent?: string
+  properties?: Required<Properties>
 
-  fallbackStyleProperties?: Record<string, number | string>
-  fontProperties?: string
-  scriptingNoneStyleProperties?: Record<string, number | string>
+  propertiesLocal?: Record<string, number | string>
+  propertiesMetrics?: Record<string, number | string>
+  propertiesNoScript?: Record<string, number | string>
 }
 
 export interface State {
-  fontProperties: Map<string, Required<FontProperties>>
-  localFonts: Map<string, FontLocal>
-  userFonts: Map<string, FontState>
+  localFonts: Map<string, LocalFont>
+  userFonts: Map<string, UserFont>
 
   localeFromAlias: Map<string, string[]>
   locales: Record<string, Style[]>
@@ -116,7 +112,10 @@ export interface Configuration
   lightningcss?: UserConfiguration['lightningcss']
 }
 
-export type StatePartial = Pick<State, 'fontProperties' | 'localFonts' | 'userFonts'>
+export type StatePartial = { properties: Map<string, Required<Properties>> } & Pick<
+  State,
+  'localFonts' | 'userFonts'
+>
 
 // eslint-disable-next-line typescript/no-explicit-any
 export type TupleUnion<U extends string, R extends any[] = []> = {

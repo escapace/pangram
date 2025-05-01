@@ -1,6 +1,6 @@
 import { uniq, uniqBy } from 'lodash-es'
 import type { ConfigurationFont } from '../configuration/user-schema'
-import { type FontStateInitial, TypeFontState } from '../types'
+import { type UserFontPending, FontType } from '../types'
 import { toposort } from '../utilities/toposort'
 import { fontSlug } from './font-slug'
 
@@ -10,7 +10,7 @@ const hasFontOverlap = (fonts: ConfigurationFont[]): boolean =>
 export const fontSort = (
   initial: ConfigurationFont[],
 ): {
-  fonts: FontStateInitial[]
+  fonts: UserFontPending[]
   graph: Map<string, string[]>
 } => {
   // if (initial.length === 0) {
@@ -22,7 +22,7 @@ export const fontSort = (
   }
 
   const graph = new Map<string, string[]>()
-  const fontStates = new Map<string, FontStateInitial>()
+  const fontStates = new Map<string, UserFontPending>()
 
   const add = (key: string, parent?: string) => {
     if (!graph.has(key)) {
@@ -48,7 +48,7 @@ export const fontSort = (
           configuration,
           fontFaces: new Map(),
           slug,
-          type: TypeFontState.Initial,
+          type: FontType.UserPending,
         })
       }
 

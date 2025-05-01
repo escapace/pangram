@@ -3,45 +3,45 @@ import { randomUUID } from 'node:crypto'
 import type { AtRule } from '../utilities/ast'
 import {
   schemaFontPropertiesKeys,
-  type ConfigurationFontProperties,
+  type ConfigurationFontProperties as ConfigurationProperties,
   type StyleRule,
 } from './user-schema'
 
 interface StyleRuleFlat {
   atRules: AtRule[]
-  fontProperties: ConfigurationFontProperties[]
   id: string
+  properties: ConfigurationProperties[]
   // properties: CSSProperties
   parent?: string
 }
 
 const isEmptyStyleRule = (current: StyleRuleFlat) =>
-  isEmpty(pickBy(current.fontProperties, (value) => value !== undefined)) /* && */
+  isEmpty(pickBy(current.properties, (value) => value !== undefined)) /* && */
 // isEmpty(pickBy(current.properties, (value) => value !== undefined))
 
 export const normalizeStyleRule = (
-  rule: StyleRule<ConfigurationFontProperties>,
+  rule: StyleRule<ConfigurationProperties>,
   parent?: StyleRuleFlat,
 ): StyleRuleFlat[] => {
-  const currentFontProperties = pick(rule, schemaFontPropertiesKeys)
+  const currentProperties = pick(rule, schemaFontPropertiesKeys)
   // const currentProperties: CSSProperties = omit(rule, [
   //   '@supports',
   //   '@media',
   //   ...schemaFontPropertiesKeys,
   // ])
 
-  const fontProperties: ConfigurationFontProperties[] = [
-    ...(parent?.fontProperties ?? []),
-    currentFontProperties,
+  const properties: ConfigurationProperties[] = [
+    ...(parent?.properties ?? []),
+    currentProperties,
   ].filter((value) => !isEmpty(value))
 
   // const properties: CSSProperties = currentProperties
 
   const current: StyleRuleFlat = {
     atRules: [...(parent?.atRules ?? [])],
-    fontProperties,
     id: randomUUID(),
     parent: parent?.id,
+    properties,
     // properties,
   }
 

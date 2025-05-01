@@ -31,5 +31,5 @@ const combination = <T>(collection: ArrayLike<T>, n: number): T[][] => {
   return recur(array, n)
 }
 
-export const combinations = <T>(value: T[]): T[][] =>
+export const createCombinations = <T>(value: T[]): T[][] =>
   flatMap(value, (_, index, a) => combination(a, index + 1))
