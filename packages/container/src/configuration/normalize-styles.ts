@@ -12,7 +12,7 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
       return []
     }
 
-    return flatMap(value, (styleRule, prefix) =>
+    return flatMap(value, (styleRule, stack) =>
       normalizeStyleRule(styleRule).map((value): Style => {
         const properties = normalizeProperties(value.properties, state)
 
@@ -23,9 +23,9 @@ export const normalizeStyles = (locales: ConfigurationLocales, state: StateParti
           id: value.id,
           locale,
           parent: value.parent,
-          prefix: escape(kebabCase(prefix)),
           properties:
             properties?.id === undefined ? undefined : state.properties.get(properties.id),
+          stack: escape(kebabCase(stack)),
         } satisfies Style
       }),
     )

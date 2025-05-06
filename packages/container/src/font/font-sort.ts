@@ -18,7 +18,7 @@ export const fontSort = (
   // }
 
   if (hasFontOverlap(initial)) {
-    throw new Error('One of the prefixes has font overlaps.')
+    throw new Error('One of the stacks has font overlaps.')
   }
 
   const graph = new Map<string, string[]>()

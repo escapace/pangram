@@ -314,7 +314,7 @@ export const schemaLocales = z
 export interface Locale {
   fontFace: string
   fonts: Font[]
-  prefixes: string[]
+  stacks: string[]
   style: string
   order?: string[]
 }

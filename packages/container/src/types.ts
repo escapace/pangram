@@ -68,7 +68,7 @@ export interface Style {
   atRules: AtRule[]
   id: string
   locale: string
-  prefix: string
+  stack: string
   graph?: Map<string, string[]>
   parent?: string
   properties?: Required<Properties>

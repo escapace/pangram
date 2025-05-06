@@ -40,6 +40,7 @@ import { fontFaceToString } from './font/font-face-to-string'
 import { fontFamilyJoin } from './font/font-family-join'
 import { fontInspect } from './font/font-inspect'
 import { fontLoaderScript } from './font/font-loader-script'
+import { fontName } from './font/font-name'
 import { fontNames } from './font/font-names'
 import { fontResourceHints } from './font/font-resource-hints'
 import { fontSort } from './font/font-sort'
@@ -53,7 +54,6 @@ import { optimizeAst } from './utilities/optimize-ast'
 import { reduceGraph } from './utilities/reduce-graph'
 import { round } from './utilities/round'
 import { toposort } from './utilities/toposort'
-import { fontName } from './font/font-name'
 
 const findNode = (node: AstNode): AstNode[] => {
   assert(node.kind === 'at-rule')
@@ -88,7 +88,7 @@ const toLang = (locale: string, configuration: Configuration): string => {
 }
 
 const toWebFontLocale = (styles: Style[], configuration: Configuration): Locale => {
-  const prefixes = uniq(styles.map((value) => value.prefix))
+  const stacks = uniq(styles.map((value) => value.stack))
 
   const style = minifyCss(
     toCss(
@@ -160,7 +160,7 @@ const toWebFontLocale = (styles: Style[], configuration: Configuration): Locale 
     fontFace,
     fonts: outputFont,
     order,
-    prefixes,
+    stacks,
     style,
   }
 
@@ -340,22 +340,22 @@ export const build = async () => {
     }
 
     style.propertiesMetrics = {
-      [`--${style.prefix}-ascent`]: round(
+      [`--${style.stack}-ascent`]: round(
         fontPrimaryInformation.ascent / fontPrimaryInformation.unitsPerEm,
       ),
-      [`--${style.prefix}-cap-height`]: round(
+      [`--${style.stack}-cap-height`]: round(
         fontPrimaryInformation.capHeight / fontPrimaryInformation.unitsPerEm,
       ),
-      [`--${style.prefix}-descent`]: round(
+      [`--${style.stack}-descent`]: round(
         Math.abs(fontPrimaryInformation.descent / fontPrimaryInformation.unitsPerEm),
       ),
-      [`--${style.prefix}-line-gap`]: round(
+      [`--${style.stack}-line-gap`]: round(
         fontPrimaryInformation.lineGap / fontPrimaryInformation.unitsPerEm,
       ),
-      [`--${style.prefix}-x-height`]: round(
+      [`--${style.stack}-x-height`]: round(
         Math.abs(fontPrimaryInformation.xHeight / fontPrimaryInformation.unitsPerEm),
       ),
-      [`--${style.prefix}-x-width-average`]: round(
+      [`--${style.stack}-x-width-average`]: round(
         xWidthAverage(locales, ...requiredFontInformation),
       ),
     }
@@ -380,7 +380,7 @@ export const build = async () => {
 
     style.propertiesNoScript = pickBy(
       {
-        [`--${style.prefix}-font-family`]: fontFamilyJoin([
+        [`--${style.stack}-font-family`]: fontFamilyJoin([
           ...userFontFamilies.map((value) => value.fontFamily),
           ...localFontFamilies,
           ...genericFontFamilies,
@@ -391,15 +391,15 @@ export const build = async () => {
 
     style.propertiesLocal = pickBy(
       {
-        [`--${style.prefix}-font-family`]: fontFamilyJoin([
+        [`--${style.stack}-font-family`]: fontFamilyJoin([
           ...localFontFamilies,
           ...genericFontFamilies,
         ]),
-        [`--${style.prefix}-font-stretch`]:
+        [`--${style.stack}-font-stretch`]:
           propertiesUser?.fontStretch === undefined ? undefined : `${propertiesUser.fontStretch}%`,
-        [`--${style.prefix}-font-style`]: propertiesUser?.fontStyle,
-        [`--${style.prefix}-font-variation-settings`]: selectorFontVariationSettings(style),
-        [`--${style.prefix}-font-weight`]: propertiesUser?.fontWeight,
+        [`--${style.stack}-font-style`]: propertiesUser?.fontStyle,
+        [`--${style.stack}-font-variation-settings`]: selectorFontVariationSettings(style),
+        [`--${style.stack}-font-weight`]: propertiesUser?.fontWeight,
       },
       (value) => value !== undefined,
     )
@@ -457,7 +457,7 @@ export const build = async () => {
           return styleRule(selector, [
             styleRule(
               toLang(style.locale, configuration),
-              applyStyleAtRules(style, [decl(`--${style.prefix}-font-family`, fontFamily)]),
+              applyStyleAtRules(style, [decl(`--${style.stack}-font-family`, fontFamily)]),
             ),
           ])
         }),

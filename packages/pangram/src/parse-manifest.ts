@@ -37,7 +37,7 @@ const schemaManifestLocale = z.object({
   fontFace: z.string(),
   fonts: z.array(schemaFont),
   order: z.array(z.string()).optional(),
-  prefixes: z.array(z.string()),
+  stacks: z.array(z.string()),
   style: z.string(),
 })
 

@@ -1,89 +1,86 @@
 import type { Font } from '@pangram/font-loader'
 import type { z } from 'zod'
 declare const schemaFontInformationVariation: z.ZodObject<
-  z.objectUtil.extendShape<
-    {
-      namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      variable: z.ZodLiteral<false>
-    },
-    {
-      ascent: z.ZodNumber
-      capHeight: z.ZodNumber
-      codePoints: z.ZodArray<
-        z.ZodObject<
-          {
-            advanceWidth: z.ZodNumber
-            codePoint: z.ZodNumber
-            height: z.ZodNumber
-            leftSideBearing: z.ZodNumber
-            width: z.ZodNumber
-            xMax: z.ZodNumber
-            xMin: z.ZodNumber
-            yMax: z.ZodNumber
-            yMin: z.ZodNumber
-          },
-          'strip',
-          z.ZodTypeAny,
-          {
-            advanceWidth: number
-            codePoint: number
-            height: number
-            leftSideBearing: number
-            width: number
-            xMax: number
-            xMin: number
-            yMax: number
-            yMin: number
-          },
-          {
-            advanceWidth: number
-            codePoint: number
-            height: number
-            leftSideBearing: number
-            width: number
-            xMax: number
-            xMin: number
-            yMax: number
-            yMin: number
-          }
-        >
+  {
+    ascent: z.ZodNumber
+    capHeight: z.ZodNumber
+    codePoints: z.ZodArray<
+      z.ZodObject<
+        {
+          advanceWidth: z.ZodNumber
+          codePoint: z.ZodNumber
+          height: z.ZodNumber
+          leftSideBearing: z.ZodNumber
+          width: z.ZodNumber
+          xMax: z.ZodNumber
+          xMin: z.ZodNumber
+          yMax: z.ZodNumber
+          yMin: z.ZodNumber
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        },
+        {
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }
       >
-      consistentMetrics: z.ZodBoolean
-      descent: z.ZodNumber
-      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      features: z.ZodArray<
-        z.ZodObject<
-          {
-            name: z.ZodString
-            type: z.ZodEnum<['substitution', 'positioning']>
-          },
-          'strip',
-          z.ZodTypeAny,
-          {
-            name: string
-            type: 'positioning' | 'substitution'
-          },
-          {
-            name: string
-            type: 'positioning' | 'substitution'
-          }
-        >
+    >
+    consistentMetrics: z.ZodBoolean
+    descent: z.ZodNumber
+    familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    features: z.ZodArray<
+      z.ZodObject<
+        {
+          name: z.ZodString
+          type: z.ZodEnum<['substitution', 'positioning']>
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          name: string
+          type: 'positioning' | 'substitution'
+        },
+        {
+          name: string
+          type: 'positioning' | 'substitution'
+        }
       >
-      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      id: z.ZodString
-      legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      lineGap: z.ZodNumber
-      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      unitsPerEm: z.ZodNumber
-      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      xHeight: z.ZodNumber
-      xWidthAvg: z.ZodNumber
-    }
-  >,
+    >
+    fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    id: z.ZodString
+    legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    lineGap: z.ZodNumber
+    postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    unitsPerEm: z.ZodNumber
+    wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    xHeight: z.ZodNumber
+    xWidthAvg: z.ZodNumber
+  } & {
+    namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    variable: z.ZodLiteral<false>
+  },
   'strip',
   z.ZodTypeAny,
   {
@@ -162,216 +159,195 @@ declare const schemaFontInformationVariation: z.ZodObject<
   }
 >
 declare const schemaFontInformationStatic: z.ZodObject<
-  z.objectUtil.extendShape<
-    {
-      variable: z.ZodLiteral<true>
-      variationAxes: z.ZodArray<
-        z.ZodObject<
-          {
-            default: z.ZodNumber
-            max: z.ZodNumber
-            min: z.ZodNumber
-            name: z.ZodString
-          },
-          'strip',
-          z.ZodTypeAny,
-          {
-            default: number
-            max: number
-            min: number
-            name: string
-          },
-          {
-            default: number
-            max: number
-            min: number
-            name: string
-          }
-        >
+  {
+    ascent: z.ZodNumber
+    capHeight: z.ZodNumber
+    codePoints: z.ZodArray<
+      z.ZodObject<
+        {
+          advanceWidth: z.ZodNumber
+          codePoint: z.ZodNumber
+          height: z.ZodNumber
+          leftSideBearing: z.ZodNumber
+          width: z.ZodNumber
+          xMax: z.ZodNumber
+          xMin: z.ZodNumber
+          yMax: z.ZodNumber
+          yMin: z.ZodNumber
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        },
+        {
+          advanceWidth: number
+          codePoint: number
+          height: number
+          leftSideBearing: number
+          width: number
+          xMax: number
+          xMin: number
+          yMax: number
+          yMin: number
+        }
       >
-      variations: z.ZodArray<
-        z.ZodObject<
-          z.objectUtil.extendShape<
-            {
-              namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              variable: z.ZodLiteral<false>
-            },
-            {
-              ascent: z.ZodNumber
-              capHeight: z.ZodNumber
-              codePoints: z.ZodArray<
-                z.ZodObject<
-                  {
-                    advanceWidth: z.ZodNumber
-                    codePoint: z.ZodNumber
-                    height: z.ZodNumber
-                    leftSideBearing: z.ZodNumber
-                    width: z.ZodNumber
-                    xMax: z.ZodNumber
-                    xMin: z.ZodNumber
-                    yMax: z.ZodNumber
-                    yMin: z.ZodNumber
-                  },
-                  'strip',
-                  z.ZodTypeAny,
-                  {
-                    advanceWidth: number
-                    codePoint: number
-                    height: number
-                    leftSideBearing: number
-                    width: number
-                    xMax: number
-                    xMin: number
-                    yMax: number
-                    yMin: number
-                  },
-                  {
-                    advanceWidth: number
-                    codePoint: number
-                    height: number
-                    leftSideBearing: number
-                    width: number
-                    xMax: number
-                    xMin: number
-                    yMax: number
-                    yMin: number
-                  }
-                >
-              >
-              consistentMetrics: z.ZodBoolean
-              descent: z.ZodNumber
-              familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              features: z.ZodArray<
-                z.ZodObject<
-                  {
-                    name: z.ZodString
-                    type: z.ZodEnum<['substitution', 'positioning']>
-                  },
-                  'strip',
-                  z.ZodTypeAny,
-                  {
-                    name: string
-                    type: 'positioning' | 'substitution'
-                  },
-                  {
-                    name: string
-                    type: 'positioning' | 'substitution'
-                  }
-                >
-              >
-              fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              id: z.ZodString
-              legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              lineGap: z.ZodNumber
-              postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              unitsPerEm: z.ZodNumber
-              wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-              xHeight: z.ZodNumber
-              xWidthAvg: z.ZodNumber
-            }
-          >,
-          'strip',
-          z.ZodTypeAny,
-          {
-            ascent: number
-            capHeight: number
-            codePoints: Array<{
-              advanceWidth: number
-              codePoint: number
-              height: number
-              leftSideBearing: number
-              width: number
-              xMax: number
-              xMin: number
-              yMax: number
-              yMin: number
-            }>
-            consistentMetrics: boolean
-            descent: number
-            features: Array<{
-              name: string
-              type: 'positioning' | 'substitution'
-            }>
-            id: string
-            lineGap: number
-            unitsPerEm: number
-            variable: false
-            xHeight: number
-            xWidthAvg: number
-            familyName?: string | null | undefined
-            fullName?: string | null | undefined
-            legacyFamilyName?: string | null | undefined
-            legacySubfamilyName?: string | null | undefined
-            namedInstance?: string | null | undefined
-            namedInstancePostScriptName?: string | null | undefined
-            postScriptName?: string | null | undefined
-            subfamilyName?: string | null | undefined
-            wwsFamilyName?: string | null | undefined
-            wwsSubFamilyName?: string | null | undefined
-          },
-          {
-            ascent: number
-            capHeight: number
-            codePoints: Array<{
-              advanceWidth: number
-              codePoint: number
-              height: number
-              leftSideBearing: number
-              width: number
-              xMax: number
-              xMin: number
-              yMax: number
-              yMin: number
-            }>
-            consistentMetrics: boolean
-            descent: number
-            features: Array<{
-              name: string
-              type: 'positioning' | 'substitution'
-            }>
-            id: string
-            lineGap: number
-            unitsPerEm: number
-            variable: false
-            xHeight: number
-            xWidthAvg: number
-            familyName?: string | null | undefined
-            fullName?: string | null | undefined
-            legacyFamilyName?: string | null | undefined
-            legacySubfamilyName?: string | null | undefined
-            namedInstance?: string | null | undefined
-            namedInstancePostScriptName?: string | null | undefined
-            postScriptName?: string | null | undefined
-            subfamilyName?: string | null | undefined
-            wwsFamilyName?: string | null | undefined
-            wwsSubFamilyName?: string | null | undefined
-          }
-        >
+    >
+    consistentMetrics: z.ZodBoolean
+    descent: z.ZodNumber
+    familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    features: z.ZodArray<
+      z.ZodObject<
+        {
+          name: z.ZodString
+          type: z.ZodEnum<['substitution', 'positioning']>
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          name: string
+          type: 'positioning' | 'substitution'
+        },
+        {
+          name: string
+          type: 'positioning' | 'substitution'
+        }
       >
-    },
-    {
-      ascent: z.ZodNumber
-      capHeight: z.ZodNumber
-      codePoints: z.ZodArray<
-        z.ZodObject<
-          {
-            advanceWidth: z.ZodNumber
-            codePoint: z.ZodNumber
-            height: z.ZodNumber
-            leftSideBearing: z.ZodNumber
-            width: z.ZodNumber
-            xMax: z.ZodNumber
-            xMin: z.ZodNumber
-            yMax: z.ZodNumber
-            yMin: z.ZodNumber
-          },
-          'strip',
-          z.ZodTypeAny,
-          {
+    >
+    fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    id: z.ZodString
+    legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    lineGap: z.ZodNumber
+    postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    unitsPerEm: z.ZodNumber
+    wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+    xHeight: z.ZodNumber
+    xWidthAvg: z.ZodNumber
+  } & {
+    variable: z.ZodLiteral<true>
+    variationAxes: z.ZodArray<
+      z.ZodObject<
+        {
+          default: z.ZodNumber
+          max: z.ZodNumber
+          min: z.ZodNumber
+          name: z.ZodString
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          default: number
+          max: number
+          min: number
+          name: string
+        },
+        {
+          default: number
+          max: number
+          min: number
+          name: string
+        }
+      >
+    >
+    variations: z.ZodArray<
+      z.ZodObject<
+        {
+          ascent: z.ZodNumber
+          capHeight: z.ZodNumber
+          codePoints: z.ZodArray<
+            z.ZodObject<
+              {
+                advanceWidth: z.ZodNumber
+                codePoint: z.ZodNumber
+                height: z.ZodNumber
+                leftSideBearing: z.ZodNumber
+                width: z.ZodNumber
+                xMax: z.ZodNumber
+                xMin: z.ZodNumber
+                yMax: z.ZodNumber
+                yMin: z.ZodNumber
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              },
+              {
+                advanceWidth: number
+                codePoint: number
+                height: number
+                leftSideBearing: number
+                width: number
+                xMax: number
+                xMin: number
+                yMax: number
+                yMin: number
+              }
+            >
+          >
+          consistentMetrics: z.ZodBoolean
+          descent: z.ZodNumber
+          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          features: z.ZodArray<
+            z.ZodObject<
+              {
+                name: z.ZodString
+                type: z.ZodEnum<['substitution', 'positioning']>
+              },
+              'strip',
+              z.ZodTypeAny,
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              },
+              {
+                name: string
+                type: 'positioning' | 'substitution'
+              }
+            >
+          >
+          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          id: z.ZodString
+          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          lineGap: z.ZodNumber
+          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          unitsPerEm: z.ZodNumber
+          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          xHeight: z.ZodNumber
+          xWidthAvg: z.ZodNumber
+        } & {
+          namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+          variable: z.ZodLiteral<false>
+        },
+        'strip',
+        z.ZodTypeAny,
+        {
+          ascent: number
+          capHeight: number
+          codePoints: Array<{
             advanceWidth: number
             codePoint: number
             height: number
@@ -381,8 +357,34 @@ declare const schemaFontInformationStatic: z.ZodObject<
             xMin: number
             yMax: number
             yMin: number
-          },
-          {
+          }>
+          consistentMetrics: boolean
+          descent: number
+          features: Array<{
+            name: string
+            type: 'positioning' | 'substitution'
+          }>
+          id: string
+          lineGap: number
+          unitsPerEm: number
+          variable: false
+          xHeight: number
+          xWidthAvg: number
+          familyName?: string | null | undefined
+          fullName?: string | null | undefined
+          legacyFamilyName?: string | null | undefined
+          legacySubfamilyName?: string | null | undefined
+          namedInstance?: string | null | undefined
+          namedInstancePostScriptName?: string | null | undefined
+          postScriptName?: string | null | undefined
+          subfamilyName?: string | null | undefined
+          wwsFamilyName?: string | null | undefined
+          wwsSubFamilyName?: string | null | undefined
+        },
+        {
+          ascent: number
+          capHeight: number
+          codePoints: Array<{
             advanceWidth: number
             codePoint: number
             height: number
@@ -392,44 +394,33 @@ declare const schemaFontInformationStatic: z.ZodObject<
             xMin: number
             yMax: number
             yMin: number
-          }
-        >
-      >
-      consistentMetrics: z.ZodBoolean
-      descent: z.ZodNumber
-      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      features: z.ZodArray<
-        z.ZodObject<
-          {
-            name: z.ZodString
-            type: z.ZodEnum<['substitution', 'positioning']>
-          },
-          'strip',
-          z.ZodTypeAny,
-          {
+          }>
+          consistentMetrics: boolean
+          descent: number
+          features: Array<{
             name: string
             type: 'positioning' | 'substitution'
-          },
-          {
-            name: string
-            type: 'positioning' | 'substitution'
-          }
-        >
+          }>
+          id: string
+          lineGap: number
+          unitsPerEm: number
+          variable: false
+          xHeight: number
+          xWidthAvg: number
+          familyName?: string | null | undefined
+          fullName?: string | null | undefined
+          legacyFamilyName?: string | null | undefined
+          legacySubfamilyName?: string | null | undefined
+          namedInstance?: string | null | undefined
+          namedInstancePostScriptName?: string | null | undefined
+          postScriptName?: string | null | undefined
+          subfamilyName?: string | null | undefined
+          wwsFamilyName?: string | null | undefined
+          wwsSubFamilyName?: string | null | undefined
+        }
       >
-      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      id: z.ZodString
-      legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      lineGap: z.ZodNumber
-      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      unitsPerEm: z.ZodNumber
-      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-      xHeight: z.ZodNumber
-      xWidthAvg: z.ZodNumber
-    }
-  >,
+    >
+  },
   'strip',
   z.ZodTypeAny,
   {
@@ -597,216 +588,195 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
   'variable',
   [
     z.ZodObject<
-      z.objectUtil.extendShape<
-        {
-          variable: z.ZodLiteral<true>
-          variationAxes: z.ZodArray<
-            z.ZodObject<
-              {
-                default: z.ZodNumber
-                max: z.ZodNumber
-                min: z.ZodNumber
-                name: z.ZodString
-              },
-              'strip',
-              z.ZodTypeAny,
-              {
-                default: number
-                max: number
-                min: number
-                name: string
-              },
-              {
-                default: number
-                max: number
-                min: number
-                name: string
-              }
-            >
+      {
+        ascent: z.ZodNumber
+        capHeight: z.ZodNumber
+        codePoints: z.ZodArray<
+          z.ZodObject<
+            {
+              advanceWidth: z.ZodNumber
+              codePoint: z.ZodNumber
+              height: z.ZodNumber
+              leftSideBearing: z.ZodNumber
+              width: z.ZodNumber
+              xMax: z.ZodNumber
+              xMin: z.ZodNumber
+              yMax: z.ZodNumber
+              yMin: z.ZodNumber
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            },
+            {
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            }
           >
-          variations: z.ZodArray<
-            z.ZodObject<
-              z.objectUtil.extendShape<
-                {
-                  namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  variable: z.ZodLiteral<false>
-                },
-                {
-                  ascent: z.ZodNumber
-                  capHeight: z.ZodNumber
-                  codePoints: z.ZodArray<
-                    z.ZodObject<
-                      {
-                        advanceWidth: z.ZodNumber
-                        codePoint: z.ZodNumber
-                        height: z.ZodNumber
-                        leftSideBearing: z.ZodNumber
-                        width: z.ZodNumber
-                        xMax: z.ZodNumber
-                        xMin: z.ZodNumber
-                        yMax: z.ZodNumber
-                        yMin: z.ZodNumber
-                      },
-                      'strip',
-                      z.ZodTypeAny,
-                      {
-                        advanceWidth: number
-                        codePoint: number
-                        height: number
-                        leftSideBearing: number
-                        width: number
-                        xMax: number
-                        xMin: number
-                        yMax: number
-                        yMin: number
-                      },
-                      {
-                        advanceWidth: number
-                        codePoint: number
-                        height: number
-                        leftSideBearing: number
-                        width: number
-                        xMax: number
-                        xMin: number
-                        yMax: number
-                        yMin: number
-                      }
-                    >
-                  >
-                  consistentMetrics: z.ZodBoolean
-                  descent: z.ZodNumber
-                  familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  features: z.ZodArray<
-                    z.ZodObject<
-                      {
-                        name: z.ZodString
-                        type: z.ZodEnum<['substitution', 'positioning']>
-                      },
-                      'strip',
-                      z.ZodTypeAny,
-                      {
-                        name: string
-                        type: 'positioning' | 'substitution'
-                      },
-                      {
-                        name: string
-                        type: 'positioning' | 'substitution'
-                      }
-                    >
-                  >
-                  fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  id: z.ZodString
-                  legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  lineGap: z.ZodNumber
-                  postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  unitsPerEm: z.ZodNumber
-                  wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                  xHeight: z.ZodNumber
-                  xWidthAvg: z.ZodNumber
-                }
-              >,
-              'strip',
-              z.ZodTypeAny,
-              {
-                ascent: number
-                capHeight: number
-                codePoints: Array<{
-                  advanceWidth: number
-                  codePoint: number
-                  height: number
-                  leftSideBearing: number
-                  width: number
-                  xMax: number
-                  xMin: number
-                  yMax: number
-                  yMin: number
-                }>
-                consistentMetrics: boolean
-                descent: number
-                features: Array<{
-                  name: string
-                  type: 'positioning' | 'substitution'
-                }>
-                id: string
-                lineGap: number
-                unitsPerEm: number
-                variable: false
-                xHeight: number
-                xWidthAvg: number
-                familyName?: string | null | undefined
-                fullName?: string | null | undefined
-                legacyFamilyName?: string | null | undefined
-                legacySubfamilyName?: string | null | undefined
-                namedInstance?: string | null | undefined
-                namedInstancePostScriptName?: string | null | undefined
-                postScriptName?: string | null | undefined
-                subfamilyName?: string | null | undefined
-                wwsFamilyName?: string | null | undefined
-                wwsSubFamilyName?: string | null | undefined
-              },
-              {
-                ascent: number
-                capHeight: number
-                codePoints: Array<{
-                  advanceWidth: number
-                  codePoint: number
-                  height: number
-                  leftSideBearing: number
-                  width: number
-                  xMax: number
-                  xMin: number
-                  yMax: number
-                  yMin: number
-                }>
-                consistentMetrics: boolean
-                descent: number
-                features: Array<{
-                  name: string
-                  type: 'positioning' | 'substitution'
-                }>
-                id: string
-                lineGap: number
-                unitsPerEm: number
-                variable: false
-                xHeight: number
-                xWidthAvg: number
-                familyName?: string | null | undefined
-                fullName?: string | null | undefined
-                legacyFamilyName?: string | null | undefined
-                legacySubfamilyName?: string | null | undefined
-                namedInstance?: string | null | undefined
-                namedInstancePostScriptName?: string | null | undefined
-                postScriptName?: string | null | undefined
-                subfamilyName?: string | null | undefined
-                wwsFamilyName?: string | null | undefined
-                wwsSubFamilyName?: string | null | undefined
-              }
-            >
+        >
+        consistentMetrics: z.ZodBoolean
+        descent: z.ZodNumber
+        familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        features: z.ZodArray<
+          z.ZodObject<
+            {
+              name: z.ZodString
+              type: z.ZodEnum<['substitution', 'positioning']>
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              name: string
+              type: 'positioning' | 'substitution'
+            },
+            {
+              name: string
+              type: 'positioning' | 'substitution'
+            }
           >
-        },
-        {
-          ascent: z.ZodNumber
-          capHeight: z.ZodNumber
-          codePoints: z.ZodArray<
-            z.ZodObject<
-              {
-                advanceWidth: z.ZodNumber
-                codePoint: z.ZodNumber
-                height: z.ZodNumber
-                leftSideBearing: z.ZodNumber
-                width: z.ZodNumber
-                xMax: z.ZodNumber
-                xMin: z.ZodNumber
-                yMax: z.ZodNumber
-                yMin: z.ZodNumber
-              },
-              'strip',
-              z.ZodTypeAny,
-              {
+        >
+        fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        id: z.ZodString
+        legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        lineGap: z.ZodNumber
+        postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        unitsPerEm: z.ZodNumber
+        wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        xHeight: z.ZodNumber
+        xWidthAvg: z.ZodNumber
+      } & {
+        variable: z.ZodLiteral<true>
+        variationAxes: z.ZodArray<
+          z.ZodObject<
+            {
+              default: z.ZodNumber
+              max: z.ZodNumber
+              min: z.ZodNumber
+              name: z.ZodString
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              default: number
+              max: number
+              min: number
+              name: string
+            },
+            {
+              default: number
+              max: number
+              min: number
+              name: string
+            }
+          >
+        >
+        variations: z.ZodArray<
+          z.ZodObject<
+            {
+              ascent: z.ZodNumber
+              capHeight: z.ZodNumber
+              codePoints: z.ZodArray<
+                z.ZodObject<
+                  {
+                    advanceWidth: z.ZodNumber
+                    codePoint: z.ZodNumber
+                    height: z.ZodNumber
+                    leftSideBearing: z.ZodNumber
+                    width: z.ZodNumber
+                    xMax: z.ZodNumber
+                    xMin: z.ZodNumber
+                    yMax: z.ZodNumber
+                    yMin: z.ZodNumber
+                  },
+                  'strip',
+                  z.ZodTypeAny,
+                  {
+                    advanceWidth: number
+                    codePoint: number
+                    height: number
+                    leftSideBearing: number
+                    width: number
+                    xMax: number
+                    xMin: number
+                    yMax: number
+                    yMin: number
+                  },
+                  {
+                    advanceWidth: number
+                    codePoint: number
+                    height: number
+                    leftSideBearing: number
+                    width: number
+                    xMax: number
+                    xMin: number
+                    yMax: number
+                    yMin: number
+                  }
+                >
+              >
+              consistentMetrics: z.ZodBoolean
+              descent: z.ZodNumber
+              familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              features: z.ZodArray<
+                z.ZodObject<
+                  {
+                    name: z.ZodString
+                    type: z.ZodEnum<['substitution', 'positioning']>
+                  },
+                  'strip',
+                  z.ZodTypeAny,
+                  {
+                    name: string
+                    type: 'positioning' | 'substitution'
+                  },
+                  {
+                    name: string
+                    type: 'positioning' | 'substitution'
+                  }
+                >
+              >
+              fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              id: z.ZodString
+              legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              lineGap: z.ZodNumber
+              postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              unitsPerEm: z.ZodNumber
+              wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              xHeight: z.ZodNumber
+              xWidthAvg: z.ZodNumber
+            } & {
+              namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+              variable: z.ZodLiteral<false>
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              ascent: number
+              capHeight: number
+              codePoints: Array<{
                 advanceWidth: number
                 codePoint: number
                 height: number
@@ -816,8 +786,34 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                 xMin: number
                 yMax: number
                 yMin: number
-              },
-              {
+              }>
+              consistentMetrics: boolean
+              descent: number
+              features: Array<{
+                name: string
+                type: 'positioning' | 'substitution'
+              }>
+              id: string
+              lineGap: number
+              unitsPerEm: number
+              variable: false
+              xHeight: number
+              xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              legacyFamilyName?: string | null | undefined
+              legacySubfamilyName?: string | null | undefined
+              namedInstance?: string | null | undefined
+              namedInstancePostScriptName?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
+            },
+            {
+              ascent: number
+              capHeight: number
+              codePoints: Array<{
                 advanceWidth: number
                 codePoint: number
                 height: number
@@ -827,44 +823,33 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
                 xMin: number
                 yMax: number
                 yMin: number
-              }
-            >
-          >
-          consistentMetrics: z.ZodBoolean
-          descent: z.ZodNumber
-          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          features: z.ZodArray<
-            z.ZodObject<
-              {
-                name: z.ZodString
-                type: z.ZodEnum<['substitution', 'positioning']>
-              },
-              'strip',
-              z.ZodTypeAny,
-              {
+              }>
+              consistentMetrics: boolean
+              descent: number
+              features: Array<{
                 name: string
                 type: 'positioning' | 'substitution'
-              },
-              {
-                name: string
-                type: 'positioning' | 'substitution'
-              }
-            >
+              }>
+              id: string
+              lineGap: number
+              unitsPerEm: number
+              variable: false
+              xHeight: number
+              xWidthAvg: number
+              familyName?: string | null | undefined
+              fullName?: string | null | undefined
+              legacyFamilyName?: string | null | undefined
+              legacySubfamilyName?: string | null | undefined
+              namedInstance?: string | null | undefined
+              namedInstancePostScriptName?: string | null | undefined
+              postScriptName?: string | null | undefined
+              subfamilyName?: string | null | undefined
+              wwsFamilyName?: string | null | undefined
+              wwsSubFamilyName?: string | null | undefined
+            }
           >
-          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          id: z.ZodString
-          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          lineGap: z.ZodNumber
-          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          unitsPerEm: z.ZodNumber
-          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          xHeight: z.ZodNumber
-          xWidthAvg: z.ZodNumber
-        }
-      >,
+        >
+      },
       'strip',
       z.ZodTypeAny,
       {
@@ -1025,89 +1010,86 @@ export declare const schemaFontInformation: z.ZodDiscriminatedUnion<
       }
     >,
     z.ZodObject<
-      z.objectUtil.extendShape<
-        {
-          namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          variable: z.ZodLiteral<false>
-        },
-        {
-          ascent: z.ZodNumber
-          capHeight: z.ZodNumber
-          codePoints: z.ZodArray<
-            z.ZodObject<
-              {
-                advanceWidth: z.ZodNumber
-                codePoint: z.ZodNumber
-                height: z.ZodNumber
-                leftSideBearing: z.ZodNumber
-                width: z.ZodNumber
-                xMax: z.ZodNumber
-                xMin: z.ZodNumber
-                yMax: z.ZodNumber
-                yMin: z.ZodNumber
-              },
-              'strip',
-              z.ZodTypeAny,
-              {
-                advanceWidth: number
-                codePoint: number
-                height: number
-                leftSideBearing: number
-                width: number
-                xMax: number
-                xMin: number
-                yMax: number
-                yMin: number
-              },
-              {
-                advanceWidth: number
-                codePoint: number
-                height: number
-                leftSideBearing: number
-                width: number
-                xMax: number
-                xMin: number
-                yMax: number
-                yMin: number
-              }
-            >
+      {
+        ascent: z.ZodNumber
+        capHeight: z.ZodNumber
+        codePoints: z.ZodArray<
+          z.ZodObject<
+            {
+              advanceWidth: z.ZodNumber
+              codePoint: z.ZodNumber
+              height: z.ZodNumber
+              leftSideBearing: z.ZodNumber
+              width: z.ZodNumber
+              xMax: z.ZodNumber
+              xMin: z.ZodNumber
+              yMax: z.ZodNumber
+              yMin: z.ZodNumber
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            },
+            {
+              advanceWidth: number
+              codePoint: number
+              height: number
+              leftSideBearing: number
+              width: number
+              xMax: number
+              xMin: number
+              yMax: number
+              yMin: number
+            }
           >
-          consistentMetrics: z.ZodBoolean
-          descent: z.ZodNumber
-          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          features: z.ZodArray<
-            z.ZodObject<
-              {
-                name: z.ZodString
-                type: z.ZodEnum<['substitution', 'positioning']>
-              },
-              'strip',
-              z.ZodTypeAny,
-              {
-                name: string
-                type: 'positioning' | 'substitution'
-              },
-              {
-                name: string
-                type: 'positioning' | 'substitution'
-              }
-            >
+        >
+        consistentMetrics: z.ZodBoolean
+        descent: z.ZodNumber
+        familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        features: z.ZodArray<
+          z.ZodObject<
+            {
+              name: z.ZodString
+              type: z.ZodEnum<['substitution', 'positioning']>
+            },
+            'strip',
+            z.ZodTypeAny,
+            {
+              name: string
+              type: 'positioning' | 'substitution'
+            },
+            {
+              name: string
+              type: 'positioning' | 'substitution'
+            }
           >
-          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          id: z.ZodString
-          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          lineGap: z.ZodNumber
-          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          unitsPerEm: z.ZodNumber
-          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-          xHeight: z.ZodNumber
-          xWidthAvg: z.ZodNumber
-        }
-      >,
+        >
+        fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        id: z.ZodString
+        legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        lineGap: z.ZodNumber
+        postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        unitsPerEm: z.ZodNumber
+        wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        xHeight: z.ZodNumber
+        xWidthAvg: z.ZodNumber
+      } & {
+        namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+        variable: z.ZodLiteral<false>
+      },
       'strip',
       z.ZodTypeAny,
       {
@@ -1288,216 +1270,195 @@ declare const schemaFontFamily: z.ZodEffects<
               'variable',
               [
                 z.ZodObject<
-                  z.objectUtil.extendShape<
-                    {
-                      variable: z.ZodLiteral<true>
-                      variationAxes: z.ZodArray<
-                        z.ZodObject<
-                          {
-                            default: z.ZodNumber
-                            max: z.ZodNumber
-                            min: z.ZodNumber
-                            name: z.ZodString
-                          },
-                          'strip',
-                          z.ZodTypeAny,
-                          {
-                            default: number
-                            max: number
-                            min: number
-                            name: string
-                          },
-                          {
-                            default: number
-                            max: number
-                            min: number
-                            name: string
-                          }
-                        >
+                  {
+                    ascent: z.ZodNumber
+                    capHeight: z.ZodNumber
+                    codePoints: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          advanceWidth: z.ZodNumber
+                          codePoint: z.ZodNumber
+                          height: z.ZodNumber
+                          leftSideBearing: z.ZodNumber
+                          width: z.ZodNumber
+                          xMax: z.ZodNumber
+                          xMin: z.ZodNumber
+                          yMax: z.ZodNumber
+                          yMin: z.ZodNumber
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        },
+                        {
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }
                       >
-                      variations: z.ZodArray<
-                        z.ZodObject<
-                          z.objectUtil.extendShape<
-                            {
-                              namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              variable: z.ZodLiteral<false>
-                            },
-                            {
-                              ascent: z.ZodNumber
-                              capHeight: z.ZodNumber
-                              codePoints: z.ZodArray<
-                                z.ZodObject<
-                                  {
-                                    advanceWidth: z.ZodNumber
-                                    codePoint: z.ZodNumber
-                                    height: z.ZodNumber
-                                    leftSideBearing: z.ZodNumber
-                                    width: z.ZodNumber
-                                    xMax: z.ZodNumber
-                                    xMin: z.ZodNumber
-                                    yMax: z.ZodNumber
-                                    yMin: z.ZodNumber
-                                  },
-                                  'strip',
-                                  z.ZodTypeAny,
-                                  {
-                                    advanceWidth: number
-                                    codePoint: number
-                                    height: number
-                                    leftSideBearing: number
-                                    width: number
-                                    xMax: number
-                                    xMin: number
-                                    yMax: number
-                                    yMin: number
-                                  },
-                                  {
-                                    advanceWidth: number
-                                    codePoint: number
-                                    height: number
-                                    leftSideBearing: number
-                                    width: number
-                                    xMax: number
-                                    xMin: number
-                                    yMax: number
-                                    yMin: number
-                                  }
-                                >
-                              >
-                              consistentMetrics: z.ZodBoolean
-                              descent: z.ZodNumber
-                              familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              features: z.ZodArray<
-                                z.ZodObject<
-                                  {
-                                    name: z.ZodString
-                                    type: z.ZodEnum<['substitution', 'positioning']>
-                                  },
-                                  'strip',
-                                  z.ZodTypeAny,
-                                  {
-                                    name: string
-                                    type: 'positioning' | 'substitution'
-                                  },
-                                  {
-                                    name: string
-                                    type: 'positioning' | 'substitution'
-                                  }
-                                >
-                              >
-                              fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              id: z.ZodString
-                              legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              lineGap: z.ZodNumber
-                              postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              unitsPerEm: z.ZodNumber
-                              wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                              xHeight: z.ZodNumber
-                              xWidthAvg: z.ZodNumber
-                            }
-                          >,
-                          'strip',
-                          z.ZodTypeAny,
-                          {
-                            ascent: number
-                            capHeight: number
-                            codePoints: Array<{
-                              advanceWidth: number
-                              codePoint: number
-                              height: number
-                              leftSideBearing: number
-                              width: number
-                              xMax: number
-                              xMin: number
-                              yMax: number
-                              yMin: number
-                            }>
-                            consistentMetrics: boolean
-                            descent: number
-                            features: Array<{
-                              name: string
-                              type: 'positioning' | 'substitution'
-                            }>
-                            id: string
-                            lineGap: number
-                            unitsPerEm: number
-                            variable: false
-                            xHeight: number
-                            xWidthAvg: number
-                            familyName?: string | null | undefined
-                            fullName?: string | null | undefined
-                            legacyFamilyName?: string | null | undefined
-                            legacySubfamilyName?: string | null | undefined
-                            namedInstance?: string | null | undefined
-                            namedInstancePostScriptName?: string | null | undefined
-                            postScriptName?: string | null | undefined
-                            subfamilyName?: string | null | undefined
-                            wwsFamilyName?: string | null | undefined
-                            wwsSubFamilyName?: string | null | undefined
-                          },
-                          {
-                            ascent: number
-                            capHeight: number
-                            codePoints: Array<{
-                              advanceWidth: number
-                              codePoint: number
-                              height: number
-                              leftSideBearing: number
-                              width: number
-                              xMax: number
-                              xMin: number
-                              yMax: number
-                              yMin: number
-                            }>
-                            consistentMetrics: boolean
-                            descent: number
-                            features: Array<{
-                              name: string
-                              type: 'positioning' | 'substitution'
-                            }>
-                            id: string
-                            lineGap: number
-                            unitsPerEm: number
-                            variable: false
-                            xHeight: number
-                            xWidthAvg: number
-                            familyName?: string | null | undefined
-                            fullName?: string | null | undefined
-                            legacyFamilyName?: string | null | undefined
-                            legacySubfamilyName?: string | null | undefined
-                            namedInstance?: string | null | undefined
-                            namedInstancePostScriptName?: string | null | undefined
-                            postScriptName?: string | null | undefined
-                            subfamilyName?: string | null | undefined
-                            wwsFamilyName?: string | null | undefined
-                            wwsSubFamilyName?: string | null | undefined
-                          }
-                        >
+                    >
+                    consistentMetrics: z.ZodBoolean
+                    descent: z.ZodNumber
+                    familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    features: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          name: z.ZodString
+                          type: z.ZodEnum<['substitution', 'positioning']>
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        },
+                        {
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }
                       >
-                    },
-                    {
-                      ascent: z.ZodNumber
-                      capHeight: z.ZodNumber
-                      codePoints: z.ZodArray<
-                        z.ZodObject<
-                          {
-                            advanceWidth: z.ZodNumber
-                            codePoint: z.ZodNumber
-                            height: z.ZodNumber
-                            leftSideBearing: z.ZodNumber
-                            width: z.ZodNumber
-                            xMax: z.ZodNumber
-                            xMin: z.ZodNumber
-                            yMax: z.ZodNumber
-                            yMin: z.ZodNumber
-                          },
-                          'strip',
-                          z.ZodTypeAny,
-                          {
+                    >
+                    fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    id: z.ZodString
+                    legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    lineGap: z.ZodNumber
+                    postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    unitsPerEm: z.ZodNumber
+                    wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    xHeight: z.ZodNumber
+                    xWidthAvg: z.ZodNumber
+                  } & {
+                    variable: z.ZodLiteral<true>
+                    variationAxes: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          default: z.ZodNumber
+                          max: z.ZodNumber
+                          min: z.ZodNumber
+                          name: z.ZodString
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          default: number
+                          max: number
+                          min: number
+                          name: string
+                        },
+                        {
+                          default: number
+                          max: number
+                          min: number
+                          name: string
+                        }
+                      >
+                    >
+                    variations: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          ascent: z.ZodNumber
+                          capHeight: z.ZodNumber
+                          codePoints: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                advanceWidth: z.ZodNumber
+                                codePoint: z.ZodNumber
+                                height: z.ZodNumber
+                                leftSideBearing: z.ZodNumber
+                                width: z.ZodNumber
+                                xMax: z.ZodNumber
+                                xMin: z.ZodNumber
+                                yMax: z.ZodNumber
+                                yMin: z.ZodNumber
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              },
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              }
+                            >
+                          >
+                          consistentMetrics: z.ZodBoolean
+                          descent: z.ZodNumber
+                          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          features: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                name: z.ZodString
+                                type: z.ZodEnum<['substitution', 'positioning']>
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              },
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              }
+                            >
+                          >
+                          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          id: z.ZodString
+                          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          lineGap: z.ZodNumber
+                          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          unitsPerEm: z.ZodNumber
+                          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          xHeight: z.ZodNumber
+                          xWidthAvg: z.ZodNumber
+                        } & {
+                          namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          variable: z.ZodLiteral<false>
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          ascent: number
+                          capHeight: number
+                          codePoints: Array<{
                             advanceWidth: number
                             codePoint: number
                             height: number
@@ -1507,8 +1468,34 @@ declare const schemaFontFamily: z.ZodEffects<
                             xMin: number
                             yMax: number
                             yMin: number
-                          },
-                          {
+                          }>
+                          consistentMetrics: boolean
+                          descent: number
+                          features: Array<{
+                            name: string
+                            type: 'positioning' | 'substitution'
+                          }>
+                          id: string
+                          lineGap: number
+                          unitsPerEm: number
+                          variable: false
+                          xHeight: number
+                          xWidthAvg: number
+                          familyName?: string | null | undefined
+                          fullName?: string | null | undefined
+                          legacyFamilyName?: string | null | undefined
+                          legacySubfamilyName?: string | null | undefined
+                          namedInstance?: string | null | undefined
+                          namedInstancePostScriptName?: string | null | undefined
+                          postScriptName?: string | null | undefined
+                          subfamilyName?: string | null | undefined
+                          wwsFamilyName?: string | null | undefined
+                          wwsSubFamilyName?: string | null | undefined
+                        },
+                        {
+                          ascent: number
+                          capHeight: number
+                          codePoints: Array<{
                             advanceWidth: number
                             codePoint: number
                             height: number
@@ -1518,44 +1505,33 @@ declare const schemaFontFamily: z.ZodEffects<
                             xMin: number
                             yMax: number
                             yMin: number
-                          }
-                        >
-                      >
-                      consistentMetrics: z.ZodBoolean
-                      descent: z.ZodNumber
-                      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      features: z.ZodArray<
-                        z.ZodObject<
-                          {
-                            name: z.ZodString
-                            type: z.ZodEnum<['substitution', 'positioning']>
-                          },
-                          'strip',
-                          z.ZodTypeAny,
-                          {
+                          }>
+                          consistentMetrics: boolean
+                          descent: number
+                          features: Array<{
                             name: string
                             type: 'positioning' | 'substitution'
-                          },
-                          {
-                            name: string
-                            type: 'positioning' | 'substitution'
-                          }
-                        >
+                          }>
+                          id: string
+                          lineGap: number
+                          unitsPerEm: number
+                          variable: false
+                          xHeight: number
+                          xWidthAvg: number
+                          familyName?: string | null | undefined
+                          fullName?: string | null | undefined
+                          legacyFamilyName?: string | null | undefined
+                          legacySubfamilyName?: string | null | undefined
+                          namedInstance?: string | null | undefined
+                          namedInstancePostScriptName?: string | null | undefined
+                          postScriptName?: string | null | undefined
+                          subfamilyName?: string | null | undefined
+                          wwsFamilyName?: string | null | undefined
+                          wwsSubFamilyName?: string | null | undefined
+                        }
                       >
-                      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      id: z.ZodString
-                      legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      lineGap: z.ZodNumber
-                      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      unitsPerEm: z.ZodNumber
-                      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      xHeight: z.ZodNumber
-                      xWidthAvg: z.ZodNumber
-                    }
-                  >,
+                    >
+                  },
                   'strip',
                   z.ZodTypeAny,
                   {
@@ -1716,89 +1692,86 @@ declare const schemaFontFamily: z.ZodEffects<
                   }
                 >,
                 z.ZodObject<
-                  z.objectUtil.extendShape<
-                    {
-                      namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      variable: z.ZodLiteral<false>
-                    },
-                    {
-                      ascent: z.ZodNumber
-                      capHeight: z.ZodNumber
-                      codePoints: z.ZodArray<
-                        z.ZodObject<
-                          {
-                            advanceWidth: z.ZodNumber
-                            codePoint: z.ZodNumber
-                            height: z.ZodNumber
-                            leftSideBearing: z.ZodNumber
-                            width: z.ZodNumber
-                            xMax: z.ZodNumber
-                            xMin: z.ZodNumber
-                            yMax: z.ZodNumber
-                            yMin: z.ZodNumber
-                          },
-                          'strip',
-                          z.ZodTypeAny,
-                          {
-                            advanceWidth: number
-                            codePoint: number
-                            height: number
-                            leftSideBearing: number
-                            width: number
-                            xMax: number
-                            xMin: number
-                            yMax: number
-                            yMin: number
-                          },
-                          {
-                            advanceWidth: number
-                            codePoint: number
-                            height: number
-                            leftSideBearing: number
-                            width: number
-                            xMax: number
-                            xMin: number
-                            yMax: number
-                            yMin: number
-                          }
-                        >
+                  {
+                    ascent: z.ZodNumber
+                    capHeight: z.ZodNumber
+                    codePoints: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          advanceWidth: z.ZodNumber
+                          codePoint: z.ZodNumber
+                          height: z.ZodNumber
+                          leftSideBearing: z.ZodNumber
+                          width: z.ZodNumber
+                          xMax: z.ZodNumber
+                          xMin: z.ZodNumber
+                          yMax: z.ZodNumber
+                          yMin: z.ZodNumber
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        },
+                        {
+                          advanceWidth: number
+                          codePoint: number
+                          height: number
+                          leftSideBearing: number
+                          width: number
+                          xMax: number
+                          xMin: number
+                          yMax: number
+                          yMin: number
+                        }
                       >
-                      consistentMetrics: z.ZodBoolean
-                      descent: z.ZodNumber
-                      familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      features: z.ZodArray<
-                        z.ZodObject<
-                          {
-                            name: z.ZodString
-                            type: z.ZodEnum<['substitution', 'positioning']>
-                          },
-                          'strip',
-                          z.ZodTypeAny,
-                          {
-                            name: string
-                            type: 'positioning' | 'substitution'
-                          },
-                          {
-                            name: string
-                            type: 'positioning' | 'substitution'
-                          }
-                        >
+                    >
+                    consistentMetrics: z.ZodBoolean
+                    descent: z.ZodNumber
+                    familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    features: z.ZodArray<
+                      z.ZodObject<
+                        {
+                          name: z.ZodString
+                          type: z.ZodEnum<['substitution', 'positioning']>
+                        },
+                        'strip',
+                        z.ZodTypeAny,
+                        {
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        },
+                        {
+                          name: string
+                          type: 'positioning' | 'substitution'
+                        }
                       >
-                      fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      id: z.ZodString
-                      legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      lineGap: z.ZodNumber
-                      postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      unitsPerEm: z.ZodNumber
-                      wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                      xHeight: z.ZodNumber
-                      xWidthAvg: z.ZodNumber
-                    }
-                  >,
+                    >
+                    fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    id: z.ZodString
+                    legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    lineGap: z.ZodNumber
+                    postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    unitsPerEm: z.ZodNumber
+                    wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    xHeight: z.ZodNumber
+                    xWidthAvg: z.ZodNumber
+                  } & {
+                    namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                    variable: z.ZodLiteral<false>
+                  },
                   'strip',
                   z.ZodTypeAny,
                   {
@@ -2060,218 +2033,197 @@ declare const schemaFontProperties: z.ZodObject<
                     'variable',
                     [
                       z.ZodObject<
-                        z.objectUtil.extendShape<
-                          {
-                            variable: z.ZodLiteral<true>
-                            variationAxes: z.ZodArray<
-                              z.ZodObject<
-                                {
-                                  default: z.ZodNumber
-                                  max: z.ZodNumber
-                                  min: z.ZodNumber
-                                  name: z.ZodString
-                                },
-                                'strip',
-                                z.ZodTypeAny,
-                                {
-                                  default: number
-                                  max: number
-                                  min: number
-                                  name: string
-                                },
-                                {
-                                  default: number
-                                  max: number
-                                  min: number
-                                  name: string
-                                }
-                              >
+                        {
+                          ascent: z.ZodNumber
+                          capHeight: z.ZodNumber
+                          codePoints: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                advanceWidth: z.ZodNumber
+                                codePoint: z.ZodNumber
+                                height: z.ZodNumber
+                                leftSideBearing: z.ZodNumber
+                                width: z.ZodNumber
+                                xMax: z.ZodNumber
+                                xMin: z.ZodNumber
+                                yMax: z.ZodNumber
+                                yMin: z.ZodNumber
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              },
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              }
                             >
-                            variations: z.ZodArray<
-                              z.ZodObject<
-                                z.objectUtil.extendShape<
-                                  {
-                                    namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    namedInstancePostScriptName: z.ZodNullable<
-                                      z.ZodOptional<z.ZodString>
-                                    >
-                                    variable: z.ZodLiteral<false>
-                                  },
-                                  {
-                                    ascent: z.ZodNumber
-                                    capHeight: z.ZodNumber
-                                    codePoints: z.ZodArray<
-                                      z.ZodObject<
-                                        {
-                                          advanceWidth: z.ZodNumber
-                                          codePoint: z.ZodNumber
-                                          height: z.ZodNumber
-                                          leftSideBearing: z.ZodNumber
-                                          width: z.ZodNumber
-                                          xMax: z.ZodNumber
-                                          xMin: z.ZodNumber
-                                          yMax: z.ZodNumber
-                                          yMin: z.ZodNumber
-                                        },
-                                        'strip',
-                                        z.ZodTypeAny,
-                                        {
-                                          advanceWidth: number
-                                          codePoint: number
-                                          height: number
-                                          leftSideBearing: number
-                                          width: number
-                                          xMax: number
-                                          xMin: number
-                                          yMax: number
-                                          yMin: number
-                                        },
-                                        {
-                                          advanceWidth: number
-                                          codePoint: number
-                                          height: number
-                                          leftSideBearing: number
-                                          width: number
-                                          xMax: number
-                                          xMin: number
-                                          yMax: number
-                                          yMin: number
-                                        }
-                                      >
-                                    >
-                                    consistentMetrics: z.ZodBoolean
-                                    descent: z.ZodNumber
-                                    familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    features: z.ZodArray<
-                                      z.ZodObject<
-                                        {
-                                          name: z.ZodString
-                                          type: z.ZodEnum<['substitution', 'positioning']>
-                                        },
-                                        'strip',
-                                        z.ZodTypeAny,
-                                        {
-                                          name: string
-                                          type: 'positioning' | 'substitution'
-                                        },
-                                        {
-                                          name: string
-                                          type: 'positioning' | 'substitution'
-                                        }
-                                      >
-                                    >
-                                    fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    id: z.ZodString
-                                    legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    lineGap: z.ZodNumber
-                                    postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    unitsPerEm: z.ZodNumber
-                                    wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                                    xHeight: z.ZodNumber
-                                    xWidthAvg: z.ZodNumber
-                                  }
-                                >,
-                                'strip',
-                                z.ZodTypeAny,
-                                {
-                                  ascent: number
-                                  capHeight: number
-                                  codePoints: Array<{
-                                    advanceWidth: number
-                                    codePoint: number
-                                    height: number
-                                    leftSideBearing: number
-                                    width: number
-                                    xMax: number
-                                    xMin: number
-                                    yMax: number
-                                    yMin: number
-                                  }>
-                                  consistentMetrics: boolean
-                                  descent: number
-                                  features: Array<{
-                                    name: string
-                                    type: 'positioning' | 'substitution'
-                                  }>
-                                  id: string
-                                  lineGap: number
-                                  unitsPerEm: number
-                                  variable: false
-                                  xHeight: number
-                                  xWidthAvg: number
-                                  familyName?: string | null | undefined
-                                  fullName?: string | null | undefined
-                                  legacyFamilyName?: string | null | undefined
-                                  legacySubfamilyName?: string | null | undefined
-                                  namedInstance?: string | null | undefined
-                                  namedInstancePostScriptName?: string | null | undefined
-                                  postScriptName?: string | null | undefined
-                                  subfamilyName?: string | null | undefined
-                                  wwsFamilyName?: string | null | undefined
-                                  wwsSubFamilyName?: string | null | undefined
-                                },
-                                {
-                                  ascent: number
-                                  capHeight: number
-                                  codePoints: Array<{
-                                    advanceWidth: number
-                                    codePoint: number
-                                    height: number
-                                    leftSideBearing: number
-                                    width: number
-                                    xMax: number
-                                    xMin: number
-                                    yMax: number
-                                    yMin: number
-                                  }>
-                                  consistentMetrics: boolean
-                                  descent: number
-                                  features: Array<{
-                                    name: string
-                                    type: 'positioning' | 'substitution'
-                                  }>
-                                  id: string
-                                  lineGap: number
-                                  unitsPerEm: number
-                                  variable: false
-                                  xHeight: number
-                                  xWidthAvg: number
-                                  familyName?: string | null | undefined
-                                  fullName?: string | null | undefined
-                                  legacyFamilyName?: string | null | undefined
-                                  legacySubfamilyName?: string | null | undefined
-                                  namedInstance?: string | null | undefined
-                                  namedInstancePostScriptName?: string | null | undefined
-                                  postScriptName?: string | null | undefined
-                                  subfamilyName?: string | null | undefined
-                                  wwsFamilyName?: string | null | undefined
-                                  wwsSubFamilyName?: string | null | undefined
-                                }
-                              >
+                          >
+                          consistentMetrics: z.ZodBoolean
+                          descent: z.ZodNumber
+                          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          features: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                name: z.ZodString
+                                type: z.ZodEnum<['substitution', 'positioning']>
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              },
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              }
                             >
-                          },
-                          {
-                            ascent: z.ZodNumber
-                            capHeight: z.ZodNumber
-                            codePoints: z.ZodArray<
-                              z.ZodObject<
-                                {
-                                  advanceWidth: z.ZodNumber
-                                  codePoint: z.ZodNumber
-                                  height: z.ZodNumber
-                                  leftSideBearing: z.ZodNumber
-                                  width: z.ZodNumber
-                                  xMax: z.ZodNumber
-                                  xMin: z.ZodNumber
-                                  yMax: z.ZodNumber
-                                  yMin: z.ZodNumber
-                                },
-                                'strip',
-                                z.ZodTypeAny,
-                                {
+                          >
+                          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          id: z.ZodString
+                          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          lineGap: z.ZodNumber
+                          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          unitsPerEm: z.ZodNumber
+                          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          xHeight: z.ZodNumber
+                          xWidthAvg: z.ZodNumber
+                        } & {
+                          variable: z.ZodLiteral<true>
+                          variationAxes: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                default: z.ZodNumber
+                                max: z.ZodNumber
+                                min: z.ZodNumber
+                                name: z.ZodString
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                default: number
+                                max: number
+                                min: number
+                                name: string
+                              },
+                              {
+                                default: number
+                                max: number
+                                min: number
+                                name: string
+                              }
+                            >
+                          >
+                          variations: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                ascent: z.ZodNumber
+                                capHeight: z.ZodNumber
+                                codePoints: z.ZodArray<
+                                  z.ZodObject<
+                                    {
+                                      advanceWidth: z.ZodNumber
+                                      codePoint: z.ZodNumber
+                                      height: z.ZodNumber
+                                      leftSideBearing: z.ZodNumber
+                                      width: z.ZodNumber
+                                      xMax: z.ZodNumber
+                                      xMin: z.ZodNumber
+                                      yMax: z.ZodNumber
+                                      yMin: z.ZodNumber
+                                    },
+                                    'strip',
+                                    z.ZodTypeAny,
+                                    {
+                                      advanceWidth: number
+                                      codePoint: number
+                                      height: number
+                                      leftSideBearing: number
+                                      width: number
+                                      xMax: number
+                                      xMin: number
+                                      yMax: number
+                                      yMin: number
+                                    },
+                                    {
+                                      advanceWidth: number
+                                      codePoint: number
+                                      height: number
+                                      leftSideBearing: number
+                                      width: number
+                                      xMax: number
+                                      xMin: number
+                                      yMax: number
+                                      yMin: number
+                                    }
+                                  >
+                                >
+                                consistentMetrics: z.ZodBoolean
+                                descent: z.ZodNumber
+                                familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                features: z.ZodArray<
+                                  z.ZodObject<
+                                    {
+                                      name: z.ZodString
+                                      type: z.ZodEnum<['substitution', 'positioning']>
+                                    },
+                                    'strip',
+                                    z.ZodTypeAny,
+                                    {
+                                      name: string
+                                      type: 'positioning' | 'substitution'
+                                    },
+                                    {
+                                      name: string
+                                      type: 'positioning' | 'substitution'
+                                    }
+                                  >
+                                >
+                                fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                id: z.ZodString
+                                legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                lineGap: z.ZodNumber
+                                postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                unitsPerEm: z.ZodNumber
+                                wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                xHeight: z.ZodNumber
+                                xWidthAvg: z.ZodNumber
+                              } & {
+                                namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                                namedInstancePostScriptName: z.ZodNullable<
+                                  z.ZodOptional<z.ZodString>
+                                >
+                                variable: z.ZodLiteral<false>
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                ascent: number
+                                capHeight: number
+                                codePoints: Array<{
                                   advanceWidth: number
                                   codePoint: number
                                   height: number
@@ -2281,8 +2233,34 @@ declare const schemaFontProperties: z.ZodObject<
                                   xMin: number
                                   yMax: number
                                   yMin: number
-                                },
-                                {
+                                }>
+                                consistentMetrics: boolean
+                                descent: number
+                                features: Array<{
+                                  name: string
+                                  type: 'positioning' | 'substitution'
+                                }>
+                                id: string
+                                lineGap: number
+                                unitsPerEm: number
+                                variable: false
+                                xHeight: number
+                                xWidthAvg: number
+                                familyName?: string | null | undefined
+                                fullName?: string | null | undefined
+                                legacyFamilyName?: string | null | undefined
+                                legacySubfamilyName?: string | null | undefined
+                                namedInstance?: string | null | undefined
+                                namedInstancePostScriptName?: string | null | undefined
+                                postScriptName?: string | null | undefined
+                                subfamilyName?: string | null | undefined
+                                wwsFamilyName?: string | null | undefined
+                                wwsSubFamilyName?: string | null | undefined
+                              },
+                              {
+                                ascent: number
+                                capHeight: number
+                                codePoints: Array<{
                                   advanceWidth: number
                                   codePoint: number
                                   height: number
@@ -2292,44 +2270,33 @@ declare const schemaFontProperties: z.ZodObject<
                                   xMin: number
                                   yMax: number
                                   yMin: number
-                                }
-                              >
-                            >
-                            consistentMetrics: z.ZodBoolean
-                            descent: z.ZodNumber
-                            familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            features: z.ZodArray<
-                              z.ZodObject<
-                                {
-                                  name: z.ZodString
-                                  type: z.ZodEnum<['substitution', 'positioning']>
-                                },
-                                'strip',
-                                z.ZodTypeAny,
-                                {
+                                }>
+                                consistentMetrics: boolean
+                                descent: number
+                                features: Array<{
                                   name: string
                                   type: 'positioning' | 'substitution'
-                                },
-                                {
-                                  name: string
-                                  type: 'positioning' | 'substitution'
-                                }
-                              >
+                                }>
+                                id: string
+                                lineGap: number
+                                unitsPerEm: number
+                                variable: false
+                                xHeight: number
+                                xWidthAvg: number
+                                familyName?: string | null | undefined
+                                fullName?: string | null | undefined
+                                legacyFamilyName?: string | null | undefined
+                                legacySubfamilyName?: string | null | undefined
+                                namedInstance?: string | null | undefined
+                                namedInstancePostScriptName?: string | null | undefined
+                                postScriptName?: string | null | undefined
+                                subfamilyName?: string | null | undefined
+                                wwsFamilyName?: string | null | undefined
+                                wwsSubFamilyName?: string | null | undefined
+                              }
                             >
-                            fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            id: z.ZodString
-                            legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            lineGap: z.ZodNumber
-                            postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            unitsPerEm: z.ZodNumber
-                            wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            xHeight: z.ZodNumber
-                            xWidthAvg: z.ZodNumber
-                          }
-                        >,
+                          >
+                        },
                         'strip',
                         z.ZodTypeAny,
                         {
@@ -2490,89 +2457,86 @@ declare const schemaFontProperties: z.ZodObject<
                         }
                       >,
                       z.ZodObject<
-                        z.objectUtil.extendShape<
-                          {
-                            namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            variable: z.ZodLiteral<false>
-                          },
-                          {
-                            ascent: z.ZodNumber
-                            capHeight: z.ZodNumber
-                            codePoints: z.ZodArray<
-                              z.ZodObject<
-                                {
-                                  advanceWidth: z.ZodNumber
-                                  codePoint: z.ZodNumber
-                                  height: z.ZodNumber
-                                  leftSideBearing: z.ZodNumber
-                                  width: z.ZodNumber
-                                  xMax: z.ZodNumber
-                                  xMin: z.ZodNumber
-                                  yMax: z.ZodNumber
-                                  yMin: z.ZodNumber
-                                },
-                                'strip',
-                                z.ZodTypeAny,
-                                {
-                                  advanceWidth: number
-                                  codePoint: number
-                                  height: number
-                                  leftSideBearing: number
-                                  width: number
-                                  xMax: number
-                                  xMin: number
-                                  yMax: number
-                                  yMin: number
-                                },
-                                {
-                                  advanceWidth: number
-                                  codePoint: number
-                                  height: number
-                                  leftSideBearing: number
-                                  width: number
-                                  xMax: number
-                                  xMin: number
-                                  yMax: number
-                                  yMin: number
-                                }
-                              >
+                        {
+                          ascent: z.ZodNumber
+                          capHeight: z.ZodNumber
+                          codePoints: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                advanceWidth: z.ZodNumber
+                                codePoint: z.ZodNumber
+                                height: z.ZodNumber
+                                leftSideBearing: z.ZodNumber
+                                width: z.ZodNumber
+                                xMax: z.ZodNumber
+                                xMin: z.ZodNumber
+                                yMax: z.ZodNumber
+                                yMin: z.ZodNumber
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              },
+                              {
+                                advanceWidth: number
+                                codePoint: number
+                                height: number
+                                leftSideBearing: number
+                                width: number
+                                xMax: number
+                                xMin: number
+                                yMax: number
+                                yMin: number
+                              }
                             >
-                            consistentMetrics: z.ZodBoolean
-                            descent: z.ZodNumber
-                            familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            features: z.ZodArray<
-                              z.ZodObject<
-                                {
-                                  name: z.ZodString
-                                  type: z.ZodEnum<['substitution', 'positioning']>
-                                },
-                                'strip',
-                                z.ZodTypeAny,
-                                {
-                                  name: string
-                                  type: 'positioning' | 'substitution'
-                                },
-                                {
-                                  name: string
-                                  type: 'positioning' | 'substitution'
-                                }
-                              >
+                          >
+                          consistentMetrics: z.ZodBoolean
+                          descent: z.ZodNumber
+                          familyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          features: z.ZodArray<
+                            z.ZodObject<
+                              {
+                                name: z.ZodString
+                                type: z.ZodEnum<['substitution', 'positioning']>
+                              },
+                              'strip',
+                              z.ZodTypeAny,
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              },
+                              {
+                                name: string
+                                type: 'positioning' | 'substitution'
+                              }
                             >
-                            fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            id: z.ZodString
-                            legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            lineGap: z.ZodNumber
-                            postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            unitsPerEm: z.ZodNumber
-                            wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
-                            xHeight: z.ZodNumber
-                            xWidthAvg: z.ZodNumber
-                          }
-                        >,
+                          >
+                          fullName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          id: z.ZodString
+                          legacyFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          legacySubfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          lineGap: z.ZodNumber
+                          postScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          subfamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          unitsPerEm: z.ZodNumber
+                          wwsFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          wwsSubFamilyName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          xHeight: z.ZodNumber
+                          xWidthAvg: z.ZodNumber
+                        } & {
+                          namedInstance: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          namedInstancePostScriptName: z.ZodNullable<z.ZodOptional<z.ZodString>>
+                          variable: z.ZodLiteral<false>
+                        },
                         'strip',
                         z.ZodTypeAny,
                         {
@@ -3351,7 +3315,7 @@ export declare const schemaLocales: z.ZodEffects<
 export interface Locale {
   fontFace: string
   fonts: Font[]
-  prefixes: string[]
+  stacks: string[]
   style: string
   order?: string[]
 }
