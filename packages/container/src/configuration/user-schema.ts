@@ -104,17 +104,17 @@ export type ConfigurationLocales = Record<string, string | ConfigurationLocale>
 export type UserConfigurationLocales = Record<string, string | UserConfigurationLocale>
 
 const schemaFontFamilyGeneric = z.enum([
-  'caption ',
+  'caption',
   'cursive',
   'fantasy',
-  'icon ',
+  'icon',
   'math',
-  'menu ',
-  'message-box ',
+  'menu',
+  'message-box',
   'monospace',
   'sans-serif',
   'serif',
-  'small-caption ',
+  'small-caption',
   'status-bar',
   'system-ui',
   'ui-monospace',
