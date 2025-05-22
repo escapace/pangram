@@ -1,6 +1,5 @@
 /* eslint-disable typescript/no-non-null-assertion */
 import type { Font } from '@pangram/font-loader'
-import fse from 'fs-extra'
 import {
   cloneDeep,
   compact,
@@ -16,6 +15,7 @@ import {
   uniq,
 } from 'lodash-es'
 import assert from 'node:assert'
+import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import stringify from 'safe-stable-stringify'
 import type { ValuesType } from 'utility-types'
@@ -484,8 +484,8 @@ export const build = async () => {
   const result = await toManifest(configuration)
 
   if (typeof configuration.manifest === 'string') {
-    await fse.mkdirp(path.dirname(configuration.manifest))
-    await fse.writeFile(configuration.manifest, stringify(result, null, 2))
+    await mkdir(path.dirname(configuration.manifest), { recursive: true })
+    await writeFile(configuration.manifest, stringify(result, null, 2))
   } else {
     await configuration.manifest(result)
   }

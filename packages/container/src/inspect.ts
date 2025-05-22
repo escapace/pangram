@@ -1,14 +1,14 @@
 import { execa } from 'execa'
 import { findUp } from 'find-up'
-import { pathExists } from 'fs-extra'
-import { writeFile } from 'node:fs/promises'
 import { compact, first, kebabCase } from 'lodash-es'
 import assert from 'node:assert'
+import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { configure } from 'safe-stable-stringify'
-import { fontNames } from './font/font-names'
 import { schemaFontInformation } from './configuration/user-schema'
+import { fontNames } from './font/font-names'
+import { pathExists } from './utilities/path-exists'
 
 const stringify = configure({
   bigint: false,

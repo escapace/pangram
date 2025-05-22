@@ -1,10 +1,9 @@
 import { cosmiconfig, type defaultLoaders } from 'cosmiconfig'
 import { build } from 'esbuild'
-import { remove } from 'fs-extra'
 import { pickBy } from 'lodash-es'
 import { resolvePath } from 'mlly'
 import assert from 'node:assert'
-import { mkdtemp } from 'node:fs/promises'
+import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
@@ -74,12 +73,12 @@ const cosmicconfigLoader = async (
     // eslint-disable-next-line typescript/no-unsafe-assignment
     const module_ = await import(path.join(temporaryDirectory, 'index.mjs'))
 
-    await remove(temporaryDirectory)
+    await rm(temporaryDirectory, { force: true, recursive: true })
 
     // eslint-disable-next-line typescript/no-unsafe-member-access
     return module_?.default ?? module_
   } catch (error) {
-    await remove(temporaryDirectory)
+    await rm(temporaryDirectory, { force: true, recursive: true })
 
     throw error
   }

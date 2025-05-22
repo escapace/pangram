@@ -105,7 +105,7 @@ export interface Configuration
   runtimeFontStripPath: string
   state: State
   targets: {
-    browserslist: string[]
+    browsers: string[]
     esbuild: string[]
     lightningcss: Targets
   }

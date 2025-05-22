@@ -1,10 +1,11 @@
 import { execa } from 'execa'
-import { mkdirp, pathExists } from 'fs-extra'
 import { compact, includes, map, uniq } from 'lodash-es'
 import assert from 'node:assert'
 import path from 'node:path'
 import type { Configuration } from '../types'
 import { fontInspectCommand } from './font-inspect'
+import { pathExists } from '../utilities/path-exists'
+import { mkdir } from 'node:fs/promises'
 
 export const fontWrite = async (
   slug: string,
@@ -36,7 +37,7 @@ export const fontWrite = async (
         ? undefined
         : `--layout-features+=${uniq(font.layoutFeatures).sort().join(',')}`
 
-  await mkdirp(configuration.outputDirectory)
+  await mkdir(configuration.outputDirectory, { recursive: true })
 
   const files = await Promise.all(
     map(font.format, async (format): Promise<string> => {

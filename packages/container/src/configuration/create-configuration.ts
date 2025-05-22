@@ -1,4 +1,4 @@
-import { browserslistToTargets } from '@pointe/browserslist-to-targets'
+import { browserslist } from '@escapace/browserslist'
 import { findUp } from 'find-up'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
@@ -50,7 +50,7 @@ export const createConfiguration = async (): Promise<Configuration> => {
 
   const adjustFontMetrics = userConfiguration.adjustFontMetrics ?? true
 
-  const targets = browserslistToTargets({
+  const targets = browserslist({
     ignoreUnknownVersions: true,
     path: configurationDirectory,
   })

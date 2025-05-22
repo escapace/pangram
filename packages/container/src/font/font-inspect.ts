@@ -1,5 +1,4 @@
 import { execa } from 'execa'
-import { pathExists } from 'fs-extra'
 import { compact, isEmpty, omit } from 'lodash-es'
 import assert from 'node:assert'
 import memoize from 'p-memoize'
@@ -10,6 +9,7 @@ import {
 } from '../configuration/user-schema'
 import { FontType, type Properties, type Configuration } from '../types'
 import { createHash } from '../utilities/create-hash'
+import { pathExists } from '../utilities/path-exists'
 
 const clamp = (value: number, min: number, max: number) => Math.min(Math.max(value, min), max)
 
