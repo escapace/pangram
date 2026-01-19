@@ -8,7 +8,7 @@
   },
   "bugs": "https://github.com/escapace/pangram/issues",
   "dependencies": {
-    "@escapace/browserslist": "^0.2.0",
+    "@escapace/browserslist": "^0.2.1",
     "@escapace/cli": "^0.3.1",
     "@pangram/font-loader": "workspace:*",
     "@pangram/unicode-tools": "workspace:*",
