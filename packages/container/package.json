@@ -28,7 +28,7 @@
     "pangram": "workspace:*",
     "safe-stable-stringify": "^2.5.0",
     "url-join": "^5.0.0",
-    "zod": "^3.25.20"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "2.3.0",

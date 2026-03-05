@@ -9,7 +9,7 @@
   "bugs": "https://github.com/escapace/pangram/issues",
   "dependencies": {
     "@pangram/font-loader": "workspace:*",
-    "zod": "^3.25.20"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@ls-lint/ls-lint": "2.3.0",
