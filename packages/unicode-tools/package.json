@@ -25,7 +25,7 @@
     "hast-util-select": "6.0.4",
     "hast-util-to-string": "3.0.1",
     "mlly": "1.7.4",
-    "p-memoize": "7.1.1",
+    "p-memoize": "8.0.0",
     "prettier": "3.5.3",
     "prettier-config-escapace": "1.2.1",
     "syncpack": "13.0.4",
