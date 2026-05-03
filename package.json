@@ -18,7 +18,7 @@
     "lefthook": "1.11.13",
     "prettier": "3.5.3",
     "prettier-config-escapace": "1.2.1",
-    "syncpack": "13.0.4"
+    "syncpack": "14.3.1"
   },
   "engines": {
     "pnpm": ">=10.10.0"
