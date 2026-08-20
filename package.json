@@ -8,8 +8,8 @@
   },
   "bugs": "https://github.com/escapace/pangram/issues",
   "devDependencies": {
-    "@commitlint/cli": "19.8.1",
-    "@commitlint/config-conventional": "19.8.1",
+    "@commitlint/cli": "21.2.2",
+    "@commitlint/config-conventional": "21.2.2",
     "@escapace/pnpm-pack": "0.6.1",
     "@ls-lint/ls-lint": "2.3.0",
     "eslint": "9.31.0",
