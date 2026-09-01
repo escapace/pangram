@@ -27,7 +27,7 @@
     "mlly": "1.7.4",
     "p-memoize": "7.1.1",
     "prettier": "3.5.3",
-    "prettier-config-escapace": "1.2.1",
+    "prettier-config-escapace": "1.2.2",
     "syncpack": "13.0.4",
     "trim-lines": "3.0.1",
     "tsx": "4.19.4",

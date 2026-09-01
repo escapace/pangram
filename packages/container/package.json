@@ -8,7 +8,7 @@
   },
   "bugs": "https://github.com/escapace/pangram/issues",
   "dependencies": {
-    "@escapace/browserslist": "^0.2.1",
+    "@escapace/browserslist": "^0.3.0",
     "@escapace/cli": "^0.3.1",
     "@pangram/font-loader": "workspace:*",
     "@pangram/unicode-tools": "workspace:*",
@@ -40,7 +40,7 @@
     "eslint-config-escapace": "5.9.2",
     "esroll": "0.4.5",
     "prettier": "3.5.3",
-    "prettier-config-escapace": "1.2.1",
+    "prettier-config-escapace": "1.2.2",
     "syncpack": "13.0.4",
     "tsx": "4.19.4",
     "type-fest": "4.41.0",
